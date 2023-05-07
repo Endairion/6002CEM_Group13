@@ -8,7 +8,6 @@ class Homepage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return const MaterialApp(
-      //title: "Flutter Code Sample",
       home: NavigationBar(),
     );
   }
@@ -23,26 +22,39 @@ class NavigationBar extends StatefulWidget {
 
 class _NavigationBarState extends State<NavigationBar> {
   int _selectedIndex = 0;
-  static const TextStyle optionStyle =
-  TextStyle(fontSize: 30, fontWeight: FontWeight.bold);
-  static const List<Widget> _widgetOptions = <Widget>[
-    Text(
-      'Home',
-      style: optionStyle,
+
+  static const List<Widget> _menuOptions = <Widget>[
+    Center(
+      child: Icon(
+        Icons.call,
+        size: 150,
+      ),
     ),
-    Text(
-      'Activity',
-      style: optionStyle,
+    Center(
+      child: Icon(
+        Icons.camera,
+        size: 150,
+      ),
     ),
-    Text(
-      'Rewards',
-      style: optionStyle,
+    Center(
+      child: Padding(
+        padding: EdgeInsets.all(16.0),
+        child: TextField(
+          style: TextStyle(fontSize: 50),
+          decoration: InputDecoration(
+              labelText: 'Find contact',
+              labelStyle: TextStyle(fontWeight: FontWeight.bold)),
+        ),
+      ),
     ),
-    Text(
-      'Profile',
-      style: optionStyle,
+    Center(
+      child: Icon(
+        Icons.call,
+        size: 150,
+      ),
     ),
   ];
+
 
   void _onItemTapped(int index) {
     setState(() {
@@ -56,8 +68,9 @@ class _NavigationBarState extends State<NavigationBar> {
       appBar: AppBar(
         title: const Text('Homepage'),
       ),
-      body: Center(
-        child: _widgetOptions.elementAt(_selectedIndex),
+      body: IndexedStack(
+        index: _selectedIndex,
+        children: _menuOptions,
       ),
       bottomNavigationBar: BottomNavigationBar(
         items: const <BottomNavigationBarItem>[
