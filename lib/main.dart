@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
-import 'package:mobile_app_development_cw2/Homepage.dart';
+import 'package:mobile_app_development_cw2/NavigationMenu.dart';
 import 'package:mobile_app_development_cw2/Register.dart';
 
 Future main() async {
@@ -143,7 +143,7 @@ class MyApp extends StatelessWidget {
                           onPressed: (){
                             Navigator.push(
                               context,
-                              MaterialPageRoute(builder: (context) => const Homepage()),
+                              MaterialPageRoute(builder: (context) => const NavigationMenu()),
                             );
                           },
                           child: Text('Login'),
