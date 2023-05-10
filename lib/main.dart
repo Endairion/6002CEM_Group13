@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
-import 'package:mobile_app_development_cw2/NavigationMenu.dart';
+import 'package:mobile_app_development_cw2/ForgotPassword.dart';
+import 'package:mobile_app_development_cw2/Homepage.dart';
 import 'package:mobile_app_development_cw2/Register.dart';
 
 Future main() async {
@@ -127,7 +128,12 @@ class MyApp extends StatelessWidget {
                         alignment: Alignment.centerRight,
                         child:
                         TextButton(
-                          onPressed:(){},
+                          onPressed:(){
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(builder: (context) => const ForgotPassword()),
+                            );
+                          },
                           child:Text(
                           'Forgot Password?',
                           style: TextStyle(fontSize: 12, color: Colors.green[900]),
@@ -143,7 +149,7 @@ class MyApp extends StatelessWidget {
                           onPressed: (){
                             Navigator.push(
                               context,
-                              MaterialPageRoute(builder: (context) => const NavigationMenu()),
+                              MaterialPageRoute(builder: (context) => const Homepage()),
                             );
                           },
                           child: Text('Login'),
