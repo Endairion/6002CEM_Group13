@@ -40,10 +40,13 @@ class Profile extends StatelessWidget {
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(10.0),
                 ),
-                minimumSize: const Size(250, 45), // set minimumSize
+                minimumSize: const Size(320, 45), // set minimumSize
               ),
               icon: const Icon(Icons.person),
-              label: const Text('My Profile'),
+              label: const Text('My Profile',
+              style: TextStyle(
+                fontSize: 16,
+              ),),
             ),
             const SizedBox(height: 10.0),
             ElevatedButton.icon(
@@ -54,10 +57,13 @@ class Profile extends StatelessWidget {
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(10.0),
                 ),
-                minimumSize: const Size(250, 45), // set minimumSize
+                minimumSize: const Size(320, 45), // set minimumSize
               ),
               icon: const Icon(Icons.edit),
-              label: const Text('Edit Profile'),
+              label: const Text('Edit Profile',
+                style: TextStyle(
+                  fontSize: 16,
+                ),),
             ),
             const SizedBox(height: 10.0),
             ElevatedButton.icon(
@@ -68,24 +74,30 @@ class Profile extends StatelessWidget {
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(10.0),
                 ),
-                minimumSize: const Size(250, 45), // set minimumSize
+                minimumSize: const Size(320, 45), // set minimumSize
               ),
               icon: const Icon(Icons.settings),
-              label: const Text('Settings'),
+              label: const Text('Settings',
+                style: TextStyle(
+                  fontSize: 16,
+                ),),
             ),
             const SizedBox(height: 10.0),
             ElevatedButton.icon(
               onPressed: () {},
               style: ElevatedButton.styleFrom(
                 foregroundColor: Colors.black,
-                backgroundColor: Colors.red,
+                backgroundColor: Colors.red[200],
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(10.0),
                 ),
-                minimumSize: const Size(250, 45), // set minimumSize
+                minimumSize: const Size(320, 45), // set minimumSize
               ),
               icon: const Icon(Icons.logout),
-              label: const Text('Logout'),
+              label: const Text('Logout',
+                style: TextStyle(
+                  fontSize: 16,
+                ),),
             ),
           ],
         ),
