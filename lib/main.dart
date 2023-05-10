@@ -145,7 +145,7 @@ class MyApp extends StatelessWidget {
 
                     ElevatedButton(
                           style: ElevatedButton.styleFrom(
-                          primary: Colors.green[900],
+                          backgroundColor: Colors.green[900],
                           minimumSize: Size(320, 40)
                         ),
                           onPressed: (){
@@ -167,7 +167,7 @@ class MyApp extends StatelessWidget {
 
                     ElevatedButton(
                       style: ElevatedButton.styleFrom(
-                          primary: Colors.white,
+                          backgroundColor: Colors.white,
                           minimumSize: Size(320, 40)
                       ),
                       onPressed: (){},
