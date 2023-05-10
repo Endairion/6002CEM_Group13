@@ -26,11 +26,29 @@ class _PlanTripState extends State<PlanTrip> {
   // Set Initial Selected Value for future time
   String _timeDropDownValue = 'Select future time';
   // List of items in available seats menu
-  final _timeValue = ['Select future time',
-    '5:00 am', '6:00 am', '7:00 am','8:00 am', '9:00am',
-    '10:00 am', '11:00am', '12:00 pm', '1:00 pm', '2:00 pm',
-    '3:00 pm', '4:00 pm', '5:00 pm', '6:00 pm', '7:00 pm',
-    '8:00 pm', '9:00 pm', '10:00 pm' , '11:00 pm', '12:00 am'];
+  final _timeValue = [
+    'Select future time',
+    '5:00 am',
+    '6:00 am',
+    '7:00 am',
+    '8:00 am',
+    '9:00am',
+    '10:00 am',
+    '11:00am',
+    '12:00 pm',
+    '1:00 pm',
+    '2:00 pm',
+    '3:00 pm',
+    '4:00 pm',
+    '5:00 pm',
+    '6:00 pm',
+    '7:00 pm',
+    '8:00 pm',
+    '9:00 pm',
+    '10:00 pm',
+    '11:00 pm',
+    '12:00 am'
+  ];
 
   @override
   Widget build(BuildContext context) {
@@ -63,7 +81,7 @@ class _PlanTripState extends State<PlanTrip> {
                 Padding(
                   padding: const EdgeInsets.only(top: 32, left: 32, right: 32),
                   child: Container(
-                    height: 600,
+                    height: 520,
                     width: double.infinity,
                     decoration: BoxDecoration(
                       border: Border.all(
@@ -208,7 +226,6 @@ class _PlanTripState extends State<PlanTrip> {
                           ),
                           Container(
                             alignment: Alignment.centerLeft,
-                            padding: const EdgeInsets.only(left: 8),
                             child: Column(
                               children: [
                                 ElevatedButton(
@@ -241,23 +258,66 @@ class _PlanTripState extends State<PlanTrip> {
                                 ),
                                 Container(
                                   width: 180,
-                                  child: DropdownButton(
-                                    isExpanded: true,
-                                    value: _timeDropDownValue,
-                                    items: _timeValue.map((String item) {
-                                      return DropdownMenuItem(
-                                        value: item,
-                                        child: Text(item),
-                                      );
-                                    }).toList(),
-                                    onChanged: (String? newValue) {
-                                      setState(() {
-                                        _timeDropDownValue = newValue!;
-                                      });
-                                    },
-                                    iconEnabledColor: Colors.lightGreen,
+                                  child: Padding(
+                                    padding: const EdgeInsets.only(left: 16),
+                                    child: DropdownButton(
+                                      isExpanded: true,
+                                      value: _timeDropDownValue,
+                                      items: _timeValue.map((String item) {
+                                        return DropdownMenuItem(
+                                          value: item,
+                                          child: Text(item),
+                                        );
+                                      }).toList(),
+                                      onChanged: (String? newValue) {
+                                        setState(() {
+                                          _timeDropDownValue = newValue!;
+                                        });
+                                      },
+                                      iconEnabledColor: Colors.lightGreen,
+                                    ),
                                   ),
                                 ),
+                                Padding(
+                                  padding: const EdgeInsets.only(top:40.0),
+                                  child: Container(
+                                    child: Row(
+                                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                      children: [
+                                        ElevatedButton(
+                                          onPressed: () {},
+                                          child: Text('Cancel',
+                                          style: TextStyle(
+                                            fontWeight: FontWeight.bold,
+                                            fontSize: 18,
+                                          ),),
+                                          style: ElevatedButton.styleFrom(
+                                              minimumSize: Size(140, 40),
+                                              backgroundColor: Colors.red[700],
+                                              shape: RoundedRectangleBorder(
+                                                borderRadius:
+                                                    BorderRadius.circular(10.0),
+                                              )),
+                                        ),
+                                        ElevatedButton(
+                                          onPressed: () {},
+                                          child: Text('Go',
+                                            style: TextStyle(
+                                              fontWeight: FontWeight.bold,
+                                              fontSize: 18,
+                                            ),),
+                                          style: ElevatedButton.styleFrom(
+                                              minimumSize: Size(140, 40),
+                                              backgroundColor: Colors.lightGreen,
+                                              shape: RoundedRectangleBorder(
+                                                borderRadius:
+                                                    BorderRadius.circular(10.0),
+                                              )),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                )
                               ],
                             ),
                           ),
