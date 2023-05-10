@@ -4,6 +4,8 @@ import 'package:mobile_app_development_cw2/ForgotPassword.dart';
 import 'package:mobile_app_development_cw2/Homepage.dart';
 import 'package:mobile_app_development_cw2/Register.dart';
 
+import 'NavigationMenu.dart';
+
 Future main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
@@ -149,7 +151,7 @@ class MyApp extends StatelessWidget {
                           onPressed: (){
                             Navigator.push(
                               context,
-                              MaterialPageRoute(builder: (context) => const Homepage()),
+                              MaterialPageRoute(builder: (context) => const NavigationMenu()),
                             );
                           },
                           child: Text('Login'),
