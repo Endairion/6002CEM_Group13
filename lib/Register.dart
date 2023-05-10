@@ -54,11 +54,13 @@ class _RegisterState extends State<Register> {
                     icon: const Icon(Icons.chevron_left),
                     label: const Text('Back to Login'),
                     style: TextButton.styleFrom(
+                      padding: EdgeInsets.zero,
+                      visualDensity: VisualDensity.compact,
                       foregroundColor: Colors.black,
-                      alignment: Alignment.topLeft,
+                      alignment: Alignment.centerLeft,
                     ),
                   ),
-                  const SizedBox(height: 6),
+                  const SizedBox(height: 4),
                   const Text(
                     "Register a new account",
                     style: TextStyle(
