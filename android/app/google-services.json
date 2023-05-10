@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "547502737270",
+    "project_id": "vtumpang-carpooling-app",
+    "storage_bucket": "vtumpang-carpooling-app.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:547502737270:android:73fc681aa8b20fc6ba5c57",
+        "android_client_info": {
+          "package_name": "com.example.mobile_app_development_cw2"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "547502737270-u0usram5jl2sc9j8s81q8ho4tfp5ocrq.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAmtmRRtHBQMemmJNkjAVrx3LySTD1zhmc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "547502737270-u0usram5jl2sc9j8s81q8ho4tfp5ocrq.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
