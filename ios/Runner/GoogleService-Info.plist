@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>CLIENT_ID</key>
+	<string>547502737270-5knv314e43aqvg7b3mb2l58q29b31qeq.apps.googleusercontent.com</string>
+	<key>REVERSED_CLIENT_ID</key>
+	<string>com.googleusercontent.apps.547502737270-5knv314e43aqvg7b3mb2l58q29b31qeq</string>
+	<key>API_KEY</key>
+	<string>AIzaSyCR5VUvOWoJX97wtoneH8b0sM1Hz7zHLAs</string>
+	<key>GCM_SENDER_ID</key>
+	<string>547502737270</string>
+	<key>PLIST_VERSION</key>
+	<string>1</string>
+	<key>BUNDLE_ID</key>
+	<string>com.example.mobileAppDevelopmentCw2</string>
+	<key>PROJECT_ID</key>
+	<string>vtumpang-carpooling-app</string>
+	<key>STORAGE_BUCKET</key>
+	<string>vtumpang-carpooling-app.appspot.com</string>
+	<key>IS_ADS_ENABLED</key>
+	<false></false>
+	<key>IS_ANALYTICS_ENABLED</key>
+	<false></false>
+	<key>IS_APPINVITE_ENABLED</key>
+	<true></true>
+	<key>IS_GCM_ENABLED</key>
+	<true></true>
+	<key>IS_SIGNIN_ENABLED</key>
+	<true></true>
+	<key>GOOGLE_APP_ID</key>
+	<string>1:547502737270:ios:938ca170b4c145a5ba5c57</string>
+</dict>
+</plist>
