@@ -14,7 +14,7 @@ class PlanTrip extends StatefulWidget {
 }
 
 class _PlanTripState extends State<PlanTrip> {
-  // Initial Selected Value
+  // Set Initial Selected Value
   String _dropDownValue = '1';
   // List of items in available seats menu
   final _seatValue = ['1', '2', '3', '4', '5', '6'];
@@ -22,6 +22,15 @@ class _PlanTripState extends State<PlanTrip> {
   bool _pickupNotificationIsChecked = false;
 
   int _departureValue = 1;
+
+  // Set Initial Selected Value for future time
+  String _timeDropDownValue = 'Select future time';
+  // List of items in available seats menu
+  final _timeValue = ['Select future time',
+    '5:00 am', '6:00 am', '7:00 am','8:00 am', '9:00am',
+    '10:00 am', '11:00am', '12:00 pm', '1:00 pm', '2:00 pm',
+    '3:00 pm', '4:00 pm', '5:00 pm', '6:00 pm', '7:00 pm',
+    '8:00 pm', '9:00 pm', '10:00 pm' , '11:00 pm', '12:00 am'];
 
   @override
   Widget build(BuildContext context) {
@@ -185,19 +194,73 @@ class _PlanTripState extends State<PlanTrip> {
                                 value: 1,
                                 groupValue: _departureValue,
                                 leading: 'Now',
-                                onChanged: (value) => setState(() => _departureValue = value!),
+                                onChanged: (value) =>
+                                    setState(() => _departureValue = value!),
                               ),
                               MyRadioListTile<int>(
                                 value: 2,
                                 groupValue: _departureValue,
                                 leading: 'Future',
-                                onChanged: (value) => setState(() => _departureValue = value!),
+                                onChanged: (value) =>
+                                    setState(() => _departureValue = value!),
                               ),
                             ],
                           ),
-                          Text('data'),
-                          Text('data'),
-                          Text('data'),
+                          Container(
+                            alignment: Alignment.centerLeft,
+                            padding: const EdgeInsets.only(left: 8),
+                            child: Column(
+                              children: [
+                                ElevatedButton(
+                                  onPressed: () {},
+                                  child: Row(
+                                    mainAxisSize: MainAxisSize.min,
+                                    children: [
+                                      Text(
+                                        'Set future date',
+                                        style: TextStyle(
+                                          color: Colors.lightGreen[700],
+                                        ),
+                                      ),
+                                      Padding(
+                                        padding: const EdgeInsets.only(left: 4),
+                                        child: Icon(
+                                          Icons.calendar_month,
+                                          color: Colors.lightGreen[700],
+                                        ),
+                                      )
+                                    ],
+                                  ),
+                                  style: ElevatedButton.styleFrom(
+                                    backgroundColor: Colors.white,
+                                    side: const BorderSide(
+                                      width: 2.0,
+                                      color: Colors.lightGreen,
+                                    ),
+                                  ),
+                                ),
+                                Container(
+                                  width: 180,
+                                  child: DropdownButton(
+                                    isExpanded: true,
+                                    value: _timeDropDownValue,
+                                    items: _timeValue.map((String item) {
+                                      return DropdownMenuItem(
+                                        value: item,
+                                        child: Text(item),
+                                      );
+                                    }).toList(),
+                                    onChanged: (String? newValue) {
+                                      setState(() {
+                                        _timeDropDownValue = newValue!;
+                                      });
+                                    },
+                                    iconEnabledColor: Colors.lightGreen,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
                         ],
                       ),
                     ),
