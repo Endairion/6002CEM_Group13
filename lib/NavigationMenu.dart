@@ -3,6 +3,9 @@ import 'package:mobile_app_development_cw2/Homepage.dart';
 import 'package:mobile_app_development_cw2/Profile.dart';
 import 'package:mobile_app_development_cw2/PlanTrip.dart';
 
+import 'ActivityPage.dart';
+import 'Rewards.dart';
+
 void main() {
   runApp(const NavigationMenu());
 }
@@ -31,23 +34,8 @@ class _NavigationBarState extends State<NavigationBar> {
 
   static const List<Widget> _menuOptions = <Widget>[
     Homepage(),
-    const Center(
-      child: Icon(
-        Icons.camera,
-        size: 150,
-      ),
-    ),
-    const Center(
-      child: Padding(
-        padding: EdgeInsets.all(16.0),
-        child: TextField(
-          style: TextStyle(fontSize: 50),
-          decoration: InputDecoration(
-              labelText: 'Find contact',
-              labelStyle: TextStyle(fontWeight: FontWeight.bold)),
-        ),
-      ),
-    ),
+    ActivityPage(),
+    Rewards(),
     Profile(),
   ];
 

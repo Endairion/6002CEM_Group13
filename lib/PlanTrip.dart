@@ -226,7 +226,9 @@ class _PlanTripState extends State<PlanTrip> {
                           ),
                           Container(
                             alignment: Alignment.centerLeft,
+                            padding: const EdgeInsets.only(left: 8),
                             child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 ElevatedButton(
                                   onPressed: () {},
@@ -259,7 +261,7 @@ class _PlanTripState extends State<PlanTrip> {
                                 Container(
                                   width: 180,
                                   child: Padding(
-                                    padding: const EdgeInsets.only(left: 16),
+                                    padding: const EdgeInsets.only(left:4),
                                     child: DropdownButton(
                                       isExpanded: true,
                                       value: _timeDropDownValue,
