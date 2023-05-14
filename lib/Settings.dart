@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:mobile_app_development_cw2/HelpSupport.dart';
 
 class Settings extends StatefulWidget {
   const Settings({Key? key}) : super(key: key);
@@ -31,21 +32,23 @@ class _SettingsState extends State<Settings> {
             const SizedBox(height: 31.0,),
             Stack(
               children: [
-                ElevatedButton.icon(
-                  onPressed: () {},
-                  style: ElevatedButton.styleFrom(
-                    foregroundColor: Colors.black,
-                    backgroundColor: Colors.white,
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(10.0),
+                IgnorePointer(
+                  child: ElevatedButton.icon(
+                    onPressed: () {},
+                    style: ElevatedButton.styleFrom(
+                      foregroundColor: Colors.black,
+                      backgroundColor: Colors.white,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(10.0),
+                      ),
+                      minimumSize: const Size(320, 45), // set minimumSize
                     ),
-                    minimumSize: const Size(320, 45), // set minimumSize
-                  ),
-                  icon: const Icon(Icons.notifications),
-                  label: const Text(
-                    'Notifications',
-                    style: TextStyle(
-                      fontSize: 16,
+                    icon: const Icon(Icons.notifications),
+                    label: const Text(
+                      'Notifications',
+                      style: TextStyle(
+                        fontSize: 16,
+                      ),
                     ),
                   ),
                 ),
@@ -74,21 +77,24 @@ class _SettingsState extends State<Settings> {
             SizedBox(height: 10.0),
             Stack(
               children: [
-                ElevatedButton.icon(
-                  onPressed: () {},
-                  style: ElevatedButton.styleFrom(
-                    foregroundColor: Colors.black,
-                    backgroundColor: Colors.white,
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(10.0),
+                IgnorePointer(
+                  child: ElevatedButton.icon(
+                    onPressed: (){},
+                    style: ElevatedButton.styleFrom(
+                      foregroundColor: Colors.black,
+                      backgroundColor: Colors.white,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(10.0),
+                      ),
+                      minimumSize: const Size(320, 45), // set minimumSize
+
                     ),
-                    minimumSize: const Size(320, 45), // set minimumSize
-                  ),
-                  icon: const Icon(Icons.mail),
-                  label: const Text(
-                    'Email Alerts',
-                    style: TextStyle(
-                      fontSize: 16,
+                    icon: const Icon(Icons.mail),
+                    label: const Text(
+                      'Email Alerts',
+                      style: TextStyle(
+                        fontSize: 16,
+                      ),
                     ),
                   ),
                 ),
@@ -133,7 +139,12 @@ class _SettingsState extends State<Settings> {
             ),
             const SizedBox(height: 10.0),
             ElevatedButton.icon(
-              onPressed: () {},
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => const HelpSupport()),
+                );
+              },
               style: ElevatedButton.styleFrom(
                 foregroundColor: Colors.black,
                 backgroundColor: Colors.white,
