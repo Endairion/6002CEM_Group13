@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:mobile_app_development_cw2/ChangePassword.dart';
 import 'package:mobile_app_development_cw2/HelpSupport.dart';
 
 class Settings extends StatefulWidget {
@@ -122,7 +123,12 @@ class _SettingsState extends State<Settings> {
             ),
             const SizedBox(height: 10.0),
             ElevatedButton.icon(
-              onPressed: () {},
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => const ChangePassword()),
+                );
+              },
               style: ElevatedButton.styleFrom(
                 foregroundColor: Colors.black,
                 backgroundColor: Colors.white,
