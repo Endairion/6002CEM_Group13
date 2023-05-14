@@ -54,15 +54,24 @@ class _PlanTripState extends State<PlanTrip> {
   ];
 
   final TextEditingController _controller = TextEditingController();
-  var uuid= new Uuid();
+  final TextEditingController _controller2 = TextEditingController();
+
+  var uuid = new Uuid();
   String _sessionToken = "";
   List<dynamic> _placeList = [];
+  List<dynamic> _placeList2 = [];
+
+  final _focus = FocusNode();
+  final _focusDropdown = FocusNode();
 
   @override
   void initState() {
     super.initState();
     _controller.addListener(() {
       _onChanged();
+    });
+    _controller2.addListener(() {
+      _onChanged2();
     });
   }
 
@@ -75,15 +84,43 @@ class _PlanTripState extends State<PlanTrip> {
     getSuggestion(_controller.text);
   }
 
-  void getSuggestion(String input) async {
+  _onChanged2() {
+    if (_sessionToken == null) {
+      setState(() {
+        _sessionToken = uuid.v4();
+      });
+    }
+    getSuggestion2(_controller2.text);
+  }
+
+  String getApiRequestUrl(String input) {
     String kPLACES_API_KEY = "AIzaSyA36o5GXvW4Kauogfmfgqnas7oBMzUqmkU";
     String type = '(regions)';
-    String baseURL = 'https://maps.googleapis.com/maps/api/place/autocomplete/json';
-    String request = '$baseURL?input=$input&key=$kPLACES_API_KEY&region=my&sessiontoken=$_sessionToken';
+    String baseURL =
+        'https://maps.googleapis.com/maps/api/place/autocomplete/json';
+    String request =
+        '$baseURL?input=$input&key=$kPLACES_API_KEY&region=my&sessiontoken=$_sessionToken';
+    return request;
+  }
+
+  void getSuggestion(String input) async {
+    String request = getApiRequestUrl(input);
     http.Response response = await http.get(Uri.parse(request));
     if (response.statusCode == 200) {
       setState(() {
         _placeList = json.decode(response.body)['predictions'];
+      });
+    } else {
+      throw Exception('Failed to load predictions');
+    }
+  }
+
+  void getSuggestion2(String input) async {
+    String request = getApiRequestUrl(input);
+    http.Response response = await http.get(Uri.parse(request));
+    if (response.statusCode == 200) {
+      setState(() {
+        _placeList2 = json.decode(response.body)['predictions'];
       });
     } else {
       throw Exception('Failed to load predictions');
@@ -139,7 +176,7 @@ class _PlanTripState extends State<PlanTrip> {
                     ),
                     child: Padding(
                       padding:
-                      const EdgeInsets.only(top: 16, left: 16, right: 16),
+                          const EdgeInsets.only(top: 16, left: 16, right: 16),
                       child: Column(
                         children: [
                           TextField(
@@ -174,20 +211,30 @@ class _PlanTripState extends State<PlanTrip> {
                               fontSize: 14,
                             ),
                             minLines: 1,
-                            maxLines: 3,
+                            maxLines: 1,
                           ),
                           ListView.builder(
-                            //physics: NeverScrollableScrollPhysics(),
+                            physics: NeverScrollableScrollPhysics(),
                             shrinkWrap: true,
                             itemCount: _placeList.length,
                             itemBuilder: (context, index) {
                               return ListTile(
                                 title: Text(_placeList[index]["description"]),
+                                onTap: () {
+                                  setState(() {
+                                    _controller.text =
+                                        _placeList[index]["description"];
+                                    _placeList.clear();
+                                    _focus.requestFocus();
+                                  });
+                                },
                               );
                             },
                           ),
                           SizedBox(height: 12),
                           TextField(
+                            focusNode: _focus,
+                            controller: _controller2,
                             keyboardType: TextInputType.text,
                             cursorColor: Colors.lightGreen,
                             decoration: InputDecoration(
@@ -209,19 +256,38 @@ class _PlanTripState extends State<PlanTrip> {
                               fontSize: 14,
                             ),
                             minLines: 1,
-                            maxLines: 3,
+                            maxLines: 1,
+                          ),
+                          ListView.builder(
+                            physics: NeverScrollableScrollPhysics(),
+                            shrinkWrap: true,
+                            itemCount: _placeList2.length,
+                            itemBuilder: (context, index) {
+                              return ListTile(
+                                title: Text(_placeList2[index]["description"]),
+                                onTap: () {
+                                  setState(() {
+                                    _controller2.text =
+                                        _placeList2[index]["description"];
+                                    _placeList2.clear();
+                                    _focusDropdown.requestFocus();
+                                  });
+                                },
+                              );
+                            },
                           ),
                           Container(
                             child: Row(
                               children: [
                                 Padding(
                                   padding:
-                                  const EdgeInsets.only(left: 8, right: 8),
+                                      const EdgeInsets.only(left: 8, right: 8),
                                   child: Text('Available seat: '),
                                 ),
                                 Container(
                                   width: 60,
                                   child: DropdownButton(
+                                    focusNode: _focusDropdown,
                                     isExpanded: true,
                                     value: _dropDownValue,
                                     items: _seatValue.map((String items) {
@@ -318,7 +384,7 @@ class _PlanTripState extends State<PlanTrip> {
                                 Container(
                                   width: 180,
                                   child: Padding(
-                                    padding: const EdgeInsets.only(left:4),
+                                    padding: const EdgeInsets.only(left: 4),
                                     child: DropdownButton(
                                       isExpanded: true,
                                       value: _timeDropDownValue,
@@ -338,39 +404,45 @@ class _PlanTripState extends State<PlanTrip> {
                                   ),
                                 ),
                                 Padding(
-                                  padding: const EdgeInsets.only(top:40.0),
+                                  padding: const EdgeInsets.only(top: 40.0),
                                   child: Container(
                                     child: Row(
-                                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
                                       children: [
                                         ElevatedButton(
                                           onPressed: () {},
-                                          child: Text('Cancel',
+                                          child: Text(
+                                            'Cancel',
                                             style: TextStyle(
                                               fontWeight: FontWeight.bold,
                                               fontSize: 18,
-                                            ),),
+                                            ),
+                                          ),
                                           style: ElevatedButton.styleFrom(
                                               minimumSize: Size(140, 40),
                                               backgroundColor: Colors.red[700],
                                               shape: RoundedRectangleBorder(
                                                 borderRadius:
-                                                BorderRadius.circular(10.0),
+                                                    BorderRadius.circular(10.0),
                                               )),
                                         ),
                                         ElevatedButton(
                                           onPressed: () {},
-                                          child: Text('Go',
+                                          child: Text(
+                                            'Go',
                                             style: TextStyle(
                                               fontWeight: FontWeight.bold,
                                               fontSize: 18,
-                                            ),),
+                                            ),
+                                          ),
                                           style: ElevatedButton.styleFrom(
                                               minimumSize: Size(140, 40),
-                                              backgroundColor: Colors.lightGreen,
+                                              backgroundColor:
+                                                  Colors.lightGreen,
                                               shape: RoundedRectangleBorder(
                                                 borderRadius:
-                                                BorderRadius.circular(10.0),
+                                                    BorderRadius.circular(10.0),
                                               )),
                                         ),
                                       ],
