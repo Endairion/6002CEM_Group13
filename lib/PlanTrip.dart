@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
-
+import 'package:mobile_app_development_cw2/LocationSearch.dart';
+import 'package:uuid/uuid.dart';
+import 'package:http/http.dart' as http;
+import 'dart:convert';
 import 'common/theme_helper.dart';
 
 void main() {
@@ -50,10 +53,54 @@ class _PlanTripState extends State<PlanTrip> {
     '12:00 am'
   ];
 
+  final TextEditingController _controller = TextEditingController();
+  var uuid= new Uuid();
+  String _sessionToken = "";
+  List<dynamic> _placeList = [];
+
+  @override
+  void initState() {
+    super.initState();
+    _controller.addListener(() {
+      _onChanged();
+    });
+  }
+
+  _onChanged() {
+    if (_sessionToken == null) {
+      setState(() {
+        _sessionToken = uuid.v4();
+      });
+    }
+    getSuggestion(_controller.text);
+  }
+
+  void getSuggestion(String input) async {
+    String kPLACES_API_KEY = "AIzaSyA36o5GXvW4Kauogfmfgqnas7oBMzUqmkU";
+    String type = '(regions)';
+    String baseURL = 'https://maps.googleapis.com/maps/api/place/autocomplete/json';
+    String request = '$baseURL?input=$input&key=$kPLACES_API_KEY&region=my&sessiontoken=$_sessionToken';
+    http.Response response = await http.get(Uri.parse(request));
+    if (response.statusCode == 200) {
+      setState(() {
+        _placeList = json.decode(response.body)['predictions'];
+      });
+    } else {
+      throw Exception('Failed to load predictions');
+    }
+  }
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       home: Scaffold(
+        resizeToAvoidBottomInset: false,
         appBar: AppBar(
           leading: BackButton(
             color: Colors.white,
@@ -92,10 +139,12 @@ class _PlanTripState extends State<PlanTrip> {
                     ),
                     child: Padding(
                       padding:
-                          const EdgeInsets.only(top: 16, left: 16, right: 16),
+                      const EdgeInsets.only(top: 16, left: 16, right: 16),
                       child: Column(
                         children: [
                           TextField(
+                            controller: _controller,
+                            onTap: () {},
                             keyboardType: TextInputType.text,
                             cursorColor: Colors.lightGreen,
                             decoration: InputDecoration(
@@ -127,39 +176,47 @@ class _PlanTripState extends State<PlanTrip> {
                             minLines: 1,
                             maxLines: 3,
                           ),
-                          Padding(
-                            padding: const EdgeInsets.only(top: 12),
-                            child: TextField(
-                              keyboardType: TextInputType.text,
-                              cursorColor: Colors.lightGreen,
-                              decoration: InputDecoration(
-                                contentPadding: EdgeInsets.symmetric(
-                                    vertical: 0, horizontal: 16),
-                                filled: true,
-                                fillColor: Colors.grey[200],
-                                border: OutlineInputBorder(),
-                                hintText: 'Enter your destination location',
-                                enabledBorder: OutlineInputBorder(
-                                  borderSide: BorderSide(
-                                    width: 1,
-                                    color: Colors.grey.shade300,
-                                  ),
-                                  borderRadius: BorderRadius.circular(10),
+                          ListView.builder(
+                            //physics: NeverScrollableScrollPhysics(),
+                            shrinkWrap: true,
+                            itemCount: _placeList.length,
+                            itemBuilder: (context, index) {
+                              return ListTile(
+                                title: Text(_placeList[index]["description"]),
+                              );
+                            },
+                          ),
+                          SizedBox(height: 12),
+                          TextField(
+                            keyboardType: TextInputType.text,
+                            cursorColor: Colors.lightGreen,
+                            decoration: InputDecoration(
+                              contentPadding: EdgeInsets.symmetric(
+                                  vertical: 0, horizontal: 16),
+                              filled: true,
+                              fillColor: Colors.grey[200],
+                              border: OutlineInputBorder(),
+                              hintText: 'Enter your destination location',
+                              enabledBorder: OutlineInputBorder(
+                                borderSide: BorderSide(
+                                  width: 1,
+                                  color: Colors.grey.shade300,
                                 ),
+                                borderRadius: BorderRadius.circular(10),
                               ),
-                              style: TextStyle(
-                                fontSize: 14,
-                              ),
-                              minLines: 1,
-                              maxLines: 3,
                             ),
+                            style: TextStyle(
+                              fontSize: 14,
+                            ),
+                            minLines: 1,
+                            maxLines: 3,
                           ),
                           Container(
                             child: Row(
                               children: [
                                 Padding(
                                   padding:
-                                      const EdgeInsets.only(left: 8, right: 8),
+                                  const EdgeInsets.only(left: 8, right: 8),
                                   child: Text('Available seat: '),
                                 ),
                                 Container(
@@ -289,16 +346,16 @@ class _PlanTripState extends State<PlanTrip> {
                                         ElevatedButton(
                                           onPressed: () {},
                                           child: Text('Cancel',
-                                          style: TextStyle(
-                                            fontWeight: FontWeight.bold,
-                                            fontSize: 18,
-                                          ),),
+                                            style: TextStyle(
+                                              fontWeight: FontWeight.bold,
+                                              fontSize: 18,
+                                            ),),
                                           style: ElevatedButton.styleFrom(
                                               minimumSize: Size(140, 40),
                                               backgroundColor: Colors.red[700],
                                               shape: RoundedRectangleBorder(
                                                 borderRadius:
-                                                    BorderRadius.circular(10.0),
+                                                BorderRadius.circular(10.0),
                                               )),
                                         ),
                                         ElevatedButton(
@@ -313,7 +370,7 @@ class _PlanTripState extends State<PlanTrip> {
                                               backgroundColor: Colors.lightGreen,
                                               shape: RoundedRectangleBorder(
                                                 borderRadius:
-                                                    BorderRadius.circular(10.0),
+                                                BorderRadius.circular(10.0),
                                               )),
                                         ),
                                       ],
