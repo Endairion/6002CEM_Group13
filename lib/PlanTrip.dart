@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:mobile_app_development_cw2/LocationSearch.dart';
 import 'package:uuid/uuid.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
