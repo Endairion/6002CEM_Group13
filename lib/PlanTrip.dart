@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
-
+import 'package:uuid/uuid.dart';
+import 'package:http/http.dart' as http;
+import 'dart:convert';
 import 'common/theme_helper.dart';
 
 void main() {
@@ -50,10 +52,91 @@ class _PlanTripState extends State<PlanTrip> {
     '12:00 am'
   ];
 
+  final TextEditingController _controller = TextEditingController();
+  final TextEditingController _controller2 = TextEditingController();
+
+  var uuid = new Uuid();
+  String _sessionToken = "";
+  List<dynamic> _placeList = [];
+  List<dynamic> _placeList2 = [];
+
+  final _focus = FocusNode();
+  final _focusDropdown = FocusNode();
+
+  @override
+  void initState() {
+    super.initState();
+    _controller.addListener(() {
+      _onChanged();
+    });
+    _controller2.addListener(() {
+      _onChanged2();
+    });
+  }
+
+  _onChanged() {
+    if (_sessionToken == null) {
+      setState(() {
+        _sessionToken = uuid.v4();
+      });
+    }
+    getSuggestion(_controller.text);
+  }
+
+  _onChanged2() {
+    if (_sessionToken == null) {
+      setState(() {
+        _sessionToken = uuid.v4();
+      });
+    }
+    getSuggestion2(_controller2.text);
+  }
+
+  String getApiRequestUrl(String input) {
+    String kPLACES_API_KEY = "AIzaSyA36o5GXvW4Kauogfmfgqnas7oBMzUqmkU";
+    String type = '(regions)';
+    String baseURL =
+        'https://maps.googleapis.com/maps/api/place/autocomplete/json';
+    String request =
+        '$baseURL?input=$input&key=$kPLACES_API_KEY&region=my&sessiontoken=$_sessionToken';
+    return request;
+  }
+
+  void getSuggestion(String input) async {
+    String request = getApiRequestUrl(input);
+    http.Response response = await http.get(Uri.parse(request));
+    if (response.statusCode == 200) {
+      setState(() {
+        _placeList = json.decode(response.body)['predictions'];
+      });
+    } else {
+      throw Exception('Failed to load predictions');
+    }
+  }
+
+  void getSuggestion2(String input) async {
+    String request = getApiRequestUrl(input);
+    http.Response response = await http.get(Uri.parse(request));
+    if (response.statusCode == 200) {
+      setState(() {
+        _placeList2 = json.decode(response.body)['predictions'];
+      });
+    } else {
+      throw Exception('Failed to load predictions');
+    }
+  }
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       home: Scaffold(
+        resizeToAvoidBottomInset: false,
         appBar: AppBar(
           leading: BackButton(
             color: Colors.white,
@@ -96,6 +179,8 @@ class _PlanTripState extends State<PlanTrip> {
                       child: Column(
                         children: [
                           TextField(
+                            controller: _controller,
+                            onTap: () {},
                             keyboardType: TextInputType.text,
                             cursorColor: Colors.lightGreen,
                             decoration: InputDecoration(
@@ -125,34 +210,70 @@ class _PlanTripState extends State<PlanTrip> {
                               fontSize: 14,
                             ),
                             minLines: 1,
-                            maxLines: 3,
+                            maxLines: 1,
                           ),
-                          Padding(
-                            padding: const EdgeInsets.only(top: 12),
-                            child: TextField(
-                              keyboardType: TextInputType.text,
-                              cursorColor: Colors.lightGreen,
-                              decoration: InputDecoration(
-                                contentPadding: EdgeInsets.symmetric(
-                                    vertical: 0, horizontal: 16),
-                                filled: true,
-                                fillColor: Colors.grey[200],
-                                border: OutlineInputBorder(),
-                                hintText: 'Enter your destination location',
-                                enabledBorder: OutlineInputBorder(
-                                  borderSide: BorderSide(
-                                    width: 1,
-                                    color: Colors.grey.shade300,
-                                  ),
-                                  borderRadius: BorderRadius.circular(10),
+                          ListView.builder(
+                            physics: NeverScrollableScrollPhysics(),
+                            shrinkWrap: true,
+                            itemCount: _placeList.length,
+                            itemBuilder: (context, index) {
+                              return ListTile(
+                                title: Text(_placeList[index]["description"]),
+                                onTap: () {
+                                  setState(() {
+                                    _controller.text =
+                                        _placeList[index]["description"];
+                                    _placeList.clear();
+                                    _focus.requestFocus();
+                                  });
+                                },
+                              );
+                            },
+                          ),
+                          SizedBox(height: 12),
+                          TextField(
+                            focusNode: _focus,
+                            controller: _controller2,
+                            keyboardType: TextInputType.text,
+                            cursorColor: Colors.lightGreen,
+                            decoration: InputDecoration(
+                              contentPadding: EdgeInsets.symmetric(
+                                  vertical: 0, horizontal: 16),
+                              filled: true,
+                              fillColor: Colors.grey[200],
+                              border: OutlineInputBorder(),
+                              hintText: 'Enter your destination location',
+                              enabledBorder: OutlineInputBorder(
+                                borderSide: BorderSide(
+                                  width: 1,
+                                  color: Colors.grey.shade300,
                                 ),
+                                borderRadius: BorderRadius.circular(10),
                               ),
-                              style: TextStyle(
-                                fontSize: 14,
-                              ),
-                              minLines: 1,
-                              maxLines: 3,
                             ),
+                            style: TextStyle(
+                              fontSize: 14,
+                            ),
+                            minLines: 1,
+                            maxLines: 1,
+                          ),
+                          ListView.builder(
+                            physics: NeverScrollableScrollPhysics(),
+                            shrinkWrap: true,
+                            itemCount: _placeList2.length,
+                            itemBuilder: (context, index) {
+                              return ListTile(
+                                title: Text(_placeList2[index]["description"]),
+                                onTap: () {
+                                  setState(() {
+                                    _controller2.text =
+                                        _placeList2[index]["description"];
+                                    _placeList2.clear();
+                                    _focusDropdown.requestFocus();
+                                  });
+                                },
+                              );
+                            },
                           ),
                           Container(
                             child: Row(
@@ -165,6 +286,7 @@ class _PlanTripState extends State<PlanTrip> {
                                 Container(
                                   width: 60,
                                   child: DropdownButton(
+                                    focusNode: _focusDropdown,
                                     isExpanded: true,
                                     value: _dropDownValue,
                                     items: _seatValue.map((String items) {
@@ -261,7 +383,7 @@ class _PlanTripState extends State<PlanTrip> {
                                 Container(
                                   width: 180,
                                   child: Padding(
-                                    padding: const EdgeInsets.only(left:4),
+                                    padding: const EdgeInsets.only(left: 4),
                                     child: DropdownButton(
                                       isExpanded: true,
                                       value: _timeDropDownValue,
@@ -281,18 +403,21 @@ class _PlanTripState extends State<PlanTrip> {
                                   ),
                                 ),
                                 Padding(
-                                  padding: const EdgeInsets.only(top:40.0),
+                                  padding: const EdgeInsets.only(top: 40.0),
                                   child: Container(
                                     child: Row(
-                                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
                                       children: [
                                         ElevatedButton(
                                           onPressed: () {},
-                                          child: Text('Cancel',
-                                          style: TextStyle(
-                                            fontWeight: FontWeight.bold,
-                                            fontSize: 18,
-                                          ),),
+                                          child: Text(
+                                            'Cancel',
+                                            style: TextStyle(
+                                              fontWeight: FontWeight.bold,
+                                              fontSize: 18,
+                                            ),
+                                          ),
                                           style: ElevatedButton.styleFrom(
                                               minimumSize: Size(140, 40),
                                               backgroundColor: Colors.red[700],
@@ -303,14 +428,17 @@ class _PlanTripState extends State<PlanTrip> {
                                         ),
                                         ElevatedButton(
                                           onPressed: () {},
-                                          child: Text('Go',
+                                          child: Text(
+                                            'Go',
                                             style: TextStyle(
                                               fontWeight: FontWeight.bold,
                                               fontSize: 18,
-                                            ),),
+                                            ),
+                                          ),
                                           style: ElevatedButton.styleFrom(
                                               minimumSize: Size(140, 40),
-                                              backgroundColor: Colors.lightGreen,
+                                              backgroundColor:
+                                                  Colors.lightGreen,
                                               shape: RoundedRectangleBorder(
                                                 borderRadius:
                                                     BorderRadius.circular(10.0),
