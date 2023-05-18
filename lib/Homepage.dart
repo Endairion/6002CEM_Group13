@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:mobile_app_development_cw2/PlanTrip.dart';
+import 'package:mobile_app_development_cw2/SearchAvailableTrips.dart';
 
 void main() {
   runApp(const Homepage());
@@ -189,7 +190,13 @@ class Homepage extends StatelessWidget {
                     ),
                   ),
                   ElevatedButton(
-                    onPressed: () {},
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => const SearchAvailableTrips()),
+                      );
+                    },
                     style: ElevatedButton.styleFrom(
                         padding: EdgeInsets.zero,
                         shape: RoundedRectangleBorder(
