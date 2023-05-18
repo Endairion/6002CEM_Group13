@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:uuid/uuid.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
+import 'package:intl/intl.dart';
 import 'common/theme_helper.dart';
 
 void main() {
@@ -24,6 +26,8 @@ class _PlanTripState extends State<PlanTrip> {
   bool _pickupNotificationIsChecked = false;
 
   int _departureValue = 1;
+
+  bool _isFutureDateActive = false;
 
   // Set Initial Selected Value for future time
   String _timeDropDownValue = 'Select future time';
@@ -52,6 +56,24 @@ class _PlanTripState extends State<PlanTrip> {
     '12:00 am'
   ];
 
+  //future date picker
+  DateTime selectedDate = DateTime.now();
+  String selectedDateText = 'Set future date';
+
+  Future<void> _selectDate(BuildContext context) async {
+    final DateTime? picked = await showDatePicker(
+        context: context,
+        initialDate: selectedDate,
+        firstDate: selectedDate,
+        lastDate: DateTime(2101));
+    if (picked != null && picked != selectedDate) {
+      setState(() {
+        selectedDate = picked;
+        selectedDateText = DateFormat("dd-MM-yyyy").format(selectedDate);
+      });
+    }
+  }
+
   final TextEditingController _controller = TextEditingController();
   final TextEditingController _controller2 = TextEditingController();
 
@@ -66,6 +88,7 @@ class _PlanTripState extends State<PlanTrip> {
   @override
   void initState() {
     super.initState();
+
     _controller.addListener(() {
       _onChanged();
     });
@@ -334,15 +357,19 @@ class _PlanTripState extends State<PlanTrip> {
                                 value: 1,
                                 groupValue: _departureValue,
                                 leading: 'Now',
-                                onChanged: (value) =>
-                                    setState(() => _departureValue = value!),
+                                onChanged: (value) => setState(() {
+                                  _departureValue = value!;
+                                  _isFutureDateActive = false;
+                                }),
                               ),
                               MyRadioListTile<int>(
                                 value: 2,
                                 groupValue: _departureValue,
                                 leading: 'Future',
-                                onChanged: (value) =>
-                                    setState(() => _departureValue = value!),
+                                onChanged: (value) => setState(() {
+                                  _departureValue = value!;
+                                  _isFutureDateActive = true;
+                                }),
                               ),
                             ],
                           ),
@@ -353,12 +380,14 @@ class _PlanTripState extends State<PlanTrip> {
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 ElevatedButton(
-                                  onPressed: () {},
+                                  onPressed: _isFutureDateActive ? () {
+                                    _selectDate(context);
+                                  } : null,
                                   child: Row(
                                     mainAxisSize: MainAxisSize.min,
                                     children: [
                                       Text(
-                                        'Set future date',
+                                        selectedDateText,
                                         style: TextStyle(
                                           color: Colors.lightGreen[700],
                                         ),
@@ -393,11 +422,13 @@ class _PlanTripState extends State<PlanTrip> {
                                           child: Text(item),
                                         );
                                       }).toList(),
-                                      onChanged: (String? newValue) {
-                                        setState(() {
-                                          _timeDropDownValue = newValue!;
-                                        });
-                                      },
+                                      onChanged: _isFutureDateActive
+                                          ? (String? newValue) {
+                                              setState(() {
+                                                _timeDropDownValue = newValue!;
+                                              });
+                                            }
+                                          : null,
                                       iconEnabledColor: Colors.lightGreen,
                                     ),
                                   ),
