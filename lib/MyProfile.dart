@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:mobile_app_development_cw2/DriverVerification.dart';
 
 class MyProfile extends StatelessWidget {
   const MyProfile({Key? key}) : super(key: key);
@@ -231,10 +232,13 @@ class MyProfile extends StatelessWidget {
                         const SizedBox(height: 16.0),
                         ElevatedButton(
                           onPressed: () {
-                            // Add your registration logic here
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(builder: (context) => const DriverVerification()),
+                            );
                           },
                           style: ElevatedButton.styleFrom(
-                            primary: Colors.green[900],
+                            backgroundColor: Colors.green[900],
                             shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(10.0),
                             ),
