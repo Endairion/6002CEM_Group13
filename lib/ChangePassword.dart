@@ -169,14 +169,14 @@ class _ChangePasswordState extends State<ChangePassword> {
                       onPressed: () async {
                         await ScaffoldMessenger.of(context).showSnackBar(
                           SnackBar(
-                            content: Text('Password changed successfully'),
-                            duration: Duration(seconds: 2),
+                            content: const Text('Password changed successfully'),
+                            duration: const Duration(seconds: 2),
                             behavior: SnackBarBehavior.floating,
                             shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(16),
                             ),
                             backgroundColor: Colors.green[900],
-                            padding: EdgeInsets.symmetric(vertical: 10, horizontal: 12),
+                            padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 12),
                           ),
                         );
                         Navigator.push(
