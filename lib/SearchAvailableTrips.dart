@@ -41,11 +41,11 @@ class _SearchAvailableTripsState extends State<SearchAvailableTrips> {
     return Scaffold(
       resizeToAvoidBottomInset: false,
       appBar: AppBar(
-        leading: BackButton(
-          color: Colors.white,
+        leading: IconButton(
+          icon: Icon(Icons.arrow_back_ios_rounded),
           onPressed: () => Navigator.of(context).pop(),
         ),
-        backgroundColor: Colors.limeAccent[700],
+        backgroundColor: Colors.lightGreen,
         title: Text(
           'Back to Home',
           style: TextStyle(
@@ -474,7 +474,7 @@ Widget TripCard(List<Trip> trip, int index) {
                   height: 6,
                 ),
                 Padding(
-                  padding: const EdgeInsets.only(left:4),
+                  padding: const EdgeInsets.only(left: 4),
                   child: Text(
                     'Available Seats: ' + trip[index].seats.toString(),
                     style: TextStyle(
