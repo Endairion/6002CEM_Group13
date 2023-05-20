@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:mobile_app_development_cw2/Settings.dart';
-import 'package:mobile_app_development_cw2/main.dart';
+import 'package:mobile_app_development_cw2/views/Login.dart';
 
 import 'EditProfile.dart';
 import 'MyProfile.dart';
@@ -116,7 +116,7 @@ class Profile extends StatelessWidget {
               onPressed: () {
                 Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) => const MyApp()),
+                  MaterialPageRoute(builder: (context) => const Login()),
                 );
               },
               style: ElevatedButton.styleFrom(

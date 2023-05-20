@@ -1,6 +1,7 @@
 {
   "project_info": {
     "project_number": "547502737270",
+    "firebase_url": "https://vtumpang-carpooling-app-default-rtdb.firebaseio.com",
     "project_id": "vtumpang-carpooling-app",
     "storage_bucket": "vtumpang-carpooling-app.appspot.com"
   },
@@ -29,6 +30,13 @@
             {
               "client_id": "547502737270-u0usram5jl2sc9j8s81q8ho4tfp5ocrq.apps.googleusercontent.com",
               "client_type": 3
+            },
+            {
+              "client_id": "547502737270-5knv314e43aqvg7b3mb2l58q29b31qeq.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.mobileAppDevelopmentCw2"
+              }
             }
           ]
         }
