@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:mobile_app_development_cw2/PointsEarn.dart';
+import 'package:mobile_app_development_cw2/PointsEarnCard.dart';
 import 'package:mobile_app_development_cw2/Trip.dart';
 import 'package:mobile_app_development_cw2/TripCard.dart';
 import 'package:mobile_app_development_cw2/TripHistoryCard.dart';
@@ -21,8 +23,8 @@ class _ActivityPageState extends State<ActivityPage> {
     "Points Earned",
   ];
   int current = 0;
-  // List<Trip> _availableTrips = [];
-  List<Trip> _availableTrips = [
+
+  List<Trip> _tripsHistory = [
     Trip(
       id: "abc012",
       startLocation: "Inti International College Penang",
@@ -79,15 +81,53 @@ class _ActivityPageState extends State<ActivityPage> {
     ),
   ];
 
-  double _singleListViewHeight = 135;
+  List<PointsEarn> _pointsEarnedList = [
+    PointsEarn(
+        id: "123",
+        startLocation: "Inti International College Penang Inti International College Penang",
+        destination: "Inti International College Penang Inti International College Penang",
+        date: "15-03-2023",
+        time: "3:00pm",
+        role: "Passenger",
+        points: 50),
+    PointsEarn(
+        id: "123",
+        startLocation: "Inti International College Penang",
+        destination: "Inti International College Penang",
+        date: "15-03-2023",
+        time: "3:00pm",
+        role: "Passenger",
+        points: 50),
+    PointsEarn(
+        id: "123",
+        startLocation: "Inti International College Penang",
+        destination: "Inti International College Penang",
+        date: "15-03-2023",
+        time: "3:00pm",
+        role: "Driver",
+        points: 150),
+    PointsEarn(
+        id: "123",
+        startLocation: "Inti International College Penang",
+        destination: "Inti International College Penang",
+        date: "15-03-2023",
+        time: "3:00pm",
+        role: "Driver",
+        points: 150),
+  ];
+
+  double _singleListViewHeight = 150;
   double _listViewHeight = 400;
 
   @override
   void initState() {
     super.initState();
 
-    if (_availableTrips.length * _singleListViewHeight > 400) {
-      _listViewHeight = _availableTrips.length * _singleListViewHeight;
+    if (_tripsHistory.length * _singleListViewHeight > 400) {
+      _listViewHeight = _tripsHistory.length * _singleListViewHeight;
+    }
+    if (_pointsEarnedList.length * _singleListViewHeight > _listViewHeight) {
+      _listViewHeight = _pointsEarnedList.length * _singleListViewHeight;
     }
   }
 
@@ -174,31 +214,83 @@ class _ActivityPageState extends State<ActivityPage> {
                 ),
               ),
               Padding(
-                padding: const EdgeInsets.fromLTRB(24,8,24,24),
-                child: SizedBox(
-                  height: _listViewHeight,
-                  child: _availableTrips.length > 0
-                      ? ListView.builder(
-                    shrinkWrap: true,
-                    physics: NeverScrollableScrollPhysics(),
-                    itemCount: _availableTrips.length,
-                    itemBuilder: (BuildContext context, int index) {
-                      return TripHistoryCard(_availableTrips,index);
-                    },
-                  )
-                      : const Center(
-                    child: Text(
-                      'There are no trips history available.',
-                      style: TextStyle(
-                        fontStyle: FontStyle.italic,
-                        color: Colors.red,
-                        fontSize: 16,
-                      ),
-                    ),
-                  ),
-                ),
+                padding: const EdgeInsets.fromLTRB(24, 8, 24, 24),
+                child: getHistoryList(current, _listViewHeight, _tripsHistory, _pointsEarnedList),
               )
             ],
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+Widget getHistoryList(int index, double height, List<Trip> tripList, List<PointsEarn> pointsList) {
+  if (index == 0) {
+    return SizedBox(
+      height: height,
+      child: tripList.length > 0
+          ? ListView.builder(
+              shrinkWrap: true,
+              physics: NeverScrollableScrollPhysics(),
+              itemCount: tripList.length,
+              itemBuilder: (BuildContext context, int index) {
+                return TripHistoryCard(tripList, index);
+              },
+            )
+          : const Center(
+              child: Text(
+                'There are no trips history available.',
+                style: TextStyle(
+                  fontStyle: FontStyle.italic,
+                  color: Colors.red,
+                  fontSize: 16,
+                ),
+              ),
+            ),
+    );
+  } else if (index == 1) {
+    return SizedBox(
+      height: height,
+      child: tripList.length > 0
+          ? ListView.builder(
+              shrinkWrap: true,
+              physics: NeverScrollableScrollPhysics(),
+              itemCount: tripList.length,
+              itemBuilder: (BuildContext context, int index) {
+                return TripHistoryCard(tripList, index);
+              },
+            )
+          : const Center(
+              child: Text(
+                'There are no carpool history available.',
+                style: TextStyle(
+                  fontStyle: FontStyle.italic,
+                  color: Colors.red,
+                  fontSize: 16,
+                ),
+              ),
+            ),
+    );
+  } else {
+    return SizedBox(
+      height: height,
+      child: pointsList.length > 0
+          ? ListView.builder(
+        shrinkWrap: true,
+        physics: NeverScrollableScrollPhysics(),
+        itemCount: pointsList.length,
+        itemBuilder: (BuildContext context, int index) {
+          return PointsEarnCard(pointsList, index);
+        },
+      )
+          : const Center(
+        child: Text(
+          'There are no points earned history available.',
+          style: TextStyle(
+            fontStyle: FontStyle.italic,
+            color: Colors.red,
+            fontSize: 16,
           ),
         ),
       ),
