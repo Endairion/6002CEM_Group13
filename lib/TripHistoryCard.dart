@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:mobile_app_development_cw2/Trip.dart';
+import 'package:mobile_app_development_cw2/TripDetails.dart';
 
-Widget TripHistoryCard(List<Trip> trip, int index) {
+Widget TripHistoryCard(BuildContext context, List<Trip> trip, int index) {
   String startLocation;
   String destination;
 
@@ -32,7 +33,11 @@ Widget TripHistoryCard(List<Trip> trip, int index) {
     padding: const EdgeInsets.only(bottom: 12),
     child: GestureDetector(
       onTap: () {
-        print("Container $index clicked");
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+              builder: (context) => const TripDetails()),
+        );
       },
       child: Container(
         height: 125,

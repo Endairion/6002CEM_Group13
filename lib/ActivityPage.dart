@@ -235,7 +235,7 @@ Widget getHistoryList(int index, double height, List<Trip> tripList, List<Points
               physics: NeverScrollableScrollPhysics(),
               itemCount: tripList.length,
               itemBuilder: (BuildContext context, int index) {
-                return TripHistoryCard(tripList, index);
+                return TripHistoryCard(context, tripList, index);
               },
             )
           : const Center(
@@ -258,7 +258,7 @@ Widget getHistoryList(int index, double height, List<Trip> tripList, List<Points
               physics: NeverScrollableScrollPhysics(),
               itemCount: tripList.length,
               itemBuilder: (BuildContext context, int index) {
-                return TripHistoryCard(tripList, index);
+                return TripHistoryCard(context, tripList, index);
               },
             )
           : const Center(
