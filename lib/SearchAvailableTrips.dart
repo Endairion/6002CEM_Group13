@@ -8,18 +8,31 @@ class SearchAvailableTrips extends StatefulWidget {
 }
 
 class _SearchAvailableTripsState extends State<SearchAvailableTrips> {
-  int _itemCount = 5;
-  double _singleListViewHeight = 60;
+  double _singleListViewHeight = 135;
   double _listViewHeight = 100;
+
+  List<Trip> _availableTrips = [
+    Trip("Inti International College Penang", "Queensbay", "25-04-2023",
+        "10:00am", 3),
+    Trip("Inti International College Penang", "Queensbay", "25-04-2023",
+        "10:00am", 3),
+    Trip("Inti International College Penang", "Queensbay", "25-04-2023",
+        "10:00am", 3),
+    Trip("Inti International College Penang", "Queensbay", "25-04-2023",
+        "10:00am", 3),
+    Trip("Inti International College Penang", "Queensbay", "25-04-2023",
+        "10:00am", 3),
+    Trip("Inti International College Penang", "Queensbay", "25-04-2023",
+        "10:00am", 3),
+  ];
 
   @override
   void initState() {
     super.initState();
 
-    if (_itemCount * _singleListViewHeight > 100) {
-      _listViewHeight = _itemCount * _singleListViewHeight;
+    if (_availableTrips.length * _singleListViewHeight > 100) {
+      _listViewHeight = _availableTrips.length * _singleListViewHeight;
     }
-
   }
 
   @override
@@ -281,15 +294,13 @@ class _SearchAvailableTripsState extends State<SearchAvailableTrips> {
                       ),
                       SizedBox(
                         height: _listViewHeight,
-                        child: _itemCount > 0
+                        child: _availableTrips.length > 0
                             ? ListView.builder(
                                 shrinkWrap: true,
                                 physics: NeverScrollableScrollPhysics(),
-                                itemCount: _itemCount,
+                                itemCount: _availableTrips.length,
                                 itemBuilder: (BuildContext context, int index) {
-                                  return ListTile(
-                                    title: Text('Item ${index + 1}'),
-                                  );
+                                  return TripCard(_availableTrips, index);
                                 },
                               )
                             : const Center(
@@ -313,4 +324,169 @@ class _SearchAvailableTripsState extends State<SearchAvailableTrips> {
       ),
     );
   }
+}
+
+class Trip {
+  String startLocation;
+  String destination;
+  String date;
+  String time;
+  int seats;
+
+  Trip(this.startLocation, this.destination, this.date, this.time, this.seats);
+}
+
+Widget TripCard(List<Trip> trip, int index) {
+  String startLocation;
+  String destination;
+
+  if (trip[index].startLocation.length > 35) {
+    startLocation = trip[index].startLocation.substring(0, 35);
+  } else {
+    startLocation = trip[index].startLocation;
+  }
+
+  if (trip[index].destination.length > 35) {
+    destination = trip[index].destination.substring(0, 35);
+  } else {
+    destination = trip[index].destination;
+  }
+
+  return Padding(
+    padding: const EdgeInsets.only(bottom: 12),
+    child: Container(
+      height: 120,
+      decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.all(Radius.circular(20))),
+      child: Padding(
+        padding: const EdgeInsets.fromLTRB(12, 12, 12, 12),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Row(
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.only(right: 4),
+                      child: Container(
+                        width: 20,
+                        height: 20,
+                        decoration: BoxDecoration(
+                          borderRadius: new BorderRadius.circular(30.0),
+                          color: Colors.limeAccent[700],
+                        ),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Text(
+                              'S',
+                              style: TextStyle(
+                                fontSize: 12,
+                                fontWeight: FontWeight.bold,
+                                color: Colors.white,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                    Text(
+                      startLocation,
+                      style: TextStyle(
+                        fontSize: 16,
+                        color: Colors.black87,
+                      ),
+                    ),
+                  ],
+                ),
+                SizedBox(
+                  height: 6,
+                ),
+                Row(
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.only(right: 4),
+                      child: Container(
+                        width: 20,
+                        height: 20,
+                        decoration: BoxDecoration(
+                          borderRadius: new BorderRadius.circular(30.0),
+                          color: Colors.green[900],
+                        ),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Text(
+                              'D',
+                              style: TextStyle(
+                                fontSize: 12,
+                                fontWeight: FontWeight.bold,
+                                color: Colors.white,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                    Text(
+                      destination,
+                      style: TextStyle(
+                        fontSize: 16,
+                        color: Colors.black87,
+                      ),
+                    ),
+                  ],
+                ),
+                SizedBox(
+                  height: 6,
+                ),
+                Row(
+                  children: [
+                    Text(
+                      'Date: ' + trip[index].date,
+                      style: TextStyle(
+                        fontSize: 14,
+                        color: Colors.black87,
+                      ),
+                    ),
+                    SizedBox(
+                      width: 12,
+                    ),
+                    Text(
+                      'Time: ' + trip[index].time,
+                      style: TextStyle(
+                        fontSize: 14,
+                        color: Colors.black87,
+                      ),
+                    ),
+                  ],
+                ),
+                SizedBox(
+                  height: 6,
+                ),
+                Text(
+                  'Available Seats: ' + trip[index].seats.toString(),
+                  style: TextStyle(
+                    fontSize: 14,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.red[300],
+                  ),
+                ),
+              ],
+            ),
+            Icon(
+              Icons.navigate_next,
+              size: 45,
+              color: Colors.green[900],
+            ),
+          ],
+        ),
+      ),
+    ),
+  );
 }
