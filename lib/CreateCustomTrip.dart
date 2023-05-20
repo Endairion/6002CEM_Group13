@@ -18,61 +18,6 @@ class CreateCustomTrip extends StatefulWidget {
 }
 
 class _CreateCustomTripState extends State<CreateCustomTrip> {
-  // Set Initial Selected Value
-  String _dropDownValue = '1';
-  // List of items in available seats menu
-  final _seatValue = ['1', '2', '3', '4', '5', '6'];
-
-  bool _pickupNotificationIsChecked = false;
-
-  int _departureValue = 1;
-
-  bool _isFutureDateActive = false;
-
-  // Set Initial Selected Value for future time
-  String _timeDropDownValue = 'Select future time';
-  // List of items in available seats menu
-  final _timeValue = [
-    'Select future time',
-    '5:00 am',
-    '6:00 am',
-    '7:00 am',
-    '8:00 am',
-    '9:00am',
-    '10:00 am',
-    '11:00am',
-    '12:00 pm',
-    '1:00 pm',
-    '2:00 pm',
-    '3:00 pm',
-    '4:00 pm',
-    '5:00 pm',
-    '6:00 pm',
-    '7:00 pm',
-    '8:00 pm',
-    '9:00 pm',
-    '10:00 pm',
-    '11:00 pm',
-    '12:00 am'
-  ];
-
-  //future date picker
-  DateTime selectedDate = DateTime.now();
-  String selectedDateText = 'Set future date';
-
-  Future<void> _selectDate(BuildContext context) async {
-    final DateTime? picked = await showDatePicker(
-        context: context,
-        initialDate: selectedDate,
-        firstDate: selectedDate,
-        lastDate: DateTime(2100));
-    if (picked != null && picked != selectedDate) {
-      setState(() {
-        selectedDate = picked;
-        selectedDateText = DateFormat("dd-MM-yyyy").format(selectedDate);
-      });
-    }
-  }
 
   final TextEditingController _controller = TextEditingController();
   final TextEditingController _controller2 = TextEditingController();
@@ -182,12 +127,22 @@ class _CreateCustomTripState extends State<CreateCustomTrip> {
               ),
             ),
             constraints: BoxConstraints.expand(),
-            child: Column(
-              children: [
-                Padding(
-                  padding: const EdgeInsets.only(top: 32, left: 32, right: 32),
-                  child: Container(
-                    height: 520,
+            child: Padding(
+              padding: const EdgeInsets.fromLTRB(32,32,32,0),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.only(left:8, bottom: 16),
+                    child: Text('Create a custom request',
+                    style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                      color: Colors.white,
+                      fontSize: 24,
+                    ),),
+                  ),
+                  Container(
+                    height: 460,
                     width: double.infinity,
                     decoration: BoxDecoration(
                       border: Border.all(
@@ -198,8 +153,9 @@ class _CreateCustomTripState extends State<CreateCustomTrip> {
                     ),
                     child: Padding(
                       padding:
-                      const EdgeInsets.only(top: 16, left: 16, right: 16),
+                          const EdgeInsets.only(top: 16, left: 16, right: 16),
                       child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           TextField(
                             controller: _controller,
@@ -245,7 +201,7 @@ class _CreateCustomTripState extends State<CreateCustomTrip> {
                                 onTap: () {
                                   setState(() {
                                     _controller.text =
-                                    _placeList[index]["description"];
+                                        _placeList[index]["description"];
                                     _placeList.clear();
                                     _focus.requestFocus();
                                   });
@@ -290,7 +246,7 @@ class _CreateCustomTripState extends State<CreateCustomTrip> {
                                 onTap: () {
                                   setState(() {
                                     _controller2.text =
-                                    _placeList2[index]["description"];
+                                        _placeList2[index]["description"];
                                     _placeList2.clear();
                                     _focusDropdown.requestFocus();
                                   });
@@ -298,196 +254,147 @@ class _CreateCustomTripState extends State<CreateCustomTrip> {
                               );
                             },
                           ),
-                          Container(
-                            child: Row(
-                              children: [
-                                Padding(
-                                  padding:
-                                  const EdgeInsets.only(left: 8, right: 8),
-                                  child: Text('Available seat: '),
-                                ),
-                                Container(
-                                  width: 60,
-                                  child: DropdownButton(
-                                    focusNode: _focusDropdown,
-                                    isExpanded: true,
-                                    value: _dropDownValue,
-                                    items: _seatValue.map((String items) {
-                                      return DropdownMenuItem(
-                                        value: items,
-                                        child: Text(items),
-                                      );
-                                    }).toList(),
-                                    onChanged: (String? newValue) {
-                                      setState(() {
-                                        _dropDownValue = newValue!;
-                                      });
-                                    },
-                                    iconEnabledColor: Colors.lightGreen,
+                          SizedBox(
+                            height: 16,
+                          ),
+                          Row(
+                            children: [
+                              SizedBox(width: 8,),
+                              Text('Time: ',
+                              style: TextStyle(
+                                fontSize: 16,
+                              ),),
+                              SizedBox(
+                                width: 8,
+                              ),
+                              Container(
+                                width: 150,
+                                height: 30,
+                                decoration: BoxDecoration(
+                                  color: Colors.green[900],
+                                  borderRadius: BorderRadius.circular(4),
+                                  border: Border.all(
+                                    color: Colors.green.shade900,
+                                    width: 2,
                                   ),
                                 ),
-                              ],
+                                child: Center(
+                                  child: Text(
+                                    'Now',
+                                    style: TextStyle(
+                                      color: Colors.white,
+                                      fontSize: 16,
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+                          SizedBox(
+                            height: 16,
+                          ),
+                          TextField(
+                            onTap: () {},
+                            keyboardType: TextInputType.text,
+                            cursorColor: Colors.lightGreen,
+                            decoration: InputDecoration(
+                                contentPadding: EdgeInsets.symmetric(
+                                    vertical: 8, horizontal: 16),
+                                filled: true,
+                                fillColor: Colors.grey[200],
+                                border: OutlineInputBorder(),
+                                hintText: 'Remarks',
+                                enabledBorder: OutlineInputBorder(
+                                  borderSide: BorderSide(
+                                    width: 1,
+                                    color: Colors.grey.shade300,
+                                  ),
+                                  borderRadius: BorderRadius.circular(10),
+                                ),),
+                            style: TextStyle(
+                              fontSize: 12,
                             ),
+                            minLines: 7,
+                            maxLines: 7,
                           ),
-                          Row(
+                          SizedBox(
+                            height: 16,
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.only(left:8.0),
+                            child: Text('Note:',
+                            style: TextStyle(
+                              fontSize: 14,
+                              color: Colors.red,
+                              fontStyle: FontStyle.italic,
+                            ),),
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.only(left:8.0),
+                            child: Text('The request will auto expire in 30 minutes',
+                              style: TextStyle(
+                                fontSize: 14,
+                                color: Colors.red,
+                                fontStyle: FontStyle.italic,
+                              ),),
+                          ),
+                          SizedBox(
+                            height: 22,
+                          ),
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              Checkbox(
-                                  checkColor: Colors.white,
-                                  activeColor: Colors.green[900],
-                                  value: _pickupNotificationIsChecked,
-                                  onChanged: (bool? value) {
-                                    setState(() {
-                                      _pickupNotificationIsChecked = value!;
-                                    });
-                                  }),
-                              Padding(
-                                padding: const EdgeInsets.only(top: 8),
-                                child: Text(
-                                    'Enable pickup recommendation \nnotification'),
-                              ),
-                            ],
-                          ),
-                          Container(
-                              padding: const EdgeInsets.only(top: 16, left: 8),
-                              width: double.infinity,
-                              child: Text('Departure Date & Time:')),
-                          Row(
-                            children: [
-                              MyRadioListTile<int>(
-                                value: 1,
-                                groupValue: _departureValue,
-                                leading: 'Now',
-                                onChanged: (value) => setState(() {
-                                  _departureValue = value!;
-                                  _isFutureDateActive = false;
-                                }),
-                              ),
-                              MyRadioListTile<int>(
-                                value: 2,
-                                groupValue: _departureValue,
-                                leading: 'Future',
-                                onChanged: (value) => setState(() {
-                                  _departureValue = value!;
-                                  _isFutureDateActive = true;
-                                }),
-                              ),
-                            ],
-                          ),
-                          Container(
-                            alignment: Alignment.centerLeft,
-                            padding: const EdgeInsets.only(left: 8),
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                ElevatedButton(
-                                  onPressed: _isFutureDateActive ? () {
-                                    _selectDate(context);
-                                  } : null,
-                                  child: Row(
-                                    mainAxisSize: MainAxisSize.min,
-                                    children: [
-                                      Text(
-                                        selectedDateText,
+                              Container(
+                                child: Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    ElevatedButton(
+                                      onPressed: () {},
+                                      child: Text(
+                                        'Cancel',
                                         style: TextStyle(
-                                          color: Colors.lightGreen[700],
+                                          fontWeight: FontWeight.bold,
+                                          fontSize: 18,
                                         ),
                                       ),
-                                      Padding(
-                                        padding: const EdgeInsets.only(left: 4),
-                                        child: Icon(
-                                          Icons.calendar_month,
-                                          color: Colors.lightGreen[700],
-                                        ),
-                                      )
-                                    ],
-                                  ),
-                                  style: ElevatedButton.styleFrom(
-                                    backgroundColor: Colors.white,
-                                    side: const BorderSide(
-                                      width: 2.0,
-                                      color: Colors.lightGreen,
-                                    ),
-                                  ),
-                                ),
-                                Container(
-                                  width: 180,
-                                  child: Padding(
-                                    padding: const EdgeInsets.only(left: 4),
-                                    child: DropdownButton(
-                                      isExpanded: true,
-                                      value: _timeDropDownValue,
-                                      items: _timeValue.map((String item) {
-                                        return DropdownMenuItem(
-                                          value: item,
-                                          child: Text(item),
-                                        );
-                                      }).toList(),
-                                      onChanged: _isFutureDateActive
-                                          ? (String? newValue) {
-                                        setState(() {
-                                          _timeDropDownValue = newValue!;
-                                        });
-                                      }
-                                          : null,
-                                      iconEnabledColor: Colors.lightGreen,
-                                    ),
-                                  ),
-                                ),
-                                Padding(
-                                  padding: const EdgeInsets.only(top: 40.0),
-                                  child: Container(
-                                    child: Row(
-                                      mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
-                                      children: [
-                                        ElevatedButton(
-                                          onPressed: () {},
-                                          child: Text(
-                                            'Cancel',
-                                            style: TextStyle(
-                                              fontWeight: FontWeight.bold,
-                                              fontSize: 18,
-                                            ),
-                                          ),
-                                          style: ElevatedButton.styleFrom(
-                                              minimumSize: Size(140, 40),
-                                              backgroundColor: Colors.red[700],
-                                              shape: RoundedRectangleBorder(
-                                                borderRadius:
+                                      style: ElevatedButton.styleFrom(
+                                          minimumSize: Size(130, 40),
+                                          backgroundColor: Colors.red[700],
+                                          shape: RoundedRectangleBorder(
+                                            borderRadius:
                                                 BorderRadius.circular(10.0),
-                                              )),
+                                          )),
+                                    ),
+                                    ElevatedButton(
+                                      onPressed: () {},
+                                      child: Text(
+                                        'Submit',
+                                        style: TextStyle(
+                                          fontWeight: FontWeight.bold,
+                                          fontSize: 18,
                                         ),
-                                        ElevatedButton(
-                                          onPressed: () {},
-                                          child: Text(
-                                            'Go',
-                                            style: TextStyle(
-                                              fontWeight: FontWeight.bold,
-                                              fontSize: 18,
-                                            ),
-                                          ),
-                                          style: ElevatedButton.styleFrom(
-                                              minimumSize: Size(140, 40),
-                                              backgroundColor:
+                                      ),
+                                      style: ElevatedButton.styleFrom(
+                                          minimumSize: Size(130, 40),
+                                          backgroundColor:
                                               Colors.lightGreen,
-                                              shape: RoundedRectangleBorder(
-                                                borderRadius:
+                                          shape: RoundedRectangleBorder(
+                                            borderRadius:
                                                 BorderRadius.circular(10.0),
-                                              )),
-                                        ),
-                                      ],
+                                          )),
                                     ),
-                                  ),
-                                )
-                              ],
-                            ),
+                                  ],
+                                ),
+                              ),
+                            ],
                           ),
                         ],
                       ),
                     ),
                   ),
-                ),
-              ],
+                ],
+              ),
             )),
       ),
     );
