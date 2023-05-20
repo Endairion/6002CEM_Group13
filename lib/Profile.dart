@@ -2,6 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:mobile_app_development_cw2/Settings.dart';
 import 'package:mobile_app_development_cw2/views/Login.dart';
 
+import 'EditProfile.dart';
+import 'MyProfile.dart';
+
 class Profile extends StatelessWidget {
   const Profile({Key? key}) : super(key: key);
   @override
@@ -21,9 +24,18 @@ class Profile extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            CircleAvatar(
-              radius: 50.0,
-              backgroundImage: AssetImage('assets/logo.png'),
+            Container(
+              decoration: BoxDecoration(
+                shape: BoxShape.circle,
+                border: Border.all(
+                  color: Colors.white,
+                  width: 4.0,
+                ),
+              ),
+              child: const CircleAvatar(
+                radius: 50.0,
+                backgroundImage: AssetImage('assets/logo.png'),
+              ),
             ),
             const SizedBox(height: 10.0),
             const Text(
@@ -35,7 +47,12 @@ class Profile extends StatelessWidget {
             ),
             const SizedBox(height: 30.0),
             ElevatedButton.icon(
-              onPressed: () {},
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => const MyProfile()),
+                );
+              },
               style: ElevatedButton.styleFrom(
                 foregroundColor: Colors.black,
                 backgroundColor: Colors.white,
@@ -52,7 +69,12 @@ class Profile extends StatelessWidget {
             ),
             const SizedBox(height: 10.0),
             ElevatedButton.icon(
-              onPressed: () {},
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => const EditProfile()),
+                );
+              },
               style: ElevatedButton.styleFrom(
                 foregroundColor: Colors.black,
                 backgroundColor: Colors.white,

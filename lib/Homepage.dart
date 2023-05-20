@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:mobile_app_development_cw2/PlanTrip.dart';
+import 'package:mobile_app_development_cw2/SearchAvailableTrips.dart';
 
 void main() {
   runApp(const Homepage());
@@ -14,11 +15,11 @@ class Homepage extends StatelessWidget {
       body: Column(
         children: [
           Container(
-            height: 140,
+            height: 160,
             width: double.infinity,
             color: Colors.limeAccent[700],
             child: Padding(
-              padding: const EdgeInsets.only(left: 16, bottom: 12),
+              padding: const EdgeInsets.only(left: 24, bottom: 12),
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.end,
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -108,7 +109,7 @@ class Homepage extends StatelessWidget {
             ),
           ),
           Padding(
-            padding: const EdgeInsets.only(left: 16, right: 16, top: 16),
+            padding: const EdgeInsets.only(left: 24, right: 24, top: 16),
             child: Container(
               width: double.infinity,
               child: Column(
@@ -189,7 +190,13 @@ class Homepage extends StatelessWidget {
                     ),
                   ),
                   ElevatedButton(
-                    onPressed: () {},
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => const SearchAvailableTrips()),
+                      );
+                    },
                     style: ElevatedButton.styleFrom(
                         padding: EdgeInsets.zero,
                         shape: RoundedRectangleBorder(
@@ -234,6 +241,40 @@ class Homepage extends StatelessWidget {
                           ),
                         ],
                       ),
+                    ),
+                  ),
+                  SizedBox(
+                    height: 24,
+                  ),
+                  Text(
+                    'Trips Nearby',
+                    style: TextStyle(
+                      fontSize: 18,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.grey[850],
+                    ),
+                  ),
+                  SizedBox(
+                    height: 12,
+                  ),
+                  ClipRRect(
+                    borderRadius: BorderRadius.circular(20), // Image border
+                    child: Image.asset(
+                      'assets/trips_nearby.png',
+                      height: 140,
+                      width: double.infinity,
+                      fit: BoxFit.fill,
+                    ),
+                  ),
+                  SizedBox(
+                    height: 16,
+                  ),
+                  Text(
+                    'Tips & Tricks',
+                    style: TextStyle(
+                      fontSize: 18,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.grey[850],
                     ),
                   ),
                 ],
