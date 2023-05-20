@@ -100,33 +100,24 @@ class HelpSupport extends StatelessWidget {
               color: Colors.grey[500],
             ),
           ),
-          SizedBox(height: 16),
+          const SizedBox(height: 16),
           Image.asset(
             'assets/prof_team.jpg',
             width: 550,
             height: 140,
           ),
-
-          SizedBox(width: 8),
-
-          Text(
+          const Text(
             'We’re here to help!',
             style: TextStyle(
               fontWeight: FontWeight.bold,
               fontSize: 16,
             ),
           ),
-
-          SizedBox(width: 8),
-
-          Container(
-            child: Image.asset(
-              'assets/prof_team2.jpg',
-              width: 500,
-              height: 135,
-            ),
+          Image.asset(
+            'assets/prof_team2.jpg',
+            width: 500,
+            height: 135,
           )
-
         ],
       ),
     );
