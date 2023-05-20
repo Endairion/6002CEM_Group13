@@ -65,7 +65,7 @@ class _PlanTripState extends State<PlanTrip> {
         context: context,
         initialDate: selectedDate,
         firstDate: selectedDate,
-        lastDate: DateTime(2101));
+        lastDate: DateTime(2100));
     if (picked != null && picked != selectedDate) {
       setState(() {
         selectedDate = picked;
@@ -161,15 +161,15 @@ class _PlanTripState extends State<PlanTrip> {
       home: Scaffold(
         resizeToAvoidBottomInset: false,
         appBar: AppBar(
-          leading: BackButton(
-            color: Colors.white,
+          leading: IconButton(
+            icon: Icon(Icons.arrow_back_ios_rounded),
             onPressed: () => Navigator.of(context).pop(),
           ),
           backgroundColor: Colors.lightGreen,
           title: Text(
             'Plan a trip',
             style: TextStyle(
-              fontSize: 24,
+              fontSize: 20,
               fontWeight: FontWeight.bold,
             ),
           ),
