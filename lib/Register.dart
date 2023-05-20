@@ -135,14 +135,18 @@ class _RegisterState extends State<Register> {
                               keyboardType: TextInputType.phone,
                             ),
                             const SizedBox(height: 8),
-                            TextField(
+                            TextFormField(
+                              controller: _model.passwordController,
+                              validator: _model.passwordValidator,
                               decoration: ThemeHelper()
                                   .textInputDecoration("Password", "Password"),
                               cursorColor: Colors.lightGreen,
                               obscureText: true,
                             ),
                             const SizedBox(height: 8),
-                            TextField(
+                            TextFormField(
+                              controller: _model.confirmPasswordController,
+                              validator: _model.confirmPasswordValidator,
                               decoration: ThemeHelper().textInputDecoration(
                                   "Confirm Password", "Confirm Password"),
                               cursorColor: Colors.lightGreen,
