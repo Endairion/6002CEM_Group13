@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:mobile_app_development_cw2/CreateCustomTrip.dart';
 
 class SearchAvailableTrips extends StatefulWidget {
   const SearchAvailableTrips({Key? key}) : super(key: key);
@@ -197,11 +198,11 @@ class _SearchAvailableTripsState extends State<SearchAvailableTrips> {
                       ),
                       ElevatedButton(
                         onPressed: () {
-                          // Navigator.push(
-                          //   context,
-                          //   MaterialPageRoute(
-                          //       builder: (context) => const SearchAvailableTrips()),
-                          // );
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => const CreateCustomTrip()),
+                          );
                         },
                         style: ElevatedButton.styleFrom(
                             padding: EdgeInsets.zero,
@@ -360,7 +361,7 @@ Widget TripCard(List<Trip> trip, int index) {
           color: Colors.white,
           borderRadius: BorderRadius.all(Radius.circular(20))),
       child: Padding(
-        padding: const EdgeInsets.fromLTRB(12, 12, 12, 12),
+        padding: const EdgeInsets.fromLTRB(12, 14, 12, 12),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
@@ -447,6 +448,9 @@ Widget TripCard(List<Trip> trip, int index) {
                 ),
                 Row(
                   children: [
+                    SizedBox(
+                      width: 4,
+                    ),
                     Text(
                       'Date: ' + trip[index].date,
                       style: TextStyle(
@@ -469,12 +473,15 @@ Widget TripCard(List<Trip> trip, int index) {
                 SizedBox(
                   height: 6,
                 ),
-                Text(
-                  'Available Seats: ' + trip[index].seats.toString(),
-                  style: TextStyle(
-                    fontSize: 14,
-                    fontWeight: FontWeight.bold,
-                    color: Colors.red[300],
+                Padding(
+                  padding: const EdgeInsets.only(left:4),
+                  child: Text(
+                    'Available Seats: ' + trip[index].seats.toString(),
+                    style: TextStyle(
+                      fontSize: 14,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.red[300],
+                    ),
                   ),
                 ),
               ],
