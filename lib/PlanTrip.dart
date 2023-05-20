@@ -65,7 +65,7 @@ class _PlanTripState extends State<PlanTrip> {
         context: context,
         initialDate: selectedDate,
         firstDate: selectedDate,
-        lastDate: DateTime(2101));
+        lastDate: DateTime(2100));
     if (picked != null && picked != selectedDate) {
       setState(() {
         selectedDate = picked;
