@@ -54,6 +54,7 @@ class DefaultFirebaseOptions {
     appId: '1:547502737270:android:73fc681aa8b20fc6ba5c57',
     messagingSenderId: '547502737270',
     projectId: 'vtumpang-carpooling-app',
+    databaseURL: 'https://vtumpang-carpooling-app-default-rtdb.firebaseio.com',
     storageBucket: 'vtumpang-carpooling-app.appspot.com',
   );
 
@@ -62,6 +63,7 @@ class DefaultFirebaseOptions {
     appId: '1:547502737270:ios:938ca170b4c145a5ba5c57',
     messagingSenderId: '547502737270',
     projectId: 'vtumpang-carpooling-app',
+    databaseURL: 'https://vtumpang-carpooling-app-default-rtdb.firebaseio.com',
     storageBucket: 'vtumpang-carpooling-app.appspot.com',
     iosClientId: '547502737270-5knv314e43aqvg7b3mb2l58q29b31qeq.apps.googleusercontent.com',
     iosBundleId: 'com.example.mobileAppDevelopmentCw2',

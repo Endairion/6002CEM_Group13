@@ -1,0 +1,15 @@
+import 'package:mobile_app_development_cw2/services/firebase_service.dart';
+import 'package:mobile_app_development_cw2/viewmodels/register_viewmodel.dart';
+import 'package:get_it/get_it.dart';
+
+
+GetIt locator = GetIt.instance;
+
+Future<void> setUpLocator() async{
+  //services
+  locator.registerSingleton<FirebaseService>(FirebaseService());
+
+  //viewmodel
+  locator.registerFactory<RegisterViewModel>(() => RegisterViewModel());
+
+}

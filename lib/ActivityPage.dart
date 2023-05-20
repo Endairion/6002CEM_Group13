@@ -22,6 +22,30 @@ class ActivityPage extends StatelessWidget {
             ),
           ),
         ),
-        body: Text('data'));
+        body: ListView(
+          scrollDirection: Axis.horizontal,
+          children: [
+            Container(
+              decoration: BoxDecoration(
+                color: Colors.green,
+                borderRadius: BorderRadius.circular(20)
+              ),
+            ),
+            Container(
+              decoration: BoxDecoration(
+                  color: Colors.green,
+                  borderRadius: BorderRadius.circular(20)
+              ),
+            ),
+            Container(
+              decoration: BoxDecoration(
+                  color: Colors.green,
+                  borderRadius: BorderRadius.circular(20)
+              ),
+            ),
+          ],
+
+        )
+    );
   }
 }
