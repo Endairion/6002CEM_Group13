@@ -109,7 +109,8 @@ flutter:
     - assets/splash_screen.png
     - assets/prof_team.jpg
     - assets/prof_team2.jpg
-    - assets/trips_nearby.png
+    - assets/trips_nearby.png    - assets/rewards_bg.png
+
 
 
   #   - images/a_dot_burr.jpeg
