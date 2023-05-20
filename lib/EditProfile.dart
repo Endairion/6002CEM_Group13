@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:mobile_app_development_cw2/common/theme_helper.dart';
-
 import 'Profile.dart';
 
 class EditProfile extends StatelessWidget {
@@ -10,7 +9,7 @@ class EditProfile extends StatelessWidget {
   Widget build(BuildContext context) {
     TextEditingController nameController = TextEditingController(text: 'Li Ting Ting');
     TextEditingController emailController = TextEditingController(text: 'tingting@gmail.com');
-    TextEditingController dobController = TextEditingController(text: '1/4/2000');
+    TextEditingController dobController = TextEditingController(text: '01/04/2000');
     TextEditingController contactController = TextEditingController(text: '0123456789');
     TextEditingController ICNoController = TextEditingController(text: '000401070476');
     return Scaffold(
@@ -122,9 +121,32 @@ class EditProfile extends StatelessWidget {
                             ),
                           ],
                         ),
-                        child: TextField(
-                          controller: dobController,
-                          decoration: ThemeHelper().editProfileInput(),
+                        child: Stack(
+                          alignment: Alignment.topRight,
+                          children: [
+                            TextField(
+                              controller: dobController,
+                              decoration: ThemeHelper().editProfileInput(),
+                            ),
+                            IconButton(
+                              icon: Icon(Icons.calendar_month),
+                              color: Colors.grey,
+                              onPressed: () async {
+                                DateTime? date = await showDatePicker(
+                                  context: context,
+                                  initialDate: DateTime.now(),
+                                  firstDate: DateTime(1950),
+                                  lastDate: DateTime.now(),
+                                );
+                                if (date != null) {
+                                  String formattedDate =
+                                      '${date.day.toString().padLeft(2, '0')}/${date.month.toString().padLeft(2, '0')}/${date.year}';
+                                  dobController.text = formattedDate;
+                                  print(formattedDate);
+                                }
+                              },
+                            ),
+                          ],
                         ),
                       ),
                       SizedBox(height: 16.0),
