@@ -68,82 +68,40 @@ class _SearchAvailableTripsState extends State<SearchAvailableTrips> {
             children: [
               Padding(
                 padding: const EdgeInsets.fromLTRB(24, 24, 24, 24),
-                child: Expanded(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Container(
-                        height: 140,
-                        width: double.infinity,
-                        decoration: BoxDecoration(
-                            color: Colors.white,
-                            borderRadius:
-                                BorderRadius.all(Radius.circular(20))),
-                        child: Padding(
-                          padding: const EdgeInsets.fromLTRB(14, 14, 14, 14),
-                          child: Row(
-                            crossAxisAlignment: CrossAxisAlignment.stretch,
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Column(
-                                mainAxisSize: MainAxisSize.min,
-                                children: [
-                                  Container(
-                                    height: 50,
-                                    width: 240,
-                                    child: TextField(
-                                      onTap: () {},
-                                      keyboardType: TextInputType.text,
-                                      cursorColor: Colors.lightGreen,
-                                      decoration: InputDecoration(
-                                          contentPadding: EdgeInsets.symmetric(
-                                              vertical: 0, horizontal: 16),
-                                          filled: true,
-                                          fillColor: Colors.grey[200],
-                                          border: OutlineInputBorder(),
-                                          hintText:
-                                              'Enter your starting location',
-                                          enabledBorder: OutlineInputBorder(
-                                            borderSide: BorderSide(
-                                              width: 1,
-                                              color: Colors.grey.shade300,
-                                            ),
-                                            borderRadius:
-                                                BorderRadius.circular(10),
-                                          ),
-                                          suffixIcon: IconButton(
-                                            icon: Icon(
-                                              Icons.my_location,
-                                              color: Colors.grey[400],
-                                            ),
-                                            onPressed: () {
-                                              print('Pressed my location');
-                                            },
-                                          )),
-                                      style: TextStyle(
-                                        fontSize: 12,
-                                      ),
-                                      minLines: 1,
-                                      maxLines: 1,
-                                    ),
-                                  ),
-                                  SizedBox(
-                                    height: 12,
-                                  ),
-                                  Container(
-                                    height: 50,
-                                    width: 240,
-                                    child: TextField(
-                                      keyboardType: TextInputType.text,
-                                      cursorColor: Colors.lightGreen,
-                                      decoration: InputDecoration(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Container(
+                      height: 140,
+                      width: double.infinity,
+                      decoration: BoxDecoration(
+                          color: Colors.white,
+                          borderRadius:
+                              BorderRadius.all(Radius.circular(20))),
+                      child: Padding(
+                        padding: const EdgeInsets.fromLTRB(14, 14, 14, 14),
+                        child: Row(
+                          crossAxisAlignment: CrossAxisAlignment.stretch,
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Column(
+                              mainAxisSize: MainAxisSize.min,
+                              children: [
+                                Container(
+                                  height: 50,
+                                  width: 240,
+                                  child: TextField(
+                                    onTap: () {},
+                                    keyboardType: TextInputType.text,
+                                    cursorColor: Colors.lightGreen,
+                                    decoration: InputDecoration(
                                         contentPadding: EdgeInsets.symmetric(
                                             vertical: 0, horizontal: 16),
                                         filled: true,
                                         fillColor: Colors.grey[200],
                                         border: OutlineInputBorder(),
                                         hintText:
-                                            'Enter your destination location',
+                                            'Enter your starting location',
                                         enabledBorder: OutlineInputBorder(
                                           borderSide: BorderSide(
                                             width: 1,
@@ -152,171 +110,211 @@ class _SearchAvailableTripsState extends State<SearchAvailableTrips> {
                                           borderRadius:
                                               BorderRadius.circular(10),
                                         ),
-                                      ),
-                                      style: TextStyle(
-                                        fontSize: 12,
-                                      ),
-                                      minLines: 1,
-                                      maxLines: 1,
+                                        suffixIcon: IconButton(
+                                          icon: Icon(
+                                            Icons.my_location,
+                                            color: Colors.grey[400],
+                                          ),
+                                          onPressed: () {
+                                            print('Pressed my location');
+                                          },
+                                        )),
+                                    style: TextStyle(
+                                      fontSize: 12,
                                     ),
+                                    minLines: 1,
+                                    maxLines: 1,
                                   ),
-                                ],
-                              ),
-                              ElevatedButton(
-                                onPressed: () {},
-                                style: ElevatedButton.styleFrom(
-                                  padding: EdgeInsets.zero,
-                                  shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(10)),
-                                  backgroundColor: Colors.limeAccent[700],
                                 ),
-                                child: Column(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: [
-                                    Icon(
-                                      Icons.search,
-                                      size: 50,
-                                    ),
-                                    SizedBox(
-                                      height: 12,
-                                    ),
-                                    Text(
-                                      'Search',
-                                      style: TextStyle(
-                                        fontSize: 16,
+                                SizedBox(
+                                  height: 12,
+                                ),
+                                Container(
+                                  height: 50,
+                                  width: 240,
+                                  child: TextField(
+                                    keyboardType: TextInputType.text,
+                                    cursorColor: Colors.lightGreen,
+                                    decoration: InputDecoration(
+                                      contentPadding: EdgeInsets.symmetric(
+                                          vertical: 0, horizontal: 16),
+                                      filled: true,
+                                      fillColor: Colors.grey[200],
+                                      border: OutlineInputBorder(),
+                                      hintText:
+                                          'Enter your destination location',
+                                      enabledBorder: OutlineInputBorder(
+                                        borderSide: BorderSide(
+                                          width: 1,
+                                          color: Colors.grey.shade300,
+                                        ),
+                                        borderRadius:
+                                            BorderRadius.circular(10),
                                       ),
                                     ),
-                                  ],
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                      ),
-                      SizedBox(
-                        height: 12,
-                      ),
-                      ElevatedButton(
-                        onPressed: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => const CreateCustomTrip()),
-                          );
-                        },
-                        style: ElevatedButton.styleFrom(
-                            padding: EdgeInsets.zero,
-                            shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(10))),
-                        child: Ink(
-                          decoration: BoxDecoration(
-                              gradient: LinearGradient(colors: [
-                                Colors.green.shade900,
-                                Colors.lightGreen.shade700
-                              ]),
-                              borderRadius: BorderRadius.circular(10)),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Padding(
-                                padding: const EdgeInsets.only(
-                                    left: 16.0, top: 10, bottom: 10),
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Text(
-                                      'Request for trips',
-                                      style: TextStyle(
-                                        fontSize: 18,
-                                        fontWeight: FontWeight.bold,
-                                      ),
+                                    style: TextStyle(
+                                      fontSize: 12,
                                     ),
-                                    Text(
-                                      'Create a custom request',
-                                      style: TextStyle(
-                                        fontSize: 10,
-                                        color: Colors.lightGreen,
-                                      ),
-                                    ),
-                                  ],
+                                    minLines: 1,
+                                    maxLines: 1,
+                                  ),
                                 ),
-                              ),
-                              Icon(
-                                Icons.navigate_next,
-                                size: 45,
-                                color: Colors.white,
-                              ),
-                            ],
-                          ),
-                        ),
-                      ),
-                      SizedBox(
-                        height: 12,
-                      ),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Padding(
-                            padding: const EdgeInsets.only(left: 12),
-                            child: Text(
-                              'Available Trips',
-                              style: TextStyle(
-                                fontSize: 20,
-                                fontWeight: FontWeight.bold,
-                                color: Colors.white,
-                              ),
+                              ],
                             ),
-                          ),
-                          ElevatedButton(
+                            ElevatedButton(
                               onPressed: () {},
                               style: ElevatedButton.styleFrom(
-                                backgroundColor: Colors.transparent,
-                                foregroundColor: Colors.black54,
-                                elevation: 0,
+                                padding: EdgeInsets.zero,
+                                shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(10)),
+                                backgroundColor: Colors.limeAccent[700],
                               ),
-                              child: Row(
+                              child: Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
                                 children: [
                                   Icon(
-                                    Icons.filter_alt,
-                                    size: 30,
+                                    Icons.search,
+                                    size: 50,
+                                  ),
+                                  SizedBox(
+                                    height: 12,
                                   ),
                                   Text(
-                                    'Filter',
+                                    'Search',
                                     style: TextStyle(
                                       fontSize: 16,
                                     ),
-                                  )
+                                  ),
                                 ],
-                              )),
-                        ],
+                              ),
+                            ),
+                          ],
+                        ),
                       ),
-                      SizedBox(
-                        height: 12,
+                    ),
+                    SizedBox(
+                      height: 12,
+                    ),
+                    ElevatedButton(
+                      onPressed: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => const CreateCustomTrip()),
+                        );
+                      },
+                      style: ElevatedButton.styleFrom(
+                          padding: EdgeInsets.zero,
+                          shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(10))),
+                      child: Ink(
+                        decoration: BoxDecoration(
+                            gradient: LinearGradient(colors: [
+                              Colors.green.shade900,
+                              Colors.lightGreen.shade700
+                            ]),
+                            borderRadius: BorderRadius.circular(10)),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Padding(
+                              padding: const EdgeInsets.only(
+                                  left: 16.0, top: 10, bottom: 10),
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    'Request for trips',
+                                    style: TextStyle(
+                                      fontSize: 18,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  ),
+                                  Text(
+                                    'Create a custom request',
+                                    style: TextStyle(
+                                      fontSize: 10,
+                                      color: Colors.lightGreen,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                            Icon(
+                              Icons.navigate_next,
+                              size: 45,
+                              color: Colors.white,
+                            ),
+                          ],
+                        ),
                       ),
-                      SizedBox(
-                        height: _listViewHeight,
-                        child: _availableTrips.length > 0
-                            ? ListView.builder(
-                                shrinkWrap: true,
-                                physics: NeverScrollableScrollPhysics(),
-                                itemCount: _availableTrips.length,
-                                itemBuilder: (BuildContext context, int index) {
-                                  return TripCard(_availableTrips, index);
-                                },
-                              )
-                            : const Center(
-                                child: Text(
-                                  'There are no trips available.',
+                    ),
+                    SizedBox(
+                      height: 12,
+                    ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.only(left: 12),
+                          child: Text(
+                            'Available Trips',
+                            style: TextStyle(
+                              fontSize: 20,
+                              fontWeight: FontWeight.bold,
+                              color: Colors.white,
+                            ),
+                          ),
+                        ),
+                        ElevatedButton(
+                            onPressed: () {},
+                            style: ElevatedButton.styleFrom(
+                              backgroundColor: Colors.transparent,
+                              foregroundColor: Colors.black54,
+                              elevation: 0,
+                            ),
+                            child: Row(
+                              children: [
+                                Icon(
+                                  Icons.filter_alt,
+                                  size: 30,
+                                ),
+                                Text(
+                                  'Filter',
                                   style: TextStyle(
-                                    fontStyle: FontStyle.italic,
-                                    color: Colors.red,
                                     fontSize: 16,
                                   ),
+                                )
+                              ],
+                            )),
+                      ],
+                    ),
+                    SizedBox(
+                      height: 12,
+                    ),
+                    SizedBox(
+                      height: _listViewHeight,
+                      child: _availableTrips.length > 0
+                          ? ListView.builder(
+                              shrinkWrap: true,
+                              physics: NeverScrollableScrollPhysics(),
+                              itemCount: _availableTrips.length,
+                              itemBuilder: (BuildContext context, int index) {
+                                return TripCard(_availableTrips, index);
+                              },
+                            )
+                          : const Center(
+                              child: Text(
+                                'There are no trips available.',
+                                style: TextStyle(
+                                  fontStyle: FontStyle.italic,
+                                  color: Colors.red,
+                                  fontSize: 16,
                                 ),
                               ),
-                      ),
-                    ],
-                  ),
+                            ),
+                    ),
+                  ],
                 ),
               ),
             ],
