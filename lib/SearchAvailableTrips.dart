@@ -15,18 +15,56 @@ class _SearchAvailableTripsState extends State<SearchAvailableTrips> {
   double _listViewHeight = 100;
 
   List<Trip> _availableTrips = [
-    Trip("Inti International College Penang", "Queensbay", "25-04-2023",
-        "10:00am", 'Ongoing', 3),
-    Trip("Inti International College Penang", "Queensbay", "25-04-2023",
-        "10:00am", 'Ongoing', 3),
-    Trip("Inti International College Penang", "Queensbay", "25-04-2023",
-        "10:00am", 'Completed', 3),
-    Trip("Inti International College Penang", "Queensbay", "25-04-2023",
-        "10:00am", 'Completed', 3),
-    Trip("Inti International College Penang", "Queensbay", "25-04-2023",
-        "10:00am", 'Expired', 3),
-    Trip("Inti International College Penang", "Queensbay", "25-04-2023",
-        "10:00am", 'Expired', 3),
+    Trip(
+      id: "abc012",
+      startLocation: "Inti International College Penang",
+      destination: "Queensbay",
+      date: "25-04-2023",
+      time: "10:00am",
+      status: "Ongoing",
+      seats: 3,
+    ),Trip(
+      id: "qwe012",
+      startLocation: "Inti International College Penang",
+      destination: "Queensbay",
+      date: "25-04-2023",
+      time: "10:00am",
+      status: "Ongoing",
+      seats: 3,
+    ),
+    Trip(
+      id: "zxc012",
+      startLocation: "Inti International College Penang",
+      destination: "Queensbay",
+      date: "25-04-2023",
+      time: "10:00am",
+      status: "Completed",
+      seats: 3,
+    ),Trip(
+      id: "rty012",
+      startLocation: "Inti International College Penang",
+      destination: "Queensbay",
+      date: "25-04-2023",
+      time: "10:00am",
+      status: "Completed",
+      seats: 3,
+    ),Trip(
+      id: "dfg012",
+      startLocation: "Inti International College Penang",
+      destination: "Queensbay",
+      date: "25-04-2023",
+      time: "10:00am",
+      status: "Expired",
+      seats: 3,
+    ),Trip(
+      id: "vbn012",
+      startLocation: "Inti International College Penang",
+      destination: "Queensbay",
+      date: "25-04-2023",
+      time: "10:00am",
+      status: "Expired",
+      seats: 3,
+    ),
   ];
 
   @override

@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:mobile_app_development_cw2/Trip.dart';
+import 'package:mobile_app_development_cw2/TripCard.dart';
+import 'package:mobile_app_development_cw2/TripHistoryCard.dart';
 
 void main() {
   runApp(const ActivityPage());
@@ -18,36 +21,75 @@ class _ActivityPageState extends State<ActivityPage> {
     "Points Earned",
   ];
   int current = 0;
+  // List<Trip> _availableTrips = [];
+  List<Trip> _availableTrips = [
+    Trip(
+      id: "abc012",
+      startLocation: "Inti International College Penang",
+      destination: "Queensbay",
+      date: "25-04-2023",
+      time: "10:00am",
+      status: "Ongoing",
+      seats: 3,
+    ),
+    Trip(
+      id: "qwe012",
+      startLocation: "Inti International College Penang",
+      destination: "Queensbay",
+      date: "25-04-2023",
+      time: "10:00am",
+      status: "Ongoing",
+      seats: 3,
+    ),
+    Trip(
+      id: "zxc012",
+      startLocation: "Inti International College Penang",
+      destination: "Queensbay",
+      date: "25-04-2023",
+      time: "10:00am",
+      status: "Completed",
+      seats: 3,
+    ),
+    Trip(
+      id: "rty012",
+      startLocation: "Inti International College Penang",
+      destination: "Queensbay",
+      date: "25-04-2023",
+      time: "10:00am",
+      status: "Completed",
+      seats: 3,
+    ),
+    Trip(
+      id: "dfg012",
+      startLocation: "Inti International College Penang",
+      destination: "Queensbay",
+      date: "25-04-2023",
+      time: "10:00am",
+      status: "Expired",
+      seats: 3,
+    ),
+    Trip(
+      id: "vbn012",
+      startLocation: "Inti International College Penang",
+      destination: "Queensbay",
+      date: "25-04-2023",
+      time: "10:00am",
+      status: "Expired",
+      seats: 3,
+    ),
+  ];
 
-  // double changePositionedOfLine() {
-  //   switch (current) {
-  //     case 0:
-  //       return 0;
-  //     case 1:
-  //       return 78;
-  //     case 2:
-  //       return 192;
-  //     case 3:
-  //       return 263;
-  //     default:
-  //       return 0;
-  //   }
-  // }
-  //
-  // double changeContainerWidth() {
-  //   switch (current) {
-  //     case 0:
-  //       return 50;
-  //     case 1:
-  //       return 80;
-  //     case 2:
-  //       return 50;
-  //     case 3:
-  //       return 50;
-  //     default:
-  //       return 0;
-  //   }
-  // }
+  double _singleListViewHeight = 135;
+  double _listViewHeight = 400;
+
+  @override
+  void initState() {
+    super.initState();
+
+    if (_availableTrips.length * _singleListViewHeight > 400) {
+      _listViewHeight = _availableTrips.length * _singleListViewHeight;
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -69,94 +111,95 @@ class _ActivityPageState extends State<ActivityPage> {
       ),
       body: Container(
         width: size.width,
-        height: size.height,
+        height: double.infinity,
         color: Colors.grey[200],
-        child: Column(
-          children: [
-            Container(
-              margin: const EdgeInsets.only(top: 15),
-              width: size.width,
-              height: size.height * 0.05,
-              child: Stack(
-                children: [
-                  Positioned(
-                    top: 0,
-                    left: 0,
-                    right: 0,
-                    child: SizedBox(
-                      width: size.width,
-                      height: size.height * 0.04,
-                      child: ListView.builder(
-                          physics: const BouncingScrollPhysics(),
-                          scrollDirection: Axis.horizontal,
-                          itemCount: tabs.length,
-                          itemBuilder: (context, index) {
-                            return Padding(
-                              padding: EdgeInsets.only(left: 10),
-                              child: GestureDetector(
-                                onTap: () {
-                                  setState(() {
-                                    current = index;
-                                  });
-                                },
-                                child: Container(
-                                  width: 140,
-                                  decoration: BoxDecoration(
-                                      color: current == index
-                                          ? Colors.green[800]
-                                          : Colors.white,
-                                      borderRadius: BorderRadius.all(
-                                          Radius.circular(5))),
-                                  child: Center(
-                                    child: Text(
-                                      tabs[index],
-                                      style: TextStyle(
+        child: SingleChildScrollView(
+          child: Column(
+            children: [
+              Container(
+                margin: const EdgeInsets.only(top: 15),
+                width: size.width,
+                height: 45,
+                child: Stack(
+                  children: [
+                    Positioned(
+                      top: 0,
+                      left: 0,
+                      right: 0,
+                      child: SizedBox(
+                        width: size.width,
+                        height: size.height * 0.04,
+                        child: ListView.builder(
+                            physics: const BouncingScrollPhysics(),
+                            scrollDirection: Axis.horizontal,
+                            itemCount: tabs.length,
+                            itemBuilder: (context, index) {
+                              return Padding(
+                                padding: EdgeInsets.only(left: 10),
+                                child: GestureDetector(
+                                  onTap: () {
+                                    setState(() {
+                                      current = index;
+                                    });
+                                  },
+                                  child: Container(
+                                    width: 140,
+                                    decoration: BoxDecoration(
                                         color: current == index
-                                            ? Colors.white
-                                            : Colors.green[900],
-                                        fontSize: current == index ? 16 : 14,
-                                        fontWeight: current == index
-                                            ? FontWeight.bold
-                                            : null,
+                                            ? Colors.green[800]
+                                            : Colors.white,
+                                        borderRadius: BorderRadius.all(
+                                            Radius.circular(5))),
+                                    child: Center(
+                                      child: Text(
+                                        tabs[index],
+                                        style: TextStyle(
+                                          color: current == index
+                                              ? Colors.white
+                                              : Colors.green[900],
+                                          fontSize: current == index ? 16 : 14,
+                                          fontWeight: current == index
+                                              ? FontWeight.bold
+                                              : null,
+                                        ),
                                       ),
                                     ),
                                   ),
                                 ),
-                              ),
-                            );
-                          }),
+                              );
+                            }),
+                      ),
                     ),
-                  ),
-                  // AnimatedPositioned(
-                  //   curve: Curves.fastLinearToSlowEaseIn,
-                  //   bottom: 0,
-                  //   left: changePositionedOfLine(),
-                  //   duration: const Duration(milliseconds: 500),
-                  //   child: AnimatedContainer(
-                  //     margin: const EdgeInsets.only(left: 10),
-                  //     width: changeContainerWidth(),
-                  //     height: size.height * 0.008,
-                  //     decoration: BoxDecoration(
-                  //       color: Colors.deepPurpleAccent,
-                  //       borderRadius: BorderRadius.circular(5),
-                  //     ),
-                  //     duration: const Duration(milliseconds: 1000),
-                  //     curve: Curves.fastLinearToSlowEaseIn,
-                  //   ),
-                  // )
-                ],
-              ),
-            ),
-            Padding(
-              padding: EdgeInsets.only(top: size.height * 0.3),
-              child: Text(
-                "${tabs[current]} Tab Content",
-                style: TextStyle(
-                  fontSize: 30,
+                  ],
                 ),
               ),
-            )
-          ],
+              Padding(
+                padding: const EdgeInsets.fromLTRB(24,8,24,24),
+                child: SizedBox(
+                  height: _listViewHeight,
+                  child: _availableTrips.length > 0
+                      ? ListView.builder(
+                    shrinkWrap: true,
+                    physics: NeverScrollableScrollPhysics(),
+                    itemCount: _availableTrips.length,
+                    itemBuilder: (BuildContext context, int index) {
+                      return TripHistoryCard(_availableTrips,index);
+                    },
+                  )
+                      : const Center(
+                    child: Text(
+                      'There are no trips history available.',
+                      style: TextStyle(
+                        fontStyle: FontStyle.italic,
+                        color: Colors.red,
+                        fontSize: 16,
+                      ),
+                    ),
+                  ),
+                ),
+              )
+            ],
+          ),
         ),
       ),
     );

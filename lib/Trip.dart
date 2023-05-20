@@ -1,10 +1,18 @@
 class Trip {
-  String startLocation;
-  String destination;
-  String date;
-  String time;
-  String status;
-  int seats;
+  final String id;
+  final String startLocation;
+  final String destination;
+  final String date;
+  final String time;
+  final String status;
+  final int seats;
 
-  Trip(this.startLocation, this.destination, this.date, this.time, this.status, this.seats);
+  Trip(
+      {required this.id,
+      required this.startLocation,
+      required this.destination,
+      required this.date,
+      required this.time,
+      required this.status,
+      required this.seats});
 }
