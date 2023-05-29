@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:mobile_app_development_cw2/TripDetails.dart';
 import 'package:uuid/uuid.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
@@ -458,7 +459,13 @@ class _PlanTripState extends State<PlanTrip> {
                                               )),
                                         ),
                                         ElevatedButton(
-                                          onPressed: () {},
+                                          onPressed: () {
+                                            Navigator.push(
+                                              context,
+                                              MaterialPageRoute(
+                                                  builder: (context) => const TripDetails()),
+                                            );
+                                          },
                                           child: Text(
                                             'Go',
                                             style: TextStyle(
