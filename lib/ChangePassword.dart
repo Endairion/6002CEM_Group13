@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:mobile_app_development_cw2/views/profile_view.dart';
 import 'ForgotPassword.dart';
-import 'Profile.dart';
 import 'common/theme_helper.dart';
 
 class ChangePassword extends StatefulWidget {
