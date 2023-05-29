@@ -47,6 +47,7 @@ class LoginViewModel extends BaseViewModel {
       _emailController.text.trim(),
       _passwordController.text,
     );
+
     return res != null;
   }
 }

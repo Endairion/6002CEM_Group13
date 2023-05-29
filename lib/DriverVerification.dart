@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:mobile_app_development_cw2/Profile.dart';
 import 'package:mobile_app_development_cw2/common/theme_helper.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:dotted_border/dotted_border.dart';
+import 'package:mobile_app_development_cw2/views/profile_view.dart';
 
 class DriverVerification extends StatefulWidget {
   const DriverVerification({Key? key}) : super(key: key);
