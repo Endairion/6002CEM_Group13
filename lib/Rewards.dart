@@ -87,8 +87,8 @@ class _RewardsState extends State<Rewards> with SingleTickerProviderStateMixin {
                   ),
                 ),
                 Positioned(
-                  bottom: 8,
-                  right: 8,
+                  bottom: 1,
+                  right: 1,
                   child: TextButton(
                     onPressed: () {
                       Navigator.push(
@@ -105,7 +105,7 @@ class _RewardsState extends State<Rewards> with SingleTickerProviderStateMixin {
                         Text(
                           'View my redemption history',
                           style: TextStyle(
-                            fontSize: 14,
+                            fontSize: 13,
                             color: Colors.black,
                           ),
                         ),
