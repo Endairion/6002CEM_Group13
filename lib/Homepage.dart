@@ -130,7 +130,7 @@ class Homepage extends StatelessWidget {
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                            builder: (context) => const PlanTripView()),
+                            builder: (context) => PlanTripView()),
                       );
                     },
                     style: ElevatedButton.styleFrom(

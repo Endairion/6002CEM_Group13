@@ -11,11 +11,11 @@ import 'package:intl/intl.dart';
 import '../common/theme_helper.dart';
 
 void main() {
-  runApp(const PlanTripView());
+  runApp(PlanTripView());
 }
 
 class PlanTripView extends StatefulWidget {
-  const PlanTripView({super.key});
+  PlanTripView({super.key});
 
   @override
   State<PlanTripView> createState() => _PlanTripViewState();
@@ -96,6 +96,10 @@ class _PlanTripViewState extends State<PlanTripView> {
   @override
   void initState() {
     super.initState();
+
+    // _model = new PlanTripViewModel();
+    // _model.startLocationController = TextEditingController();
+    // _model.destinationController = TextEditingController();
 
     _model.startLocationController.addListener(() {
       _onChanged();
