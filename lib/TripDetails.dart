@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:mobile_app_development_cw2/OngoingTripDetails.dart';
 
 class TripDetails extends StatelessWidget {
   const TripDetails({Key? key}) : super(key: key);
@@ -18,7 +19,7 @@ class TripDetails extends StatelessWidget {
         title: Text(
           'Trip Details',
           style: TextStyle(
-            fontSize: 20,
+            fontSize: 22,
             fontWeight: FontWeight.bold,
           ),
         ),
@@ -38,7 +39,13 @@ class TripDetails extends StatelessWidget {
                 Container(
                   width: double.infinity,
                   child: ElevatedButton(
-                    onPressed: () {},
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => const OngoingTripDetails()),
+                      );
+                    },
                     style: ElevatedButton.styleFrom(
                         padding: EdgeInsets.zero,
                         backgroundColor: Colors.limeAccent[700],
