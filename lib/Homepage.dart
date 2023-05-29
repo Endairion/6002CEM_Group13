@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:mobile_app_development_cw2/PlanTrip.dart';
+import 'package:mobile_app_development_cw2/views/plan_trip_view.dart';
 import 'package:mobile_app_development_cw2/SearchAvailableTrips.dart';
 
 void main() {
@@ -130,7 +130,7 @@ class Homepage extends StatelessWidget {
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                            builder: (context) => const PlanTrip()),
+                            builder: (context) => const PlanTripView()),
                       );
                     },
                     style: ElevatedButton.styleFrom(
