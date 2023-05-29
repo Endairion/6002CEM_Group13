@@ -2,19 +2,19 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:mobile_app_development_cw2/common/theme_helper.dart';
 import 'package:mobile_app_development_cw2/viewmodels/register_viewmodel.dart';
-import 'package:mobile_app_development_cw2/views/Login.dart';
+import 'package:mobile_app_development_cw2/views/login_view.dart';
 import 'package:mobile_app_development_cw2/views/base_view.dart';
 
-import 'NavigationMenu.dart';
+import '../NavigationMenu.dart';
 
-class Register extends StatefulWidget {
-  Register({Key? key}) : super(key: key);
+class RegisterView extends StatefulWidget {
+  RegisterView({Key? key}) : super(key: key);
 
   @override
-  State<Register> createState() => _RegisterState();
+  State<RegisterView> createState() => _RegisterViewState();
 }
 
-class _RegisterState extends State<Register> {
+class _RegisterViewState extends State<RegisterView> {
   bool? isChecked1 = false, isChecked2 = false;
   final _formkey = GlobalKey<FormState>();
   late final RegisterViewModel _model;
@@ -105,8 +105,8 @@ class _RegisterState extends State<Register> {
                             TextFormField(
                               controller: _model.nameController,
                               validator: _model.nameValidator,
-                              decoration: ThemeHelper()
-                                  .textInputDecoration("Full Name", "Full Name"),
+                              decoration: ThemeHelper().textInputDecoration(
+                                  "Full Name", "Full Name"),
                               cursorColor: Colors.lightGreen,
                             ),
                             const SizedBox(height: 8),
@@ -114,7 +114,8 @@ class _RegisterState extends State<Register> {
                               controller: _model.dobController,
                               validator: _model.dobValidator,
                               decoration: ThemeHelper().textInputDecoration(
-                                  "Date of Birth", "Date of Birth (DD/MM/YYYY)"),
+                                  "Date of Birth",
+                                  "Date of Birth (DD/MM/YYYY)"),
                               cursorColor: Colors.lightGreen,
                             ),
                             const SizedBox(height: 8),
@@ -130,7 +131,8 @@ class _RegisterState extends State<Register> {
                               controller: _model.contactNoController,
                               validator: _model.contactValidator,
                               decoration: ThemeHelper().textInputDecoration(
-                                  "Contact No", "Contact No (No space or dash)"),
+                                  "Contact No",
+                                  "Contact No (No space or dash)"),
                               cursorColor: Colors.lightGreen,
                               keyboardType: TextInputType.phone,
                             ),
@@ -244,10 +246,13 @@ class _RegisterState extends State<Register> {
                                   minimumSize: Size(320, 40)),
                               onPressed: () => _formkey.currentState!.validate()
                                   ? _model.register().then((value) {
-                                if (!value) return;
-                                Navigator.of(_context).pushReplacementNamed('package:mobile_app_development_cw2/views/Login.dart');
-                                //testing
-                              })
+                                      if (!value) return;
+                                      Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                            builder: (context) => LoginView()),
+                                      );
+                                    })
                                   : null,
                               child: Text('Register'),
                             ),
@@ -258,7 +263,6 @@ class _RegisterState extends State<Register> {
                   ),
                 ),
               ),
-            )
-    );
+            ));
   }
 }

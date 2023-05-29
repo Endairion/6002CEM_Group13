@@ -41,6 +41,8 @@ class FirebaseService {
         'dob': dob,
         'ic_no': icNo,
         'contact': contactNo,
+        'points': '0',
+        'driver': '0',
       })
           .then((value) => debugPrint('User Created : ${_user.user!.email}'))
           .catchError((e) => debugPrint('Database Error!'));
