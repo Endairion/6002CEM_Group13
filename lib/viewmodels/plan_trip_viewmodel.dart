@@ -1,4 +1,5 @@
 import 'package:mobile_app_development_cw2/locator.dart';
+import 'package:mobile_app_development_cw2/models/trip_model.dart';
 import 'package:mobile_app_development_cw2/services/firebase_service.dart';
 import 'package:mobile_app_development_cw2/utils/validators.dart';
 import 'package:mobile_app_development_cw2/viewmodels/base_viewmodel.dart';
@@ -53,12 +54,15 @@ class PlanTripViewModel extends BaseViewModel {
   set timeDropDownValue(String value) {
     _timeDropDownValue = value;
   }
+
   set departureValue(int value) {
     _departureValue = value;
   }
+
   set pickupNotificationIsChecked(bool value) {
     _pickupNotificationIsChecked = value;
   }
+
   set dropDownValue(String value) {
     _dropDownValue = value;
   }
@@ -145,12 +149,12 @@ class PlanTripViewModel extends BaseViewModel {
 
     if (_startLocationController.text.isEmpty ||
         _destinationController.text.isEmpty) {
-
       if (_startLocationController.text.isEmpty) {
         _errorMessage = "Please fill in your starting location\n";
       }
       if (_destinationController.text.isEmpty) {
-        _errorMessage = _errorMessage + "Please fill in your destination location\n";
+        _errorMessage =
+            _errorMessage + "Please fill in your destination location\n";
       }
 
       notComplete = true;
@@ -169,8 +173,29 @@ class PlanTripViewModel extends BaseViewModel {
 
     if (notComplete) {
       showErrorDialog(context);
-    }
+    } else {
+      String date="", time="";
+      if (_departureValue == 1) {
+        date = DateFormat("dd-MM-yyyy").format(DateTime.now());
+        time = DateFormat.jm().format(DateTime.now());
+      }
+      else if (_departureValue == 2) {
+        date = _selectedDateText;
+        time = _timeDropDownValue;
+      }
+      Trip trip = Trip(
+          id: uuid.v4().toString(),
+          startLocation: _startLocationController.text,
+          destination: _destinationController.text,
+          date: date,
+          time: time,
+          status: "Ongoing",
+          seats: int.parse(_dropDownValue),
+          enablePickupNotification: _pickupNotificationIsChecked);
 
+      //print(uuid.v4().toString()+_startLocationController.text+_destinationController.text);
+      //print(date+" "+time+" Ongoing"+_dropDownValue+_pickupNotificationIsChecked.toString());
+    }
   }
 
   Future<bool> showErrorDialog(BuildContext context) async {
