@@ -16,6 +16,9 @@ class PlanTripViewModel extends BaseViewModel {
   String _sessionToken = "";
   List<dynamic> _placeList = [];
   List<dynamic> _placeList2 = [];
+  DateTime _selectedDate = DateTime.now();
+  String _selectedDateText = 'Set future date';
+
 
   // Services
   final FirebaseService _firebaseService = locator<FirebaseService>();
@@ -26,6 +29,8 @@ class PlanTripViewModel extends BaseViewModel {
   String get sessionToken => _sessionToken;
   List<dynamic> get placeList => _placeList;
   List<dynamic> get placeList2 => _placeList2;
+  DateTime get selectedDate => _selectedDate;
+  String get selectedDateText => _selectedDateText;
 
   void onModelReady() {
     _startLocationController = TextEditingController();
@@ -90,4 +95,19 @@ class PlanTripViewModel extends BaseViewModel {
     _startLocationController.dispose();
     _destinationController.dispose();
   }
+
+  Future<void> selectDate(BuildContext context) async {
+    final DateTime? picked = await showDatePicker(
+        context: context,
+        initialDate: selectedDate,
+        firstDate: selectedDate,
+        lastDate: DateTime(2100));
+    if (picked != null && picked != selectedDate) {
+      _selectedDate = picked;
+      _selectedDateText = DateFormat("dd-MM-yyyy").format(selectedDate);
+    }
+    notifyListeners();
+  }
+
+
 }

@@ -32,6 +32,7 @@ class _PlanTripViewState extends State<PlanTripView> {
 
   bool _isFutureDateActive = false;
 
+
   // Set Initial Selected Value for future time
   String _timeDropDownValue = 'Select future time';
 
@@ -59,24 +60,6 @@ class _PlanTripViewState extends State<PlanTripView> {
     '11:00 pm',
     '12:00 am'
   ];
-
-  //future date picker
-  DateTime selectedDate = DateTime.now();
-  String selectedDateText = 'Set future date';
-
-  Future<void> _selectDate(BuildContext context) async {
-    final DateTime? picked = await showDatePicker(
-        context: context,
-        initialDate: selectedDate,
-        firstDate: selectedDate,
-        lastDate: DateTime(2100));
-    if (picked != null && picked != selectedDate) {
-      setState(() {
-        selectedDate = picked;
-        selectedDateText = DateFormat("dd-MM-yyyy").format(selectedDate);
-      });
-    }
-  }
 
   final _focus = FocusNode();
   final _focusDropdown = FocusNode();
@@ -313,13 +296,13 @@ class _PlanTripViewState extends State<PlanTripView> {
                                 children: [
                                   ElevatedButton(
                                     onPressed: _isFutureDateActive ? () {
-                                      _selectDate(context);
+                                      _model.selectDate(context);
                                     } : null,
                                     child: Row(
                                       mainAxisSize: MainAxisSize.min,
                                       children: [
                                         Text(
-                                          selectedDateText,
+                                          model.selectedDateText,
                                           style: TextStyle(
                                             color: Colors.lightGreen[700],
                                           ),
