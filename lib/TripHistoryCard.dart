@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:mobile_app_development_cw2/Trip.dart';
+import 'package:mobile_app_development_cw2/models/trip_model.dart';
 import 'package:mobile_app_development_cw2/TripDetails.dart';
 
 Widget TripHistoryCard(BuildContext context, List<Trip> trip, int index) {

@@ -6,6 +6,7 @@ class Trip {
   final String time;
   final String status;
   final int seats;
+  final bool enablePickupNotification;
 
   Trip(
       {required this.id,
@@ -14,5 +15,6 @@ class Trip {
       required this.date,
       required this.time,
       required this.status,
-      required this.seats});
+      required this.seats,
+      required this.enablePickupNotification});
 }

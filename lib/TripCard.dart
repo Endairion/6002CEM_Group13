@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:mobile_app_development_cw2/Trip.dart';
+import 'package:mobile_app_development_cw2/models/trip_model.dart';
 
 Widget TripCard(List<Trip> trip, int index) {
   String startLocation;
