@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:mobile_app_development_cw2/PointsEarn.dart';
 import 'package:mobile_app_development_cw2/PointsEarnCard.dart';
-import 'package:mobile_app_development_cw2/Trip.dart';
+import 'package:mobile_app_development_cw2/models/trip_model.dart';
 import 'package:mobile_app_development_cw2/TripCard.dart';
 import 'package:mobile_app_development_cw2/TripHistoryCard.dart';
 
@@ -33,6 +33,7 @@ class _ActivityPageState extends State<ActivityPage> {
       time: "10:00am",
       status: "Ongoing",
       seats: 3,
+      enablePickupNotification: true,
     ),
     Trip(
       id: "qwe012",
@@ -42,6 +43,7 @@ class _ActivityPageState extends State<ActivityPage> {
       time: "10:00am",
       status: "Ongoing",
       seats: 3,
+      enablePickupNotification: true,
     ),
     Trip(
       id: "zxc012",
@@ -51,6 +53,7 @@ class _ActivityPageState extends State<ActivityPage> {
       time: "10:00am",
       status: "Completed",
       seats: 3,
+      enablePickupNotification: true,
     ),
     Trip(
       id: "rty012",
@@ -60,6 +63,7 @@ class _ActivityPageState extends State<ActivityPage> {
       time: "10:00am",
       status: "Completed",
       seats: 3,
+      enablePickupNotification: true,
     ),
     Trip(
       id: "dfg012",
@@ -69,6 +73,7 @@ class _ActivityPageState extends State<ActivityPage> {
       time: "10:00am",
       status: "Expired",
       seats: 3,
+      enablePickupNotification: true,
     ),
     Trip(
       id: "vbn012",
@@ -78,6 +83,7 @@ class _ActivityPageState extends State<ActivityPage> {
       time: "10:00am",
       status: "Expired",
       seats: 3,
+      enablePickupNotification: true,
     ),
   ];
 

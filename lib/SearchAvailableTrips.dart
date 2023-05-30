@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:mobile_app_development_cw2/CreateCustomTrip.dart';
-import 'package:mobile_app_development_cw2/Trip.dart';
+import 'package:mobile_app_development_cw2/models/trip_model.dart';
 import 'package:mobile_app_development_cw2/TripCard.dart';
 
 class SearchAvailableTrips extends StatefulWidget {
@@ -23,6 +23,7 @@ class _SearchAvailableTripsState extends State<SearchAvailableTrips> {
       time: "10:00am",
       status: "Ongoing",
       seats: 3,
+      enablePickupNotification: true,
     ),Trip(
       id: "qwe012",
       startLocation: "Inti International College Penang",
@@ -31,6 +32,7 @@ class _SearchAvailableTripsState extends State<SearchAvailableTrips> {
       time: "10:00am",
       status: "Ongoing",
       seats: 3,
+      enablePickupNotification: true,
     ),
     Trip(
       id: "zxc012",
@@ -40,6 +42,7 @@ class _SearchAvailableTripsState extends State<SearchAvailableTrips> {
       time: "10:00am",
       status: "Completed",
       seats: 3,
+      enablePickupNotification: true,
     ),Trip(
       id: "rty012",
       startLocation: "Inti International College Penang",
@@ -48,6 +51,7 @@ class _SearchAvailableTripsState extends State<SearchAvailableTrips> {
       time: "10:00am",
       status: "Completed",
       seats: 3,
+      enablePickupNotification: true,
     ),Trip(
       id: "dfg012",
       startLocation: "Inti International College Penang",
@@ -56,6 +60,7 @@ class _SearchAvailableTripsState extends State<SearchAvailableTrips> {
       time: "10:00am",
       status: "Expired",
       seats: 3,
+      enablePickupNotification: true,
     ),Trip(
       id: "vbn012",
       startLocation: "Inti International College Penang",
@@ -64,6 +69,7 @@ class _SearchAvailableTripsState extends State<SearchAvailableTrips> {
       time: "10:00am",
       status: "Expired",
       seats: 3,
+      enablePickupNotification: true,
     ),
   ];
 
