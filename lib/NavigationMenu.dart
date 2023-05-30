@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:mobile_app_development_cw2/Homepage.dart';
-import 'package:mobile_app_development_cw2/Profile.dart';
 import 'package:mobile_app_development_cw2/views/plan_trip_view.dart';
+import 'package:mobile_app_development_cw2/views/profile_view.dart';
 
 import 'ActivityPage.dart';
 import 'Rewards.dart';

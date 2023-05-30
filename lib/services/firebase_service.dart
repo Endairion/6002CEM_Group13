@@ -2,6 +2,8 @@ import 'package:mobile_app_development_cw2/utils/error_codes.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/foundation.dart';
+import 'package:mobile_app_development_cw2/locator.dart';
+
 
 class FirebaseService {
   final FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
@@ -16,6 +18,8 @@ class FirebaseService {
         email: email,
         password: password,
       );
+
+
     } on FirebaseAuthException catch (e) {
       throw signInErrorCodes[e.code] ?? 'Database Error Occured!';
     } catch (e) {
@@ -54,5 +58,20 @@ class FirebaseService {
       debugPrint('${e.toString()} Error Occured!');
     }
   }
+
+  Future<Map<String, dynamic>> fetchUserProfile() async {
+    try{
+      var snapshot = await _firebaseFirestore
+          .collection('Users')
+          .doc(currentUser.uid)
+          .get();
+      return snapshot.data() as Map<String, dynamic>;
+    } on FirebaseAuthException catch (e){
+      throw signUpErrorCodes[e.code] ?? 'Firebase ${e.code} Error Occured!';
+    } catch (e){
+      throw '${e.toString()} Error Occured!';
+    }
+  }
+
 
 }

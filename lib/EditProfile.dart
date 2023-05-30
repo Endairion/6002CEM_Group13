@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:mobile_app_development_cw2/common/theme_helper.dart';
-import 'Profile.dart';
+import 'package:mobile_app_development_cw2/views/profile_view.dart';
+
 
 class EditProfile extends StatelessWidget {
   const EditProfile({Key? key}) : super(key: key);
