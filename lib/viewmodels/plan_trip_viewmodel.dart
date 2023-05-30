@@ -16,9 +16,20 @@ class PlanTripViewModel extends BaseViewModel {
   String _sessionToken = "";
   List<dynamic> _placeList = [];
   List<dynamic> _placeList2 = [];
+
+  bool _pickupNotificationIsChecked = false;
+
+  String _dropDownValue = '1';
+
+  int _departureValue = 1;
+
+  // Set Initial Selected Value for future time
+  String _timeDropDownValue = 'Select future time';
+
   DateTime _selectedDate = DateTime.now();
   String _selectedDateText = 'Set future date';
 
+  String _errorMessage = "";
 
   // Services
   final FirebaseService _firebaseService = locator<FirebaseService>();
@@ -31,6 +42,26 @@ class PlanTripViewModel extends BaseViewModel {
   List<dynamic> get placeList2 => _placeList2;
   DateTime get selectedDate => _selectedDate;
   String get selectedDateText => _selectedDateText;
+  int get departureValue => _departureValue;
+
+  String get timeDropDownValue => _timeDropDownValue;
+
+  bool get pickupNotificationIsChecked => _pickupNotificationIsChecked;
+  String get dropDownValue => _dropDownValue;
+
+  // Setters
+  set timeDropDownValue(String value) {
+    _timeDropDownValue = value;
+  }
+  set departureValue(int value) {
+    _departureValue = value;
+  }
+  set pickupNotificationIsChecked(bool value) {
+    _pickupNotificationIsChecked = value;
+  }
+  set dropDownValue(String value) {
+    _dropDownValue = value;
+  }
 
   void onModelReady() {
     _startLocationController = TextEditingController();
@@ -42,7 +73,6 @@ class PlanTripViewModel extends BaseViewModel {
     destinationController.addListener(() {
       _onChanged2();
     });
-
   }
 
   _onChanged() {
@@ -99,15 +129,67 @@ class PlanTripViewModel extends BaseViewModel {
   Future<void> selectDate(BuildContext context) async {
     final DateTime? picked = await showDatePicker(
         context: context,
-        initialDate: selectedDate,
-        firstDate: selectedDate,
+        initialDate: _selectedDate,
+        firstDate: _selectedDate,
         lastDate: DateTime(2100));
-    if (picked != null && picked != selectedDate) {
+    if (picked != null && picked != _selectedDate) {
       _selectedDate = picked;
-      _selectedDateText = DateFormat("dd-MM-yyyy").format(selectedDate);
+      _selectedDateText = DateFormat("dd-MM-yyyy").format(_selectedDate);
     }
     notifyListeners();
   }
 
+  Future<void> planTrip(BuildContext context) async {
+    _errorMessage = "";
+    bool notComplete = false;
 
+    if (_startLocationController.text.isEmpty ||
+        _destinationController.text.isEmpty) {
+
+      if (_startLocationController.text.isEmpty) {
+        _errorMessage = "Please fill in your starting location\n";
+      }
+      if (_destinationController.text.isEmpty) {
+        _errorMessage = _errorMessage + "Please fill in your destination location\n";
+      }
+
+      notComplete = true;
+    }
+    //value 2 for future
+    if (_departureValue == 2) {
+      if (_selectedDateText == 'Set future date') {
+        _errorMessage = _errorMessage + "Please set future date\n";
+        notComplete = true;
+      }
+      if (_timeDropDownValue == 'Select future time') {
+        _errorMessage = _errorMessage + "Please set future time\n";
+        notComplete = true;
+      }
+    }
+
+    if (notComplete) {
+      showErrorDialog(context);
+    }
+
+  }
+
+  Future<bool> showErrorDialog(BuildContext context) async {
+    // Show the error message dialog
+    bool? showError = await showDialog<bool>(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: Text('Error Message'),
+        content: Text(_errorMessage),
+        actions: [
+          TextButton(
+            onPressed: () {
+              Navigator.of(context).pop(); // Cancel logout
+            },
+            child: Text('Ok'),
+          ),
+        ],
+      ),
+    );
+    return showError ?? false; // Return false if the dialog is dismissed
+  }
 }

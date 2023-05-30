@@ -22,18 +22,10 @@ class _PlanTripViewState extends State<PlanTripView> {
   late final PlanTripViewModel _model;
   late final BuildContext _context;
 
-  // Set Initial Selected Value
-  String _dropDownValue = '1';
-
   // List of items in available seats menu
   final _seatValue = ['1', '2', '3', '4', '5', '6'];
 
-  bool _pickupNotificationIsChecked = false;
-  int _departureValue = 1;
   bool _isFutureDateActive = false;
-
-  // Set Initial Selected Value for future time
-  String _timeDropDownValue = 'Select future time';
 
   // List of items in available seats menu
   final _timeValue = [
@@ -230,7 +222,7 @@ class _PlanTripViewState extends State<PlanTripView> {
                                         child: DropdownButton(
                                           focusNode: _focusDropdown,
                                           isExpanded: true,
-                                          value: _dropDownValue,
+                                          value: _model.dropDownValue,
                                           items: _seatValue.map((String items) {
                                             return DropdownMenuItem(
                                               value: items,
@@ -239,7 +231,7 @@ class _PlanTripViewState extends State<PlanTripView> {
                                           }).toList(),
                                           onChanged: (String? newValue) {
                                             setState(() {
-                                              _dropDownValue = newValue!;
+                                              _model.dropDownValue = newValue!;
                                             });
                                           },
                                           iconEnabledColor: Colors.lightGreen,
@@ -253,10 +245,10 @@ class _PlanTripViewState extends State<PlanTripView> {
                                     Checkbox(
                                         checkColor: Colors.white,
                                         activeColor: Colors.green[900],
-                                        value: _pickupNotificationIsChecked,
+                                        value: _model.pickupNotificationIsChecked,
                                         onChanged: (bool? value) {
                                           setState(() {
-                                            _pickupNotificationIsChecked =
+                                            _model.pickupNotificationIsChecked =
                                                 value!;
                                           });
                                         }),
@@ -276,19 +268,19 @@ class _PlanTripViewState extends State<PlanTripView> {
                                   children: [
                                     CustomRadioListTile<int>(
                                       value: 1,
-                                      groupValue: _departureValue,
+                                      groupValue: _model.departureValue,
                                       leading: 'Now',
                                       onChanged: (value) => setState(() {
-                                        _departureValue = value!;
+                                        _model.departureValue = value!;
                                         _isFutureDateActive = false;
                                       }),
                                     ),
                                     CustomRadioListTile<int>(
                                       value: 2,
-                                      groupValue: _departureValue,
+                                      groupValue: _model.departureValue,
                                       leading: 'Future',
                                       onChanged: (value) => setState(() {
-                                        _departureValue = value!;
+                                        _model.departureValue = value!;
                                         _isFutureDateActive = true;
                                       }),
                                     ),
@@ -341,7 +333,7 @@ class _PlanTripViewState extends State<PlanTripView> {
                                               const EdgeInsets.only(left: 4),
                                           child: DropdownButton(
                                             isExpanded: true,
-                                            value: _timeDropDownValue,
+                                            value: _model.timeDropDownValue,
                                             items:
                                                 _timeValue.map((String item) {
                                               return DropdownMenuItem(
@@ -352,7 +344,7 @@ class _PlanTripViewState extends State<PlanTripView> {
                                             onChanged: _isFutureDateActive
                                                 ? (String? newValue) {
                                                     setState(() {
-                                                      _timeDropDownValue =
+                                                      _model.timeDropDownValue =
                                                           newValue!;
                                                     });
                                                   }
@@ -391,12 +383,13 @@ class _PlanTripViewState extends State<PlanTripView> {
                                               ),
                                               ElevatedButton(
                                                 onPressed: () {
-                                                  Navigator.push(
-                                                    context,
-                                                    MaterialPageRoute(
-                                                        builder: (context) =>
-                                                            const TripDetails()),
-                                                  );
+                                                  // Navigator.push(
+                                                  //   context,
+                                                  //   MaterialPageRoute(
+                                                  //       builder: (context) =>
+                                                  //           const TripDetails()),
+                                                  // );
+                                                  _model.planTrip(context);
                                                 },
                                                 child: Text(
                                                   'Go',
