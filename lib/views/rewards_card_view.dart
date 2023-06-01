@@ -13,49 +13,48 @@ class RewardsCardView extends StatelessWidget {
         borderRadius: BorderRadius.circular(20),
       ),
       elevation: 16,
-      child: ListTile(
-        title: Row(
-          children: [
-            Expanded(
-              flex: 2,
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Text(
-                    rewards.discount,
-                    textAlign: TextAlign.center,
-                    style: TextStyle(
-                        fontWeight: FontWeight.bold,
-                        color: Colors.green[900],
-                        fontSize: 20),
-                  ),
-                  Text(
-                    rewards.desc,
-                    textAlign: TextAlign.center,
-                    style: TextStyle(
-                      color: Colors.green[900],
-                      fontSize: 10,
+      child: Padding(
+        padding: const EdgeInsets.all(4.0),
+        child: ListTile(
+          title: Row(
+            children: [
+              Expanded(
+                flex: 2,
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text(
+                      rewards.discount,
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                          color: Colors.green[900],
+                          fontSize: 20),
                     ),
-                  ),
-                ],
+                    Text(
+                      rewards.desc,
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                        color: Colors.green[900],
+                        fontSize: 10,
+                      ),
+                    ),
+                  ],
+                ),
               ),
-            ),
-            Container(
-              height: 70,
-              child: VerticalDivider(
-                thickness: 1,
-                color: Colors.grey,
+              Container(
+                height: 70,
+                child: VerticalDivider(
+                  thickness: 1,
+                  color: Colors.grey,
+                ),
               ),
-            ),
-            Expanded(
-              flex: 8,
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: [
-                  Expanded(
-                    flex: 5,
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
+              Expanded(
+                flex: 8,
+                child: Column(
+                  children: [
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         Image.network(
                           rewards.url,
@@ -63,35 +62,32 @@ class RewardsCardView extends StatelessWidget {
                           width: 100,
                           fit: BoxFit.contain,
                         ),
-                        Text(
-                          rewards.store,
-                          style: TextStyle(fontSize: 16),
-                        ),
-                      ],
-                    ),
-                  ),
-                  Expanded(
-                    flex: 5,
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.end,
-                      children: [
                         ElevatedButton(
                             style: ElevatedButton.styleFrom(
                                 backgroundColor: Colors.green[900],
                                 minimumSize: Size(100, 40)),
                             onPressed: () {},
                             child: Text(rewards.points + 'points')),
+                      ],
+                    ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text(
+                          rewards.store,
+                          style: TextStyle(fontSize: 16),
+                        ),
                         Text(
                           'Remaining: ' + rewards.remaining,
                           style: TextStyle(fontSize: 12),
                         )
                       ],
                     ),
-                  ),
-                ],
-              ),
-            )
-          ],
+                  ],
+                ),
+              )
+            ],
+          ),
         ),
       ),
     );
