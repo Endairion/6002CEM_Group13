@@ -41,7 +41,6 @@ class ActivityPageViewModel extends BaseViewModel {
   Future<void> getTripHistoryList() async {
     _tripsList = await _firebaseService.getTripList();
     notifyListeners();
-    print(_tripsList);
   }
 
   void onModelDestroy() {

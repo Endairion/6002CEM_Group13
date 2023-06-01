@@ -125,4 +125,37 @@ class FirebaseService {
 
     return tripsList;
   }
+
+  Future<void> getTrip(String tripId) async {
+    // Get docs from trips collection reference
+    var snapshot = await trips.doc(tripId)
+        .get()
+        .then((DocumentSnapshot documentSnapshot) {
+      if (documentSnapshot.exists) {
+        print('Document data: ${documentSnapshot.data()}');
+      } else {
+        print('Document does not exist on the database');
+      }
+    });
+
+    return snapshot.data();
+    // List<Trip> _tripsList;
+
+    // Get data from docs and convert map to List
+    // final tripsList = documentSnapshot.docs.map<Trip>((doc) {
+    //   return Trip(
+    //       id: doc['id'],
+    //       userId: doc['userId'],
+    //       startLocation: doc['startLocation'],
+    //       destination: doc['destination'],
+    //       date: doc['date'],
+    //       time: doc['time'],
+    //       status: doc['status'],
+    //       stops: doc['stops'],
+    //       seats: int.parse(doc['seats']),
+    //       enablePickupNotification: doc['enablePickupNotification']);
+    // }).toList();
+    //
+    // return tripsList;
+  }
 }
