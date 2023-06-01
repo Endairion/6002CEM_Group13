@@ -183,21 +183,22 @@ class PlanTripViewModel extends BaseViewModel {
         date = _selectedDateText;
         time = _timeDropDownValue;
       }
+
+      Trip trip = Trip(
+          id: uuid.v4().toString(),
+          userId: _firebaseService.userId,
+          startLocation: _startLocationController.text,
+          destination: _destinationController.text,
+          date: date,
+          time: time,
+          status: "Ongoing",
+          seats: int.parse(_dropDownValue),
+          enablePickupNotification: _pickupNotificationIsChecked);
+
+      await _firebaseService.createTrip(trip);
+
+      showSuccessDialog(context);
     }
-
-    Trip trip = Trip(
-        id: uuid.v4().toString(),
-        userId: _firebaseService.userId,
-        startLocation: _startLocationController.text,
-        destination: _destinationController.text,
-        date: date,
-        time: time,
-        status: "Ongoing",
-        seats: int.parse(_dropDownValue),
-        enablePickupNotification: _pickupNotificationIsChecked);
-
-    await _firebaseService.createTrip(trip);
-
   }
 
   Future<bool> showErrorDialog(BuildContext context) async {
@@ -221,12 +222,14 @@ class PlanTripViewModel extends BaseViewModel {
   }
 
   Future<bool> showSuccessDialog(BuildContext context) async {
+    Navigator.of(context).pop();
+
     // Show the error message dialog
     bool? showSuccess = await showDialog<bool>(
       context: context,
       builder: (context) => AlertDialog(
         title: Text('Succesfully Created Trip'),
-        content: Text("Return to main menu"),
+        content: Text("Check it out in Activity tab"),
         actions: [
           TextButton(
             onPressed: () {
