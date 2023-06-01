@@ -2,7 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:mobile_app_development_cw2/OngoingTripDetails.dart';
 
 class TripDetails extends StatelessWidget {
-  const TripDetails({Key? key}) : super(key: key);
+  String tripId;
+  TripDetails({Key? key, required this.tripId}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

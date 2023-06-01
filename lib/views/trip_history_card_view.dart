@@ -36,7 +36,7 @@ Widget TripHistoryCard(BuildContext context, List<Trip> trip, int index) {
         Navigator.push(
           context,
           MaterialPageRoute(
-              builder: (context) => const TripDetails()),
+              builder: (context) => TripDetails(tripId: trip[index].id)),
         );
       },
       child: Container(

@@ -3,7 +3,7 @@ import 'package:mobile_app_development_cw2/PointsEarn.dart';
 import 'package:mobile_app_development_cw2/PointsEarnCard.dart';
 import 'package:mobile_app_development_cw2/models/trip_model.dart';
 import 'package:mobile_app_development_cw2/TripCard.dart';
-import 'package:mobile_app_development_cw2/TripHistoryCard.dart';
+import 'package:mobile_app_development_cw2/views/trip_history_card_view.dart';
 import 'package:mobile_app_development_cw2/viewmodels/activity_page_viewmodel.dart';
 import 'package:mobile_app_development_cw2/views/base_view.dart';
 
