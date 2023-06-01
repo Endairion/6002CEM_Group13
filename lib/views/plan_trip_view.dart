@@ -383,13 +383,9 @@ class _PlanTripViewState extends State<PlanTripView> {
                                               ),
                                               ElevatedButton(
                                                 onPressed: () {
-                                                  // Navigator.push(
-                                                  //   context,
-                                                  //   MaterialPageRoute(
-                                                  //       builder: (context) =>
-                                                  //           const TripDetails()),
-                                                  // );
                                                   _model.planTrip(context);
+                                                  Navigator.pop(context);
+                                                  _model.showSuccessDialog(context);
                                                 },
                                                 child: Text(
                                                   'Go',

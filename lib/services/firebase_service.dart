@@ -10,6 +10,7 @@ class FirebaseService {
   final FirebaseFirestore _firebaseFirestore = FirebaseFirestore.instance;
 
   User get currentUser => _firebaseAuth.currentUser!;
+  String get userId => _firebaseAuth.currentUser!.uid;
 
   // Sign In with email and password
   Future<UserCredential?> signIn(String email, String password) async {

@@ -187,7 +187,7 @@ class PlanTripViewModel extends BaseViewModel {
 
     Trip trip = Trip(
         id: uuid.v4().toString(),
-        userId: "3RnDlwJmltTHpRNVAs895wp8Gyq1",
+        userId: _firebaseService.userId,
         startLocation: _startLocationController.text,
         destination: _destinationController.text,
         date: date,
@@ -195,11 +195,8 @@ class PlanTripViewModel extends BaseViewModel {
         status: "Ongoing",
         seats: int.parse(_dropDownValue),
         enablePickupNotification: _pickupNotificationIsChecked);
-    //print(uuid.v4().toString()+_startLocationController.text+_destinationController.text);
-    //print(date+" "+time+" Ongoing"+_dropDownValue+_pickupNotificationIsChecked.toString());
+
     await _firebaseService.createTrip(trip);
-    //var res = await _firebaseService.createTrip(trip);
-    //return res != null;
 
   }
 
@@ -221,5 +218,25 @@ class PlanTripViewModel extends BaseViewModel {
       ),
     );
     return showError ?? false; // Return false if the dialog is dismissed
+  }
+
+  Future<bool> showSuccessDialog(BuildContext context) async {
+    // Show the error message dialog
+    bool? showSuccess = await showDialog<bool>(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: Text('Succesfully Created Trip'),
+        content: Text("Return to main menu"),
+        actions: [
+          TextButton(
+            onPressed: () {
+              Navigator.of(context).pop(); // Cancel logout
+            },
+            child: Text('Ok'),
+          ),
+        ],
+      ),
+    );
+    return showSuccess ?? false; // Return false if the dialog is dismissed
   }
 }
