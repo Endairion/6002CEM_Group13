@@ -145,6 +145,7 @@ class PlanTripViewModel extends BaseViewModel {
 
   Future<void> planTrip(BuildContext context) async {
     _errorMessage = "";
+    String date = "", time = "";
     bool notComplete = false;
 
     if (_startLocationController.text.isEmpty ||
@@ -156,9 +157,9 @@ class PlanTripViewModel extends BaseViewModel {
         _errorMessage =
             _errorMessage + "Please fill in your destination location\n";
       }
-
       notComplete = true;
     }
+
     //value 2 for future
     if (_departureValue == 2) {
       if (_selectedDateText == 'Set future date') {
@@ -171,31 +172,35 @@ class PlanTripViewModel extends BaseViewModel {
       }
     }
 
-    if (notComplete) {
+    if (notComplete == true) {
       showErrorDialog(context);
     } else {
-      String date="", time="";
+
       if (_departureValue == 1) {
         date = DateFormat("dd-MM-yyyy").format(DateTime.now());
         time = DateFormat.jm().format(DateTime.now());
-      }
-      else if (_departureValue == 2) {
+      } else if (_departureValue == 2) {
         date = _selectedDateText;
         time = _timeDropDownValue;
       }
-      Trip trip = Trip(
-          id: uuid.v4().toString(),
-          startLocation: _startLocationController.text,
-          destination: _destinationController.text,
-          date: date,
-          time: time,
-          status: "Ongoing",
-          seats: int.parse(_dropDownValue),
-          enablePickupNotification: _pickupNotificationIsChecked);
-
-      //print(uuid.v4().toString()+_startLocationController.text+_destinationController.text);
-      //print(date+" "+time+" Ongoing"+_dropDownValue+_pickupNotificationIsChecked.toString());
     }
+
+    Trip trip = Trip(
+        id: uuid.v4().toString(),
+        userId: "3RnDlwJmltTHpRNVAs895wp8Gyq1",
+        startLocation: _startLocationController.text,
+        destination: _destinationController.text,
+        date: date,
+        time: time,
+        status: "Ongoing",
+        seats: int.parse(_dropDownValue),
+        enablePickupNotification: _pickupNotificationIsChecked);
+    //print(uuid.v4().toString()+_startLocationController.text+_destinationController.text);
+    //print(date+" "+time+" Ongoing"+_dropDownValue+_pickupNotificationIsChecked.toString());
+    await _firebaseService.createTrip(trip);
+    //var res = await _firebaseService.createTrip(trip);
+    //return res != null;
+
   }
 
   Future<bool> showErrorDialog(BuildContext context) async {

@@ -17,6 +17,7 @@ class _SearchAvailableTripsState extends State<SearchAvailableTrips> {
   List<Trip> _availableTrips = [
     Trip(
       id: "abc012",
+      userId: "3RnDlwJmltTHpRNVAs895wp8Gyq1",
       startLocation: "Inti International College Penang",
       destination: "Queensbay",
       date: "25-04-2023",
@@ -26,6 +27,7 @@ class _SearchAvailableTripsState extends State<SearchAvailableTrips> {
       enablePickupNotification: true,
     ),Trip(
       id: "qwe012",
+      userId: "3RnDlwJmltTHpRNVAs895wp8Gyq1",
       startLocation: "Inti International College Penang",
       destination: "Queensbay",
       date: "25-04-2023",
@@ -36,6 +38,7 @@ class _SearchAvailableTripsState extends State<SearchAvailableTrips> {
     ),
     Trip(
       id: "zxc012",
+      userId: "3RnDlwJmltTHpRNVAs895wp8Gyq1",
       startLocation: "Inti International College Penang",
       destination: "Queensbay",
       date: "25-04-2023",
@@ -45,6 +48,7 @@ class _SearchAvailableTripsState extends State<SearchAvailableTrips> {
       enablePickupNotification: true,
     ),Trip(
       id: "rty012",
+      userId: "3RnDlwJmltTHpRNVAs895wp8Gyq1",
       startLocation: "Inti International College Penang",
       destination: "Queensbay",
       date: "25-04-2023",
@@ -54,6 +58,7 @@ class _SearchAvailableTripsState extends State<SearchAvailableTrips> {
       enablePickupNotification: true,
     ),Trip(
       id: "dfg012",
+      userId: "3RnDlwJmltTHpRNVAs895wp8Gyq1",
       startLocation: "Inti International College Penang",
       destination: "Queensbay",
       date: "25-04-2023",
@@ -63,6 +68,7 @@ class _SearchAvailableTripsState extends State<SearchAvailableTrips> {
       enablePickupNotification: true,
     ),Trip(
       id: "vbn012",
+      userId: "3RnDlwJmltTHpRNVAs895wp8Gyq1",
       startLocation: "Inti International College Penang",
       destination: "Queensbay",
       date: "25-04-2023",
