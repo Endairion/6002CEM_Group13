@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:mobile_app_development_cw2/TripDetails.dart';
-import 'package:mobile_app_development_cw2/models/custom_radio_list_tile.dart';
+import 'package:mobile_app_development_cw2/views/custom_radio_list_tile.dart';
 import 'package:mobile_app_development_cw2/viewmodels/plan_trip_viewmodel.dart';
 import 'package:mobile_app_development_cw2/views/base_view.dart';
 import 'package:intl/intl.dart';
