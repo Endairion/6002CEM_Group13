@@ -4,7 +4,7 @@ import 'package:mobile_app_development_cw2/views/plan_trip_view.dart';
 import 'package:mobile_app_development_cw2/views/profile_view.dart';
 
 import 'ActivityPage.dart';
-import 'Rewards.dart';
+import 'views/rewards_view.dart';
 
 void main() {
   runApp(const NavigationMenu());
@@ -35,7 +35,7 @@ class _NavigationBarState extends State<NavigationBar> {
   static const List<Widget> _menuOptions = <Widget>[
     Homepage(),
     ActivityPage(),
-    Rewards(),
+    RewardsView(),
     Profile(),
   ];
 

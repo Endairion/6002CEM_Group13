@@ -71,6 +71,10 @@ class FirebaseService {
       throw '${e.toString()} Error Occured!';
     }
   }
+  
+  Future<QuerySnapshot> fetchRewardsData(){
+    return FirebaseFirestore.instance.collection('Rewards').get();
+  }
 
   // Create trip document
   CollectionReference trips = FirebaseFirestore.instance.collection('Trips');
