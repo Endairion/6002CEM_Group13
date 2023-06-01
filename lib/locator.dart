@@ -23,4 +23,6 @@ Future<void> setUpLocator() async{
   locator.registerFactory<MyProfileViewModel>(() => MyProfileViewModel());
   locator.registerFactory<ActivityPageViewModel>(() => ActivityPageViewModel());
   locator.registerFactory<TripDetailsViewModel>(() => TripDetailsViewModel());
+  locator.registerFactory<RewardsViewModel>(() => RewardsViewModel());
 }
+
