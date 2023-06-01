@@ -10,10 +10,28 @@ import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'package:intl/intl.dart';
 
-class TripDetailsViewModel extends BaseViewModel {
+class ActivityPageViewModel extends BaseViewModel {
+
+  double _singleListViewHeight = 150;
+  double _listViewHeight = 400;
 
   // Services
   final FirebaseService _firebaseService = locator<FirebaseService>();
 
+  void onModelReady() {
+    // _startLocationController = TextEditingController();
+    // _destinationController = TextEditingController();
+    //
+    // startLocationController.addListener(() {
+    //   _onChanged();
+    // });
+    // destinationController.addListener(() {
+    //   _onChanged2();
+    // });
+  }
 
+  void onModelDestroy() {
+    // _startLocationController.dispose();
+    // _destinationController.dispose();
+  }
 }
