@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:mobile_app_development_cw2/models/trip_model.dart';
+import 'package:mobile_app_development_cw2/views/request_carpool_view.dart';
 
 Widget TripCard(List<Trip> trip, int index) {
   String startLocation;
@@ -154,10 +156,10 @@ Widget TripCard(List<Trip> trip, int index) {
                   ),
                 ],
               ),
-              Icon(
-                Icons.navigate_next,
-                size: 45,
-                color: Colors.green[900],
+              IconButton(
+                icon: Icon(Icons.navigate_next),
+                iconSize: 45,
+                color: Colors.green[900], onPressed: () { Get.to(RequestCarpoolView()); },
               ),
             ],
           ),
