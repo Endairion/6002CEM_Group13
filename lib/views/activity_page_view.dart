@@ -8,7 +8,7 @@ import 'package:mobile_app_development_cw2/viewmodels/activity_page_viewmodel.da
 import 'package:mobile_app_development_cw2/views/base_view.dart';
 
 void main() {
-  runApp(const ActivityPage());
+  runApp(ActivityPage());
 }
 
 class ActivityPage extends StatefulWidget {
@@ -246,7 +246,8 @@ class _ActivityPageState extends State<ActivityPage> {
                 ),
                 Padding(
                   padding: const EdgeInsets.fromLTRB(24, 8, 24, 24),
-                  child: Text('Hey'),
+                  child: _model.getHistoryList(current),
+                  // child: Text('Hey'),
                   // child: getHistoryList(current, _listViewHeight, _tripsHistory, _pointsEarnedList),
                 )
               ],
