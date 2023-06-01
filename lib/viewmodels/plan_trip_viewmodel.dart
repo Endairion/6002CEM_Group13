@@ -79,6 +79,11 @@ class PlanTripViewModel extends BaseViewModel {
     });
   }
 
+  void onModelDestroy() {
+    _startLocationController.dispose();
+    _destinationController.dispose();
+  }
+
   _onChanged() {
     if (_sessionToken == null) {
       _sessionToken = uuid.v4();
@@ -123,11 +128,6 @@ class PlanTripViewModel extends BaseViewModel {
     } else {
       throw Exception('Failed to load predictions');
     }
-  }
-
-  void onModelDestroy() {
-    _startLocationController.dispose();
-    _destinationController.dispose();
   }
 
   Future<void> selectDate(BuildContext context) async {

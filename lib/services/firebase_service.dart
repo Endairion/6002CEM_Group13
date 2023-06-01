@@ -1,3 +1,6 @@
+import 'dart:async';
+
+import 'package:flutter/material.dart';
 import 'package:mobile_app_development_cw2/models/trip_model.dart';
 import 'package:mobile_app_development_cw2/utils/error_codes.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -76,7 +79,7 @@ class FirebaseService {
     return FirebaseFirestore.instance.collection('Rewards').get();
   }
 
-  // Create trip document
+  // Reference to Trips collection
   CollectionReference trips = FirebaseFirestore.instance.collection('Trips');
 
   Future<void> createTrip(Trip trip) {
@@ -97,5 +100,33 @@ class FirebaseService {
         })
         .then((value) => print("Trip Created"))
         .catchError((error) => print("Failed to create trip: $error"));
+  }
+
+  Future<List<Trip>> getTripList() async {
+    // Get docs from trips collection reference
+    QuerySnapshot querySnapshot =
+        await trips.where('userId', isEqualTo: userId).get();
+
+    // List<Trip> _tripsList;
+
+    // Get data from docs and convert map to List
+    final tripsList = querySnapshot.docs.map<Trip>((doc) {
+      return Trip(
+          id: doc['id'],
+          userId: doc['userId'],
+          startLocation: doc['startLocation'],
+          destination: doc['destination'],
+          date: doc['date'],
+          time: doc['time'],
+          status: doc['status'],
+          stops: doc['stops'],
+          seats: int.parse(doc['seats']),
+          enablePickupNotification: doc['enablePickupNotification']);
+    }).toList();
+
+    // if (_tripsList)
+    // _tripsList = (querySnapshot.docs.map(doc) as List)?.map((item) => item as Trip)?.toList();
+    // print(_tripsList);
+    return tripsList;
   }
 }
