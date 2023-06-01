@@ -191,6 +191,7 @@ class PlanTripViewModel extends BaseViewModel {
           destination: _destinationController.text,
           date: date,
           time: time,
+          stops: "",
           status: "Ongoing",
           seats: int.parse(_dropDownValue),
           enablePickupNotification: _pickupNotificationIsChecked);
