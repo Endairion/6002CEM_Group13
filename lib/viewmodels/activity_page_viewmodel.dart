@@ -1,5 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:mobile_app_development_cw2/TripHistoryCard.dart';
+import 'package:mobile_app_development_cw2/views/trip_history_card_view.dart';
 import 'package:mobile_app_development_cw2/locator.dart';
 import 'package:mobile_app_development_cw2/models/trip_model.dart';
 import 'package:mobile_app_development_cw2/services/firebase_service.dart';
@@ -82,6 +82,7 @@ class ActivityPageViewModel extends BaseViewModel {
                 physics: NeverScrollableScrollPhysics(),
                 itemCount: _tripsList.length,
                 itemBuilder: (BuildContext context, int index) {
+                  getTripHistoryList();
                   return TripHistoryCard(context, _tripsList, index);
                 },
               )
