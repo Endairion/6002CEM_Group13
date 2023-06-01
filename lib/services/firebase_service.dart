@@ -87,6 +87,7 @@ class FirebaseService {
           'date': trip.date,
           'time': trip.time,
           'status': trip.status,
+          'stops': trip.stops,
           'seats': trip.seats.toString(),
           'enablePickupNotification': trip.enablePickupNotification,
         })

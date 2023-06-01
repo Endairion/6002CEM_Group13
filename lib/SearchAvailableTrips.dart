@@ -23,6 +23,7 @@ class _SearchAvailableTripsState extends State<SearchAvailableTrips> {
       date: "25-04-2023",
       time: "10:00am",
       status: "Ongoing",
+      stops: "",
       seats: 3,
       enablePickupNotification: true,
     ),Trip(
@@ -33,6 +34,7 @@ class _SearchAvailableTripsState extends State<SearchAvailableTrips> {
       date: "25-04-2023",
       time: "10:00am",
       status: "Ongoing",
+      stops: "",
       seats: 3,
       enablePickupNotification: true,
     ),
@@ -44,6 +46,7 @@ class _SearchAvailableTripsState extends State<SearchAvailableTrips> {
       date: "25-04-2023",
       time: "10:00am",
       status: "Completed",
+      stops: "",
       seats: 3,
       enablePickupNotification: true,
     ),Trip(
@@ -54,6 +57,7 @@ class _SearchAvailableTripsState extends State<SearchAvailableTrips> {
       date: "25-04-2023",
       time: "10:00am",
       status: "Completed",
+      stops: "",
       seats: 3,
       enablePickupNotification: true,
     ),Trip(
@@ -64,6 +68,7 @@ class _SearchAvailableTripsState extends State<SearchAvailableTrips> {
       date: "25-04-2023",
       time: "10:00am",
       status: "Expired",
+      stops: "",
       seats: 3,
       enablePickupNotification: true,
     ),Trip(
@@ -74,6 +79,7 @@ class _SearchAvailableTripsState extends State<SearchAvailableTrips> {
       date: "25-04-2023",
       time: "10:00am",
       status: "Expired",
+      stops: "",
       seats: 3,
       enablePickupNotification: true,
     ),
