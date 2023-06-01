@@ -104,8 +104,7 @@ class FirebaseService {
 
   Future<List<Trip>> getTripList() async {
     // Get docs from trips collection reference
-    QuerySnapshot querySnapshot =
-        await trips.where('userId', isEqualTo: userId).get();
+    QuerySnapshot querySnapshot = await trips.where('userId', isEqualTo: userId).get();
 
     // List<Trip> _tripsList;
 
@@ -124,9 +123,6 @@ class FirebaseService {
           enablePickupNotification: doc['enablePickupNotification']);
     }).toList();
 
-    // if (_tripsList)
-    // _tripsList = (querySnapshot.docs.map(doc) as List)?.map((item) => item as Trip)?.toList();
-    // print(_tripsList);
     return tripsList;
   }
 }
