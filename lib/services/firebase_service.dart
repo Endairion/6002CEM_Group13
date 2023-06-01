@@ -1,15 +1,16 @@
+import 'package:mobile_app_development_cw2/models/trip_model.dart';
 import 'package:mobile_app_development_cw2/utils/error_codes.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/foundation.dart';
 import 'package:mobile_app_development_cw2/locator.dart';
 
-
 class FirebaseService {
   final FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
   final FirebaseFirestore _firebaseFirestore = FirebaseFirestore.instance;
 
   User get currentUser => _firebaseAuth.currentUser!;
+  String get userId => _firebaseAuth.currentUser!.uid;
 
   // Sign In with email and password
   Future<UserCredential?> signIn(String email, String password) async {
@@ -18,8 +19,6 @@ class FirebaseService {
         email: email,
         password: password,
       );
-
-
     } on FirebaseAuthException catch (e) {
       throw signInErrorCodes[e.code] ?? 'Database Error Occured!';
     } catch (e) {
@@ -28,8 +27,8 @@ class FirebaseService {
   }
 
   // Sign Up using email address
-  Future<UserCredential?> signUp(
-      String name, String email, String dob, String icNo, String contactNo, String password) async {
+  Future<UserCredential?> signUp(String name, String email, String dob,
+      String icNo, String contactNo, String password) async {
     try {
       var _user = await _firebaseAuth.createUserWithEmailAndPassword(
         email: email,
@@ -40,14 +39,14 @@ class FirebaseService {
           .collection('Users')
           .doc(_user.user!.uid)
           .set({
-        'name': name,
-        'email': email,
-        'dob': dob,
-        'ic_no': icNo,
-        'contact': contactNo,
-        'points': '0',
-        'driver': '0',
-      })
+            'name': name,
+            'email': email,
+            'dob': dob,
+            'ic_no': icNo,
+            'contact': contactNo,
+            'points': '0',
+            'driver': '0',
+          })
           .then((value) => debugPrint('User Created : ${_user.user!.email}'))
           .catchError((e) => debugPrint('Database Error!'));
       return _user;
@@ -60,18 +59,38 @@ class FirebaseService {
   }
 
   Future<Map<String, dynamic>> fetchUserProfile() async {
-    try{
+    try {
       var snapshot = await _firebaseFirestore
           .collection('Users')
           .doc(currentUser.uid)
           .get();
       return snapshot.data() as Map<String, dynamic>;
-    } on FirebaseAuthException catch (e){
+    } on FirebaseAuthException catch (e) {
       throw signUpErrorCodes[e.code] ?? 'Firebase ${e.code} Error Occured!';
-    } catch (e){
+    } catch (e) {
       throw '${e.toString()} Error Occured!';
     }
   }
 
+  // Create trip document
+  CollectionReference trips = FirebaseFirestore.instance.collection('Trips');
 
+  Future<void> createTrip(Trip trip) {
+    // Call the Trip's CollectionReference to add a new user
+    return trips
+        .doc(trip.id)
+        .set({
+          'id': trip.id,
+          'userId': trip.userId,
+          'startLocation': trip.startLocation,
+          'destination': trip.destination,
+          'date': trip.date,
+          'time': trip.time,
+          'status': trip.status,
+          'seats': trip.seats.toString(),
+          'enablePickupNotification': trip.enablePickupNotification,
+        })
+        .then((value) => print("Trip Created"))
+        .catchError((error) => print("Failed to create trip: $error"));
+  }
 }

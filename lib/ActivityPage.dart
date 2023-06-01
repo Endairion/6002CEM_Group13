@@ -27,6 +27,7 @@ class _ActivityPageState extends State<ActivityPage> {
   List<Trip> _tripsHistory = [
     Trip(
       id: "abc012",
+      userId: "3RnDlwJmltTHpRNVAs895wp8Gyq1",
       startLocation: "Inti International College Penang",
       destination: "Queensbay",
       date: "25-04-2023",
@@ -37,6 +38,7 @@ class _ActivityPageState extends State<ActivityPage> {
     ),
     Trip(
       id: "qwe012",
+      userId: "3RnDlwJmltTHpRNVAs895wp8Gyq1",
       startLocation: "Inti International College Penang",
       destination: "Queensbay",
       date: "25-04-2023",
@@ -47,6 +49,7 @@ class _ActivityPageState extends State<ActivityPage> {
     ),
     Trip(
       id: "zxc012",
+      userId: "3RnDlwJmltTHpRNVAs895wp8Gyq1",
       startLocation: "Inti International College Penang",
       destination: "Queensbay",
       date: "25-04-2023",
@@ -57,6 +60,7 @@ class _ActivityPageState extends State<ActivityPage> {
     ),
     Trip(
       id: "rty012",
+      userId: "3RnDlwJmltTHpRNVAs895wp8Gyq1",
       startLocation: "Inti International College Penang",
       destination: "Queensbay",
       date: "25-04-2023",
@@ -67,6 +71,7 @@ class _ActivityPageState extends State<ActivityPage> {
     ),
     Trip(
       id: "dfg012",
+      userId: "3RnDlwJmltTHpRNVAs895wp8Gyq1",
       startLocation: "Inti International College Penang",
       destination: "Queensbay",
       date: "25-04-2023",
@@ -77,6 +82,7 @@ class _ActivityPageState extends State<ActivityPage> {
     ),
     Trip(
       id: "vbn012",
+      userId: "3RnDlwJmltTHpRNVAs895wp8Gyq1",
       startLocation: "Inti International College Penang",
       destination: "Queensbay",
       date: "25-04-2023",

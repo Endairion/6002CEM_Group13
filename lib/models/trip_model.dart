@@ -1,5 +1,6 @@
 class Trip {
   final String id;
+  final String userId;
   final String startLocation;
   final String destination;
   final String date;
@@ -10,6 +11,7 @@ class Trip {
 
   Trip(
       {required this.id,
+      required this.userId,
       required this.startLocation,
       required this.destination,
       required this.date,
