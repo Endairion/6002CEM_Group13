@@ -10,6 +10,8 @@ import GoogleMaps
   ) -> Bool {
     GMSServices.provideAPIKey("AIzaSyA36o5GXvW4Kauogfmfgqnas7oBMzUqmkU")
     GeneratedPluginRegistrant.register(with: self)
+    <key>NSLocationWhenInUseUsageDescription</key>
+    <string>This app needs access to location when open.</string>
     return super.application(application, didFinishLaunchingWithOptions: launchOptions)
   }
 }

@@ -6,14 +6,14 @@ Widget TripHistoryCard(BuildContext context, List<Trip> trip, int index) {
   String startLocation;
   String destination;
 
-  if (trip[index].startLocation.length > 35) {
-    startLocation = trip[index].startLocation.substring(0, 35);
+  if (trip[index].startLocation.length > 30) {
+    startLocation = trip[index].startLocation.substring(0, 30) + "...";
   } else {
     startLocation = trip[index].startLocation;
   }
 
-  if (trip[index].destination.length > 35) {
-    destination = trip[index].destination.substring(0, 35);
+  if (trip[index].destination.length > 30) {
+    destination = trip[index].destination.substring(0, 30) + "...";
   } else {
     destination = trip[index].destination;
   }
@@ -36,7 +36,7 @@ Widget TripHistoryCard(BuildContext context, List<Trip> trip, int index) {
         Navigator.push(
           context,
           MaterialPageRoute(
-              builder: (context) => const TripDetails()),
+              builder: (context) => TripDetails(tripId: trip[index].id)),
         );
       },
       child: Container(
