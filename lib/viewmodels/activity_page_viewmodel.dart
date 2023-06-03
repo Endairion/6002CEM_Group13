@@ -27,38 +27,49 @@ class ActivityPageViewModel extends BaseViewModel {
   final FirebaseService _firebaseService = locator<FirebaseService>();
 
   void onModelReady() {
+  }
 
-    getTripHistoryList();
-
+  void setListHeight() async {
     maxListCount = max(max(_tripsList.length,_carpoolList.length),_pointsEarnList.length);
 
     if (maxListCount * _singleListViewHeight > _listViewHeight) {
       _listViewHeight = maxListCount * _singleListViewHeight;
     }
-
+    notifyListeners();
   }
-
   Future<void> getTripHistoryList() async {
     _tripsList = await _firebaseService.getTripList();
+    setListHeight();
+    notifyListeners();
+  }
+
+  Future<void> pullRefresh() async {
+    _tripsList.clear();
+    await getTripHistoryList();
+    setListHeight();
+    print("Pull");
     notifyListeners();
   }
 
   void onModelDestroy() {
     // _startLocationController.dispose();
     // _destinationController.dispose();
-    // _tripsList.clear();
+    _tripsList.clear();
   }
 
   Widget getTripListCard(int index) {
     if (index == 0) {
       if (_tripsList.isNotEmpty) {
-        return ListView.builder(
-          shrinkWrap: true,
-          physics: NeverScrollableScrollPhysics(),
-          itemCount: _tripsList.length,
-          itemBuilder: (BuildContext context, int index) {
-            return TripHistoryCard(context, _tripsList, index);
-          },
+        return RefreshIndicator(
+          onRefresh: pullRefresh,
+          child: ListView.builder(
+            shrinkWrap: true,
+            physics: NeverScrollableScrollPhysics(),
+            itemCount: _tripsList.length,
+            itemBuilder: (BuildContext context, int index) {
+              return TripHistoryCard(context, _tripsList, index);
+            },
+          ),
         );
       } else {
         return const Center(
@@ -124,8 +135,8 @@ class ActivityPageViewModel extends BaseViewModel {
 
   Widget getHistoryList(int index) {
     return SizedBox(
-      height: _listViewHeight,
-      child: getTripListCard(index),
-    );
+        height: _listViewHeight,
+        child: getTripListCard(index),
+      );
   }
 }

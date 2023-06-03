@@ -104,8 +104,8 @@ class FirebaseService {
 
   Future<List<Trip>> getTripList() async {
     // Get docs from trips collection reference
-    QuerySnapshot querySnapshot =
-        await trips.where('userId', isEqualTo: userId).get();
+    // where('userId', isEqualTo: userId)
+    QuerySnapshot querySnapshot = await FirebaseFirestore.instance.collection('Trips').get();
 
     // List<Trip> _tripsList;
 
