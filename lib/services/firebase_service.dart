@@ -74,8 +74,8 @@ class FirebaseService {
       throw '${e.toString()} Error Occured!';
     }
   }
-  
-  Future<QuerySnapshot> fetchRewardsData(){
+
+  Future<QuerySnapshot> fetchRewardsData() {
     return FirebaseFirestore.instance.collection('Rewards').get();
   }
 
@@ -104,8 +104,8 @@ class FirebaseService {
 
   Future<List<Trip>> getTripList() async {
     // Get docs from trips collection reference
-    QuerySnapshot querySnapshot =
-        await trips.where('userId', isEqualTo: userId).get();
+    // where('userId', isEqualTo: userId)
+    QuerySnapshot querySnapshot = await FirebaseFirestore.instance.collection('Trips').get();
 
     // List<Trip> _tripsList;
 
@@ -124,9 +124,37 @@ class FirebaseService {
           enablePickupNotification: doc['enablePickupNotification']);
     }).toList();
 
-    // if (_tripsList)
-    // _tripsList = (querySnapshot.docs.map(doc) as List)?.map((item) => item as Trip)?.toList();
-    // print(_tripsList);
     return tripsList;
+  }
+
+  Future<Trip> getTrip(String tripId) async {
+    try {
+      final DocumentReference<Map<String, dynamic>> documentRef = FirebaseFirestore.instance.collection('Trips').doc(tripId);
+      final DocumentSnapshot<Map<String, dynamic>> snapshot = await documentRef.get();
+
+      if (snapshot.exists) {
+        // Retrieve document data
+        Map<String, dynamic> data = snapshot.data()!;
+
+        // Create a Trip object from the retrieved data
+        Trip trip = Trip(
+            id: data['id'],
+            userId: data['userId'],
+            startLocation: data['startLocation'],
+            destination: data['destination'],
+            date: data['date'],
+            time: data['time'],
+            status: data['status'],
+            stops: data['stops'],
+            seats: int.parse(data['seats']),
+            enablePickupNotification: data['enablePickupNotification']);
+
+        return trip;
+      } else {
+        throw Exception('Document does not exist');
+      }
+    } catch (e) {
+      throw Exception('Failed to retrieve trip: $e');
+    }
   }
 }

@@ -3,7 +3,7 @@ import 'package:mobile_app_development_cw2/PointsEarn.dart';
 import 'package:mobile_app_development_cw2/PointsEarnCard.dart';
 import 'package:mobile_app_development_cw2/models/trip_model.dart';
 import 'package:mobile_app_development_cw2/TripCard.dart';
-import 'package:mobile_app_development_cw2/TripHistoryCard.dart';
+import 'package:mobile_app_development_cw2/views/trip_history_card_view.dart';
 import 'package:mobile_app_development_cw2/viewmodels/activity_page_viewmodel.dart';
 import 'package:mobile_app_development_cw2/views/base_view.dart';
 
@@ -29,81 +29,6 @@ class _ActivityPageState extends State<ActivityPage> {
   ];
   int current = 0;
 
-  // List<Trip> _tripsHistory = [
-  //   Trip(
-  //     id: "abc012",
-  //     userId: "3RnDlwJmltTHpRNVAs895wp8Gyq1",
-  //     startLocation: "Inti International College Penang",
-  //     destination: "Queensbay",
-  //     date: "25-04-2023",
-  //     time: "10:00am",
-  //     status: "Ongoing",
-  //     stops: "",
-  //     seats: 3,
-  //     enablePickupNotification: true,
-  //   ),
-  //   Trip(
-  //     id: "qwe012",
-  //     userId: "3RnDlwJmltTHpRNVAs895wp8Gyq1",
-  //     startLocation: "Inti International College Penang",
-  //     destination: "Queensbay",
-  //     date: "25-04-2023",
-  //     time: "10:00am",
-  //     status: "Ongoing",
-  //     stops: "",
-  //     seats: 3,
-  //     enablePickupNotification: true,
-  //   ),
-  //   Trip(
-  //     id: "zxc012",
-  //     userId: "3RnDlwJmltTHpRNVAs895wp8Gyq1",
-  //     startLocation: "Inti International College Penang",
-  //     destination: "Queensbay",
-  //     date: "25-04-2023",
-  //     time: "10:00am",
-  //     status: "Completed",
-  //     stops: "",
-  //     seats: 3,
-  //     enablePickupNotification: true,
-  //   ),
-  //   Trip(
-  //     id: "rty012",
-  //     userId: "3RnDlwJmltTHpRNVAs895wp8Gyq1",
-  //     startLocation: "Inti International College Penang",
-  //     destination: "Queensbay",
-  //     date: "25-04-2023",
-  //     time: "10:00am",
-  //     status: "Completed",
-  //     stops: "",
-  //     seats: 3,
-  //     enablePickupNotification: true,
-  //   ),
-  //   Trip(
-  //     id: "dfg012",
-  //     userId: "3RnDlwJmltTHpRNVAs895wp8Gyq1",
-  //     startLocation: "Inti International College Penang",
-  //     destination: "Queensbay",
-  //     date: "25-04-2023",
-  //     time: "10:00am",
-  //     status: "Expired",
-  //     stops: "",
-  //     seats: 3,
-  //     enablePickupNotification: true,
-  //   ),
-  //   Trip(
-  //     id: "vbn012",
-  //     userId: "3RnDlwJmltTHpRNVAs895wp8Gyq1",
-  //     startLocation: "Inti International College Penang",
-  //     destination: "Queensbay",
-  //     date: "25-04-2023",
-  //     time: "10:00am",
-  //     status: "Expired",
-  //     stops: "",
-  //     seats: 3,
-  //     enablePickupNotification: true,
-  //   ),
-  // ];
-  //
   // List<PointsEarn> _pointsEarnedList = [
   //   PointsEarn(
   //       id: "123",
@@ -138,21 +63,6 @@ class _ActivityPageState extends State<ActivityPage> {
   //       role: "Driver",
   //       points: 150),
   // ];
-
-  // double _singleListViewHeight = 150;
-  // double _listViewHeight = 400;
-  //
-  // @override
-  // void initState() {
-  //   super.initState();
-  //
-  //   if (_tripsHistory.length * _singleListViewHeight > 400) {
-  //     _listViewHeight = _tripsHistory.length * _singleListViewHeight;
-  //   }
-  //   if (_pointsEarnedList.length * _singleListViewHeight > _listViewHeight) {
-  //     _listViewHeight = _pointsEarnedList.length * _singleListViewHeight;
-  //   }
-  // }
 
   @override
   Widget build(BuildContext context) {
@@ -258,76 +168,3 @@ class _ActivityPageState extends State<ActivityPage> {
     );
   }
 }
-
-// Widget getHistoryList(int index, double height, List<Trip> tripList, List<PointsEarn> pointsList) {
-//   if (index == 0) {
-//     return SizedBox(
-//       height: height,
-//       child: tripList.length > 0
-//           ? ListView.builder(
-//               shrinkWrap: true,
-//               physics: NeverScrollableScrollPhysics(),
-//               itemCount: tripList.length,
-//               itemBuilder: (BuildContext context, int index) {
-//                 return TripHistoryCard(context, tripList, index);
-//               },
-//             )
-//           : const Center(
-//               child: Text(
-//                 'There are no trips history available.',
-//                 style: TextStyle(
-//                   fontStyle: FontStyle.italic,
-//                   color: Colors.red,
-//                   fontSize: 16,
-//                 ),
-//               ),
-//             ),
-//     );
-//   } else if (index == 1) {
-//     return SizedBox(
-//       height: height,
-//       child: tripList.length > 0
-//           ? ListView.builder(
-//               shrinkWrap: true,
-//               physics: NeverScrollableScrollPhysics(),
-//               itemCount: tripList.length,
-//               itemBuilder: (BuildContext context, int index) {
-//                 return TripHistoryCard(context, tripList, index);
-//               },
-//             )
-//           : const Center(
-//               child: Text(
-//                 'There are no carpool history available.',
-//                 style: TextStyle(
-//                   fontStyle: FontStyle.italic,
-//                   color: Colors.red,
-//                   fontSize: 16,
-//                 ),
-//               ),
-//             ),
-//     );
-//   } else {
-//     return SizedBox(
-//       height: height,
-//       child: pointsList.length > 0
-//           ? ListView.builder(
-//         shrinkWrap: true,
-//         physics: NeverScrollableScrollPhysics(),
-//         itemCount: pointsList.length,
-//         itemBuilder: (BuildContext context, int index) {
-//           return PointsEarnCard(pointsList, index);
-//         },
-//       )
-//           : const Center(
-//         child: Text(
-//           'There are no points earned history available.',
-//           style: TextStyle(
-//             fontStyle: FontStyle.italic,
-//             color: Colors.red,
-//             fontSize: 16,
-//           ),
-//         ),
-//       ),
-//     );
-//   }
-// }
