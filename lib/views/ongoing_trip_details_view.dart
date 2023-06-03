@@ -223,7 +223,7 @@ class _OngoingTripDetailsState extends State<OngoingTripDetails> {
                           overflow: TextOverflow.clip,
                           style: TextStyle(
                             fontSize: 16,
-                            color: Colors.grey,
+                            color: Colors.black87,
                           ),
                         ),
                       ),
