@@ -27,6 +27,7 @@ class ActivityPageViewModel extends BaseViewModel {
   final FirebaseService _firebaseService = locator<FirebaseService>();
 
   void onModelReady() {
+    getTripHistoryList();
   }
 
   void setListHeight() async {
@@ -43,14 +44,6 @@ class ActivityPageViewModel extends BaseViewModel {
     notifyListeners();
   }
 
-  Future<void> pullRefresh() async {
-    _tripsList.clear();
-    await getTripHistoryList();
-    setListHeight();
-    print("Pull");
-    notifyListeners();
-  }
-
   void onModelDestroy() {
     // _startLocationController.dispose();
     // _destinationController.dispose();
@@ -60,16 +53,14 @@ class ActivityPageViewModel extends BaseViewModel {
   Widget getTripListCard(int index) {
     if (index == 0) {
       if (_tripsList.isNotEmpty) {
-        return RefreshIndicator(
-          onRefresh: pullRefresh,
-          child: ListView.builder(
-            shrinkWrap: true,
-            physics: NeverScrollableScrollPhysics(),
-            itemCount: _tripsList.length,
-            itemBuilder: (BuildContext context, int index) {
-              return TripHistoryCard(context, _tripsList, index);
-            },
-          ),
+        return ListView.builder(
+          shrinkWrap: true,
+          physics: NeverScrollableScrollPhysics(),
+          itemCount: _tripsList.length,
+          itemBuilder: (BuildContext context, int index) {
+            getTripHistoryList();
+            return TripHistoryCard(context, _tripsList, index);
+          },
         );
       } else {
         return const Center(
