@@ -18,13 +18,12 @@ class _TripDetailsState extends State<TripDetails> {
   @override
   Widget build(BuildContext context) {
     var size = MediaQuery.of(context).size;
-    _model.tripId = widget.tripId;
 
     return BaseView<TripDetailsViewModel>(
       onModelReady: (model) {
         _model = model;
         _context = context;
-        model.onModelReady();
+        model.onModelReady(widget.tripId);
       },
       onModelDestroy: (model) => model.onModelDestroy(),
       builder: (context, model, child) => Scaffold(
@@ -84,13 +83,13 @@ class _TripDetailsState extends State<TripDetails> {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
-                            'Date: xx-xx-xxxx',
+                            'Date: ' + _model.date,
                             style: TextStyle(
                               fontSize: 16,
                             ),
                           ),
                           Text(
-                            'Time: 00:00pm',
+                            'Time: ' + _model.time,
                             style: TextStyle(
                               fontSize: 16,
                             ),
@@ -172,7 +171,7 @@ class _TripDetailsState extends State<TripDetails> {
                       SizedBox(
                         width: 300,
                         child: Text(
-                          'Address aksjdhkasd asjhd kajsdh asdhja sdkjashd kajsdh akjsdhaks dhkajs',
+                          _model.startLocation,
                           overflow: TextOverflow.clip,
                           style: TextStyle(
                             fontSize: 16,
@@ -183,7 +182,7 @@ class _TripDetailsState extends State<TripDetails> {
                     ],
                   ),
                   SizedBox(
-                    height: 10,
+                    height: 12,
                   ),
                   Row(
                     children: [
@@ -232,7 +231,7 @@ class _TripDetailsState extends State<TripDetails> {
                     ],
                   ),
                   SizedBox(
-                    height: 10,
+                    height: 12,
                   ),
                   Row(
                     children: [
@@ -270,11 +269,11 @@ class _TripDetailsState extends State<TripDetails> {
                       SizedBox(
                         width: 300,
                         child: Text(
-                          'Address aksjdhkasd asjhd kajsdh asdhja sdkjashd kajsdh akjsdhaks dhkajs',
+                          _model.destination,
                           overflow: TextOverflow.clip,
                           style: TextStyle(
                             fontSize: 16,
-                            color: Colors.grey,
+                            color: Colors.black87,
                           ),
                         ),
                       ),
@@ -295,7 +294,7 @@ class _TripDetailsState extends State<TripDetails> {
                   ),
                   Container(
                     width: double.infinity,
-                    height: 250,
+                    height: 200,
                     decoration: BoxDecoration(
                       borderRadius: new BorderRadius.circular(10),
                       color: Colors.grey[200],
@@ -380,9 +379,9 @@ class _TripDetailsState extends State<TripDetails> {
                           Row(
                             children: [
                               SizedBox(
-                                width: 50,
+                                width: 80,
                                 child: Text(
-                                  'From: ',
+                                  'Pickup Location: ',
                                   style: TextStyle(
                                     fontSize: 14,
                                     color: Colors.black87,
@@ -390,7 +389,7 @@ class _TripDetailsState extends State<TripDetails> {
                                 ),
                               ),
                               SizedBox(
-                                width: 275,
+                                width: 240,
                                 child: Text(
                                   'addressa sdasdjasd ashgdjasdjas dasdj alsdkjalsk djakd jslajsdl ajsdlkja lksd jlkaj dklajskdl',
                                   overflow: TextOverflow.clip,
@@ -403,35 +402,7 @@ class _TripDetailsState extends State<TripDetails> {
                             ],
                           ),
                           SizedBox(
-                            height: 8,
-                          ),
-                          Row(
-                            children: [
-                              SizedBox(
-                                width: 50,
-                                child: Text(
-                                  'To: ',
-                                  style: TextStyle(
-                                    fontSize: 14,
-                                    color: Colors.black87,
-                                  ),
-                                ),
-                              ),
-                              SizedBox(
-                                width: 275,
-                                child: Text(
-                                  'addressa sdasdjasd ashgdjasdjas dasdj alsdkjalsk djakd jslajsdl ajsdlkja lksd jlkaj dklajskdl',
-                                  overflow: TextOverflow.clip,
-                                  style: TextStyle(
-                                    fontSize: 14,
-                                    color: Colors.black87,
-                                  ),
-                                ),
-                              ),
-                            ],
-                          ),
-                          SizedBox(
-                            height: 8,
+                            height: 12,
                           ),
                           Text(
                             'Remarks: addressa sdasdjasd ashgdjasdjas dasdj alsdkjalsk djakd jslajsdl ajsdlkja lksd jlkaj dklajskdl',
@@ -450,7 +421,7 @@ class _TripDetailsState extends State<TripDetails> {
                   ),
                   Container(
                     width: double.infinity,
-                    height: 250,
+                    height: 200,
                     decoration: BoxDecoration(
                       borderRadius: new BorderRadius.circular(10),
                       color: Colors.grey[200],
@@ -466,10 +437,10 @@ class _TripDetailsState extends State<TripDetails> {
                                 backgroundColor: Colors.white,
                                 child: Padding(
                                   padding:
-                                      const EdgeInsets.all(4), // Border radius
+                                  const EdgeInsets.all(4), // Border radius
                                   child: ClipOval(
                                       child:
-                                          Image.asset('assets/app_logo.png')),
+                                      Image.asset('assets/app_logo.png')),
                                 ),
                               ),
                               SizedBox(
@@ -500,7 +471,9 @@ class _TripDetailsState extends State<TripDetails> {
                                     Icons.done,
                                     color: Colors.lightGreen,
                                   ),
-                                  onPressed: () {},
+                                  onPressed: () {
+                                    print('Pressed Accept');
+                                  },
                                 ),
                               ),
                               SizedBox(
@@ -520,7 +493,9 @@ class _TripDetailsState extends State<TripDetails> {
                                     Icons.close,
                                     color: Colors.red,
                                   ),
-                                  onPressed: () {},
+                                  onPressed: () {
+                                    print('Pressed Decline');
+                                  },
                                 ),
                               ),
                             ],
@@ -531,9 +506,9 @@ class _TripDetailsState extends State<TripDetails> {
                           Row(
                             children: [
                               SizedBox(
-                                width: 50,
+                                width: 80,
                                 child: Text(
-                                  'From: ',
+                                  'Pickup Location: ',
                                   style: TextStyle(
                                     fontSize: 14,
                                     color: Colors.black87,
@@ -541,7 +516,7 @@ class _TripDetailsState extends State<TripDetails> {
                                 ),
                               ),
                               SizedBox(
-                                width: 275,
+                                width: 240,
                                 child: Text(
                                   'addressa sdasdjasd ashgdjasdjas dasdj alsdkjalsk djakd jslajsdl ajsdlkja lksd jlkaj dklajskdl',
                                   overflow: TextOverflow.clip,
@@ -554,35 +529,7 @@ class _TripDetailsState extends State<TripDetails> {
                             ],
                           ),
                           SizedBox(
-                            height: 8,
-                          ),
-                          Row(
-                            children: [
-                              SizedBox(
-                                width: 50,
-                                child: Text(
-                                  'To: ',
-                                  style: TextStyle(
-                                    fontSize: 14,
-                                    color: Colors.black87,
-                                  ),
-                                ),
-                              ),
-                              SizedBox(
-                                width: 275,
-                                child: Text(
-                                  'addressa sdasdjasd ashgdjasdjas dasdj alsdkjalsk djakd jslajsdl ajsdlkja lksd jlkaj dklajskdl',
-                                  overflow: TextOverflow.clip,
-                                  style: TextStyle(
-                                    fontSize: 14,
-                                    color: Colors.black87,
-                                  ),
-                                ),
-                              ),
-                            ],
-                          ),
-                          SizedBox(
-                            height: 8,
+                            height: 12,
                           ),
                           Text(
                             'Remarks: addressa sdasdjasd ashgdjasdjas dasdj alsdkjalsk djakd jslajsdl ajsdlkja lksd jlkaj dklajskdl',
@@ -598,154 +545,6 @@ class _TripDetailsState extends State<TripDetails> {
                   ),
                   SizedBox(
                     height: 16,
-                  ),
-                  Container(
-                    width: double.infinity,
-                    height: 250,
-                    decoration: BoxDecoration(
-                      borderRadius: new BorderRadius.circular(10),
-                      color: Colors.grey[200],
-                    ),
-                    child: Padding(
-                      padding: const EdgeInsets.all(12),
-                      child: Column(
-                        children: [
-                          Row(
-                            children: [
-                              CircleAvatar(
-                                radius: 30,
-                                backgroundColor: Colors.white,
-                                child: Padding(
-                                  padding:
-                                      const EdgeInsets.all(4), // Border radius
-                                  child: ClipOval(
-                                      child:
-                                          Image.asset('assets/app_logo.png')),
-                                ),
-                              ),
-                              SizedBox(
-                                width: 8,
-                              ),
-                              Container(
-                                width: 150,
-                                child: Text(
-                                  'Elizabeth Tan',
-                                  overflow: TextOverflow.clip,
-                                  style: TextStyle(
-                                    fontSize: 16,
-                                    color: Colors.black87,
-                                  ),
-                                ),
-                              ),
-                              Container(
-                                width: 50,
-                                decoration: BoxDecoration(
-                                  border: Border.all(
-                                      color: Colors.lightGreen, width: 2),
-                                  color: Colors.white,
-                                  shape: BoxShape.circle,
-                                ),
-                                child: IconButton(
-                                  iconSize: 30,
-                                  icon: const Icon(
-                                    Icons.done,
-                                    color: Colors.lightGreen,
-                                  ),
-                                  onPressed: () {},
-                                ),
-                              ),
-                              SizedBox(
-                                width: 6,
-                              ),
-                              Container(
-                                width: 50,
-                                decoration: BoxDecoration(
-                                  border: Border.all(
-                                      color: Colors.red.shade400, width: 2),
-                                  color: Colors.white,
-                                  shape: BoxShape.circle,
-                                ),
-                                child: IconButton(
-                                  iconSize: 30,
-                                  icon: const Icon(
-                                    Icons.close,
-                                    color: Colors.red,
-                                  ),
-                                  onPressed: () {},
-                                ),
-                              ),
-                            ],
-                          ),
-                          SizedBox(
-                            height: 8,
-                          ),
-                          Row(
-                            children: [
-                              SizedBox(
-                                width: 50,
-                                child: Text(
-                                  'From: ',
-                                  style: TextStyle(
-                                    fontSize: 14,
-                                    color: Colors.black87,
-                                  ),
-                                ),
-                              ),
-                              SizedBox(
-                                width: 275,
-                                child: Text(
-                                  'addressa sdasdjasd ashgdjasdjas dasdj alsdkjalsk djakd jslajsdl ajsdlkja lksd jlkaj dklajskdl',
-                                  overflow: TextOverflow.clip,
-                                  style: TextStyle(
-                                    fontSize: 14,
-                                    color: Colors.black87,
-                                  ),
-                                ),
-                              ),
-                            ],
-                          ),
-                          SizedBox(
-                            height: 8,
-                          ),
-                          Row(
-                            children: [
-                              SizedBox(
-                                width: 50,
-                                child: Text(
-                                  'To: ',
-                                  style: TextStyle(
-                                    fontSize: 14,
-                                    color: Colors.black87,
-                                  ),
-                                ),
-                              ),
-                              SizedBox(
-                                width: 275,
-                                child: Text(
-                                  'addressa sdasdjasd ashgdjasdjas dasdj alsdkjalsk djakd jslajsdl ajsdlkja lksd jlkaj dklajskdl',
-                                  overflow: TextOverflow.clip,
-                                  style: TextStyle(
-                                    fontSize: 14,
-                                    color: Colors.black87,
-                                  ),
-                                ),
-                              ),
-                            ],
-                          ),
-                          SizedBox(
-                            height: 8,
-                          ),
-                          Text(
-                            'Remarks: addressa sdasdjasd ashgdjasdjas dasdj alsdkjalsk djakd jslajsdl ajsdlkja lksd jlkaj dklajskdl',
-                            overflow: TextOverflow.clip,
-                            style: TextStyle(
-                              fontSize: 14,
-                              color: Colors.black87,
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
                   ),
                 ],
               ),

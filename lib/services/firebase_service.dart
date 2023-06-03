@@ -74,8 +74,8 @@ class FirebaseService {
       throw '${e.toString()} Error Occured!';
     }
   }
-  
-  Future<QuerySnapshot> fetchRewardsData(){
+
+  Future<QuerySnapshot> fetchRewardsData() {
     return FirebaseFirestore.instance.collection('Rewards').get();
   }
 
@@ -104,7 +104,8 @@ class FirebaseService {
 
   Future<List<Trip>> getTripList() async {
     // Get docs from trips collection reference
-    QuerySnapshot querySnapshot = await trips.where('userId', isEqualTo: userId).get();
+    QuerySnapshot querySnapshot =
+        await trips.where('userId', isEqualTo: userId).get();
 
     // List<Trip> _tripsList;
 
@@ -126,36 +127,34 @@ class FirebaseService {
     return tripsList;
   }
 
-  Future<void> getTrip(String tripId) async {
-    // Get docs from trips collection reference
-    var snapshot = await trips.doc(tripId)
-        .get()
-        .then((DocumentSnapshot documentSnapshot) {
-      if (documentSnapshot.exists) {
-        print('Document data: ${documentSnapshot.data()}');
+  Future<Trip> getTrip(String tripId) async {
+    try {
+      final DocumentReference<Map<String, dynamic>> documentRef = FirebaseFirestore.instance.collection('Trips').doc(tripId);
+      final DocumentSnapshot<Map<String, dynamic>> snapshot = await documentRef.get();
+
+      if (snapshot.exists) {
+        // Retrieve document data
+        Map<String, dynamic> data = snapshot.data()!;
+
+        // Create a Trip object from the retrieved data
+        Trip trip = Trip(
+            id: data['id'],
+            userId: data['userId'],
+            startLocation: data['startLocation'],
+            destination: data['destination'],
+            date: data['date'],
+            time: data['time'],
+            status: data['status'],
+            stops: data['stops'],
+            seats: int.parse(data['seats']),
+            enablePickupNotification: data['enablePickupNotification']);
+
+        return trip;
       } else {
-        print('Document does not exist on the database');
+        throw Exception('Document does not exist');
       }
-    });
-
-    return snapshot.data();
-    // List<Trip> _tripsList;
-
-    // Get data from docs and convert map to List
-    // final tripsList = documentSnapshot.docs.map<Trip>((doc) {
-    //   return Trip(
-    //       id: doc['id'],
-    //       userId: doc['userId'],
-    //       startLocation: doc['startLocation'],
-    //       destination: doc['destination'],
-    //       date: doc['date'],
-    //       time: doc['time'],
-    //       status: doc['status'],
-    //       stops: doc['stops'],
-    //       seats: int.parse(doc['seats']),
-    //       enablePickupNotification: doc['enablePickupNotification']);
-    // }).toList();
-    //
-    // return tripsList;
+    } catch (e) {
+      throw Exception('Failed to retrieve trip: $e');
+    }
   }
 }

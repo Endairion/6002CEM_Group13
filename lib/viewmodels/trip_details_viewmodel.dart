@@ -12,27 +12,51 @@ import 'package:intl/intl.dart';
 
 class TripDetailsViewModel extends BaseViewModel {
 
-  late String _tripId = "";
-
-  String get tripId => _tripId;
-
-  set tripId(String value) {
-    _tripId = value;
-  }
+  String _date = "";
+  String _time = "";
+  String _startLocation = "";
+  String _destination = "";
 
   // Services
   final FirebaseService _firebaseService = locator<FirebaseService>();
 
-  void onModelReady() {
+  void onModelReady(String tripId) {
+    getTrip(tripId);
   }
 
   void onModelDestroy() {
   }
 
-  Future<void> getTrip() async {
-    //List<Trip> trip = await _firebaseService.getTrip(tripId);
-    _firebaseService.getTrip(tripId);
+  Future<void> getTrip(String tripId) async {
+    Trip trip = await _firebaseService.getTrip(tripId);
+
+    _date = trip.date;
+    _time = trip.time;
+    _startLocation = trip.startLocation;
+    _destination = trip.destination;
+
     notifyListeners();
-    // print(trip);
+  }
+
+
+  String get date => _date;
+  String get time => _time;
+  String get startLocation => _startLocation;
+  String get destination => _destination;
+
+  set date(String value) {
+    _date = value;
+  }
+
+  set time(String value) {
+    _time = value;
+  }
+
+  set destination(String value) {
+    _destination = value;
+  }
+
+  set startLocation(String value) {
+    _startLocation = value;
   }
 }
