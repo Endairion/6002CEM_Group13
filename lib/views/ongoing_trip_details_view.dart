@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:mobile_app_development_cw2/viewmodels/ongoing_trip_details_viewmodel.dart';
 import 'package:mobile_app_development_cw2/views/base_view.dart';
+import 'package:mobile_app_development_cw2/views/map_navigation_view.dart';
 
 class OngoingTripDetails extends StatefulWidget {
   String tripId;
@@ -61,6 +62,11 @@ class _OngoingTripDetailsState extends State<OngoingTripDetails> {
                   GestureDetector(
                     onTap: () {
                       print("Clicked on Map");
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => MapNavigation()),
+                      );
                     },
                     child: ClipRRect(
                       borderRadius: BorderRadius.circular(20), // Image border
