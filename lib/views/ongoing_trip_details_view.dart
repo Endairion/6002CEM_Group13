@@ -234,7 +234,7 @@ class _OngoingTripDetailsState extends State<OngoingTripDetails> {
                   ),
                   Container(
                     width: double.infinity,
-                    height: 110,
+                    height: 140,
                     decoration: BoxDecoration(
                       borderRadius: new BorderRadius.circular(10),
                       color: Colors.grey[200],
@@ -314,52 +314,50 @@ class _OngoingTripDetailsState extends State<OngoingTripDetails> {
                           SizedBox(
                             height: 8,
                           ),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Container(
-                                child: Row(
-                                  children: [
-                                    Icon(
-                                      Icons.schedule,
-                                      color: Colors.black87,
-                                      size: 24,
-                                    ),
-                                    SizedBox(
-                                      width: 4,
-                                    ),
-                                    Text(
-                                      'Duration: ',
-                                      style: TextStyle(
-                                        fontWeight: FontWeight.bold,
-                                      ),
-                                    ),
-                                    Text(_model.duration),
-                                  ],
+                          Container(
+                            child: Row(
+                              children: [
+                                Icon(
+                                  Icons.schedule,
+                                  color: Colors.black87,
+                                  size: 24,
                                 ),
-                              ),
-                              Container(
-                                child: Row(
-                                  children: [
-                                    Icon(
-                                      Icons.airline_seat_recline_normal,
-                                      color: Colors.black87,
-                                      size: 24,
-                                    ),
-                                    SizedBox(
-                                      width: 4,
-                                    ),
-                                    Text(
-                                      'Remaining Seats: ',
-                                      style: TextStyle(
-                                        fontWeight: FontWeight.bold,
-                                      ),
-                                    ),
-                                    Text(_model.seats.toString()),
-                                  ],
+                                SizedBox(
+                                  width: 4,
                                 ),
-                              ),
-                            ],
+                                Text(
+                                  'Duration: ',
+                                  style: TextStyle(
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                                Text(_model.duration),
+                              ],
+                            ),
+                          ),
+                          SizedBox(
+                            height: 8,
+                          ),
+                          Container(
+                            child: Row(
+                              children: [
+                                Icon(
+                                  Icons.airline_seat_recline_normal,
+                                  color: Colors.black87,
+                                  size: 24,
+                                ),
+                                SizedBox(
+                                  width: 4,
+                                ),
+                                Text(
+                                  'Remaining Seats: ',
+                                  style: TextStyle(
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                                Text(_model.seats.toString()),
+                              ],
+                            ),
                           ),
                         ],
                       ),
