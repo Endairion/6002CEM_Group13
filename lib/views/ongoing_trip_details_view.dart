@@ -234,7 +234,7 @@ class _OngoingTripDetailsState extends State<OngoingTripDetails> {
                   ),
                   Container(
                     width: double.infinity,
-                    height: 80,
+                    height: 110,
                     decoration: BoxDecoration(
                       borderRadius: new BorderRadius.circular(10),
                       color: Colors.grey[200],
@@ -244,6 +244,25 @@ class _OngoingTripDetailsState extends State<OngoingTripDetails> {
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
+                          Row(
+                            children: [
+                              Text(
+                                'Estimated Arrival Time: ',
+                                style: TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                              Text(
+                                _model.arrivalTime,
+                                style: TextStyle(
+                                  color: Colors.green,
+                                ),
+                              ),
+                            ],
+                          ),
+                          SizedBox(
+                            height: 12,
+                          ),
                           Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
@@ -258,11 +277,13 @@ class _OngoingTripDetailsState extends State<OngoingTripDetails> {
                                     SizedBox(
                                       width: 4,
                                     ),
-                                    Text('Distance: ',
+                                    Text(
+                                      'Distance: ',
                                       style: TextStyle(
                                         fontWeight: FontWeight.bold,
-                                      ),),
-                                    Text('0.0km'),
+                                      ),
+                                    ),
+                                    Text(_model.distance),
                                   ],
                                 ),
                               ),
@@ -278,10 +299,12 @@ class _OngoingTripDetailsState extends State<OngoingTripDetails> {
                                     SizedBox(
                                       width: 4,
                                     ),
-                                    Text('Total Stops: ',
+                                    Text(
+                                      'Total Stops: ',
                                       style: TextStyle(
                                         fontWeight: FontWeight.bold,
-                                      ),),
+                                      ),
+                                    ),
                                     Text('1'),
                                   ],
                                 ),
@@ -305,11 +328,13 @@ class _OngoingTripDetailsState extends State<OngoingTripDetails> {
                                     SizedBox(
                                       width: 4,
                                     ),
-                                    Text('ETA Time: ',
+                                    Text(
+                                      'Duration: ',
                                       style: TextStyle(
                                         fontWeight: FontWeight.bold,
-                                      ),),
-                                    Text('00 min'),
+                                      ),
+                                    ),
+                                    Text(_model.duration),
                                   ],
                                 ),
                               ),
@@ -324,11 +349,13 @@ class _OngoingTripDetailsState extends State<OngoingTripDetails> {
                                     SizedBox(
                                       width: 4,
                                     ),
-                                    Text('Remaining Seats: ',
+                                    Text(
+                                      'Remaining Seats: ',
                                       style: TextStyle(
                                         fontWeight: FontWeight.bold,
-                                      ),),
-                                    Text('2'),
+                                      ),
+                                    ),
+                                    Text(_model.seats.toString()),
                                   ],
                                 ),
                               ),
@@ -370,9 +397,10 @@ class _OngoingTripDetailsState extends State<OngoingTripDetails> {
                                 backgroundColor: Colors.white,
                                 child: Padding(
                                   padding:
-                                  const EdgeInsets.all(4), // Border radius
+                                      const EdgeInsets.all(4), // Border radius
                                   child: ClipOval(
-                                      child: Image.asset('assets/app_logo.png')),
+                                      child:
+                                          Image.asset('assets/app_logo.png')),
                                 ),
                               ),
                               SizedBox(
@@ -408,11 +436,13 @@ class _OngoingTripDetailsState extends State<OngoingTripDetails> {
                                         SizedBox(
                                           width: 4,
                                         ),
-                                        Text('Pickup',
+                                        Text(
+                                          'Pickup',
                                           style: TextStyle(
                                             fontSize: 14,
                                             color: Colors.lightGreen,
-                                          ),),
+                                          ),
+                                        ),
                                       ],
                                     )),
                               ),
@@ -439,11 +469,13 @@ class _OngoingTripDetailsState extends State<OngoingTripDetails> {
                                     SizedBox(
                                       width: 6,
                                     ),
-                                    Text('Report',
+                                    Text(
+                                      'Report',
                                       style: TextStyle(
                                         fontSize: 12,
                                         color: Colors.white,
-                                      ),),
+                                      ),
+                                    ),
                                   ],
                                 )),
                           ),
@@ -473,9 +505,10 @@ class _OngoingTripDetailsState extends State<OngoingTripDetails> {
                                 backgroundColor: Colors.white,
                                 child: Padding(
                                   padding:
-                                  const EdgeInsets.all(4), // Border radius
+                                      const EdgeInsets.all(4), // Border radius
                                   child: ClipOval(
-                                      child: Image.asset('assets/app_logo.png')),
+                                      child:
+                                          Image.asset('assets/app_logo.png')),
                                 ),
                               ),
                               SizedBox(
@@ -511,11 +544,13 @@ class _OngoingTripDetailsState extends State<OngoingTripDetails> {
                                         SizedBox(
                                           width: 4,
                                         ),
-                                        Text('Pickup',
+                                        Text(
+                                          'Pickup',
                                           style: TextStyle(
                                             fontSize: 14,
                                             color: Colors.lightGreen,
-                                          ),),
+                                          ),
+                                        ),
                                       ],
                                     )),
                               ),
@@ -542,11 +577,13 @@ class _OngoingTripDetailsState extends State<OngoingTripDetails> {
                                     SizedBox(
                                       width: 6,
                                     ),
-                                    Text('Report',
+                                    Text(
+                                      'Report',
                                       style: TextStyle(
                                         fontSize: 12,
                                         color: Colors.white,
-                                      ),),
+                                      ),
+                                    ),
                                   ],
                                 )),
                           ),
