@@ -4,10 +4,8 @@ import 'package:mobile_app_development_cw2/services/firebase_service.dart';
 import 'package:mobile_app_development_cw2/utils/validators.dart';
 import 'package:mobile_app_development_cw2/viewmodels/base_viewmodel.dart';
 
-class TripDetailsViewModel extends BaseViewModel {
+class OngoingTripDetailsViewModel extends BaseViewModel {
 
-  String _date = "";
-  String _time = "";
   String _startLocation = "";
   String _destination = "";
 
@@ -24,28 +22,17 @@ class TripDetailsViewModel extends BaseViewModel {
   Future<void> getTrip(String tripId) async {
     Trip trip = await _firebaseService.getTrip(tripId);
 
-    _date = trip.date;
-    _time = trip.time;
     _startLocation = trip.startLocation;
     _destination = trip.destination;
 
     notifyListeners();
   }
 
-
-  String get date => _date;
-  String get time => _time;
+  // Getters
   String get startLocation => _startLocation;
   String get destination => _destination;
 
-  set date(String value) {
-    _date = value;
-  }
-
-  set time(String value) {
-    _time = value;
-  }
-
+  // Setters
   set destination(String value) {
     _destination = value;
   }
