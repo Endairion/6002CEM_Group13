@@ -12,12 +12,10 @@ class LoginView extends StatelessWidget {
   late final LoginViewModel _model;
   late final BuildContext _context;
 
-
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
     final Size size = MediaQuery.of(context).size;
-
 
     return BaseView<LoginViewModel>(
       onModelReady: (model) {
@@ -144,8 +142,7 @@ class LoginView extends StatelessWidget {
                                 Navigator.push(
                                   context,
                                   MaterialPageRoute(
-                                      builder: (context) =>
-                                          NavigationMenu()),
+                                      builder: (context) => NavigationMenu()),
                                 );
                               })
                             : null,
@@ -164,16 +161,23 @@ class LoginView extends StatelessWidget {
                           onPressed: () {},
                           child: Row(
                             children: [
-                              Image.network(
-                                  'http://pngimg.com/uploads/google/google_PNG19635.png',
-                                  height: 40,
-                                  width: 40),
+                              SizedBox(width: 20,),
+                               Container(
+                                  height: 20,
+                                  width: 20,
+                                  decoration: BoxDecoration(
+                                    image: DecorationImage(
+                                      image: AssetImage('assets/google_icon.png'),
+                                      fit: BoxFit.cover,
+                                    ),
+                                  ),
+                                ),
                               SizedBox(
-                                width: 10,
-                              ),
+                                  width: 20,
+                                ),
                               Text('Sign in with Google',
-                                  textAlign: TextAlign.center,
-                                  style: TextStyle(color: Colors.grey)),
+                                    textAlign: TextAlign.center,
+                                    style: TextStyle(color: Colors.grey)),
                             ],
                           )),
                       SizedBox(
