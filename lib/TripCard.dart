@@ -6,6 +6,7 @@ import 'package:mobile_app_development_cw2/views/request_carpool_view.dart';
 Widget TripCard(List<Trip> trip, int index) {
   String startLocation;
   String destination;
+  String tripId;
 
   if (trip[index].startLocation.length > 35) {
     startLocation = trip[index].startLocation.substring(0, 35);
@@ -19,11 +20,13 @@ Widget TripCard(List<Trip> trip, int index) {
     destination = trip[index].destination;
   }
 
+  tripId = trip[index].id;
+
   return Padding(
     padding: const EdgeInsets.only(bottom: 12),
     child: GestureDetector(
-      onTap: (){
-        print ("Container $index clicked");
+      onTap: () {
+        print("Container $index clicked");
       },
       child: Container(
         height: 120,
@@ -159,7 +162,10 @@ Widget TripCard(List<Trip> trip, int index) {
               IconButton(
                 icon: Icon(Icons.navigate_next),
                 iconSize: 45,
-                color: Colors.green[900], onPressed: () { Get.to(RequestCarpoolView()); },
+                color: Colors.green[900],
+                onPressed: () {
+                  Get.to(RequestCarpoolView(tripId: tripId,));
+                },
               ),
             ],
           ),

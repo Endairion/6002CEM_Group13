@@ -16,7 +16,7 @@ class _SearchAvailableTripsState extends State<SearchAvailableTrips> {
 
   List<Trip> _availableTrips = [
     Trip(
-      id: "abc012",
+      id: "8ccdc5d8-8b03-4585-889f-79f354412d3b",
       userId: "3RnDlwJmltTHpRNVAs895wp8Gyq1",
       startLocation: "Inti International College Penang",
       destination: "Queensbay",
