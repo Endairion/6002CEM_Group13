@@ -65,7 +65,7 @@ class _OngoingTripDetailsState extends State<OngoingTripDetails> {
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                            builder: (context) => MapNavigation()),
+                            builder: (context) => MapNavigation(tripId: widget.tripId)),
                       );
                     },
                     child: ClipRRect(
