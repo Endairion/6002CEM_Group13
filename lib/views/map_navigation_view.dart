@@ -6,6 +6,8 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:location/location.dart';
 
 import 'package:geocoding/geocoding.dart' as geo;
+import 'package:mobile_app_development_cw2/viewmodels/map_navigation_viewmodel.dart';
+import 'package:mobile_app_development_cw2/views/base_view.dart';
 
 class MapNavigation extends StatefulWidget {
   const MapNavigation({Key? key}) : super(key: key);
@@ -15,6 +17,9 @@ class MapNavigation extends StatefulWidget {
 }
 
 class _MapNavigationState extends State<MapNavigation> {
+  late final MapNavigationViewModel _model;
+  late final BuildContext _context;
+
   List<geo.Location> locations = [];
 
   final Completer<GoogleMapController> _controller = Completer();
@@ -114,46 +119,54 @@ class _MapNavigationState extends State<MapNavigation> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(),
-      body: currentLocation == null
-          ? const Center(child: Text("Loading"))
-          : GoogleMap(
-              initialCameraPosition: CameraPosition(
-                target: LatLng(
-                    currentLocation!.latitude!, currentLocation!.longitude!),
-                zoom: 13.5,
-              ),
-              markers: {
-                Marker(
-                  markerId: const MarkerId("currentLocation"),
-                  icon: currentLocationIcon,
-                  position: LatLng(
-                      currentLocation!.latitude!, currentLocation!.longitude!),
-                ),
-                Marker(
-                  markerId: MarkerId("source"),
-                  icon: sourceIcon,
-                  position: sourceLocation,
-                ),
-                Marker(
-                  markerId: MarkerId("destination"),
-                  icon: destinationIcon,
-                  position: destination,
-                ),
-              },
-              onMapCreated: (mapController) {
-                _controller.complete(mapController);
-              },
-              polylines: {
-                Polyline(
-                  polylineId: const PolylineId("route"),
-                  points: polylineCoordinates,
-                  color: const Color(0xFF48742c),
-                  width: 6,
-                ),
-              },
+    return BaseView<MapNavigationViewModel>(
+      onModelReady: (model) {
+        _model = model;
+        _context = context;
+        model.onModelReady();
+      },
+      onModelDestroy: (model) => model.onModelDestroy(),
+      builder: (context, model, child) => Scaffold(
+        appBar: AppBar(),
+        body: currentLocation == null
+            ? const Center(child: Text("Loading"))
+            : GoogleMap(
+          initialCameraPosition: CameraPosition(
+            target: LatLng(
+                currentLocation!.latitude!, currentLocation!.longitude!),
+            zoom: 13.5,
+          ),
+          markers: {
+            Marker(
+              markerId: const MarkerId("currentLocation"),
+              icon: currentLocationIcon,
+              position: LatLng(
+                  currentLocation!.latitude!, currentLocation!.longitude!),
             ),
+            Marker(
+              markerId: MarkerId("source"),
+              icon: sourceIcon,
+              position: sourceLocation,
+            ),
+            Marker(
+              markerId: MarkerId("destination"),
+              icon: destinationIcon,
+              position: destination,
+            ),
+          },
+          onMapCreated: (mapController) {
+            _controller.complete(mapController);
+          },
+          polylines: {
+            Polyline(
+              polylineId: const PolylineId("route"),
+              points: polylineCoordinates,
+              color: const Color(0xFF48742c),
+              width: 6,
+            ),
+          },
+        ),
+      ),
     );
   }
 }
