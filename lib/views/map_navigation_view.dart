@@ -5,6 +5,8 @@ import 'package:flutter_polyline_points/flutter_polyline_points.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:location/location.dart';
 
+import 'package:geocoding/geocoding.dart' as geo;
+
 class MapNavigation extends StatefulWidget {
   const MapNavigation({Key? key}) : super(key: key);
 
@@ -13,9 +15,17 @@ class MapNavigation extends StatefulWidget {
 }
 
 class _MapNavigationState extends State<MapNavigation> {
+  List<geo.Location> locations = [];
+
   final Completer<GoogleMapController> _controller = Completer();
   static const LatLng sourceLocation = LatLng(37.33500926, -122.03272188);
   static const LatLng destination = LatLng(37.33429383, -122.06600055);
+
+  void getAddressLatLng() async {
+    locations = await geo.locationFromAddress("Inti Penang");
+    print("Lat"+locations[0].latitude.toString());
+    print("Lng"+locations[0].longitude.toString());
+  }
 
   List<LatLng> polylineCoordinates = [];
 
@@ -95,6 +105,7 @@ class _MapNavigationState extends State<MapNavigation> {
 
   @override
   void initState() {
+    getAddressLatLng();
     getPolyPoints();
     getCurrentLocation();
     setCustomMarkerIcon();
