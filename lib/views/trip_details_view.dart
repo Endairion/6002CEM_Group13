@@ -313,7 +313,7 @@ class _TripDetailsState extends State<TripDetails> {
                                       const EdgeInsets.all(4), // Border radius
                                   child: ClipOval(
                                       child:
-                                          Image.asset('assets/app_logo.png')),
+                                          Image.asset('assets/source_pin.png')),
                                 ),
                               ),
                               SizedBox(

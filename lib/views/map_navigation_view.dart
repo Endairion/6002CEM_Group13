@@ -32,7 +32,24 @@ class _MapNavigationState extends State<MapNavigation> {
       onModelDestroy: (model) => model.onModelDestroy(),
       builder: (context, model, child) => Scaffold(
         appBar: AppBar(
-          title: Text(_model.currentLocation.toString()),
+          leading: IconButton(
+            icon: Icon(
+              Icons.arrow_back_ios_rounded,
+              color: Colors.black87,
+            ),
+            onPressed: () => Navigator.of(context).pop(),
+          ),
+          backgroundColor: Colors.white,
+          elevation: 0,
+          toolbarHeight: 65,
+          title: Text(
+            'Map Navigation',
+            style: TextStyle(
+              fontSize: 22,
+              fontWeight: FontWeight.bold,
+              color: Colors.black87,
+            ),
+          ),
         ),
         body: _model.currentLocation == null
             ? const Center(child: Text("Loading"))
@@ -45,17 +62,17 @@ class _MapNavigationState extends State<MapNavigation> {
           markers: {
             Marker(
               markerId: const MarkerId("currentLocation"),
-              // icon: currentLocationIcon,
+              icon: _model.currentLocationIcon,
               position: LatLng(_model.currentLocation!.latitude!, _model.currentLocation!.longitude!),
             ),
             Marker(
               markerId: MarkerId("source"),
-              // icon: sourceIcon,
+              icon: _model.sourceIcon,
               position: _model.sourceLocation,
             ),
             Marker(
               markerId: MarkerId("destination"),
-              // icon: destinationIcon,
+              icon: _model.destinationIcon,
               position: _model.destination,
             ),
           },
@@ -66,7 +83,7 @@ class _MapNavigationState extends State<MapNavigation> {
             Polyline(
               polylineId: const PolylineId("route"),
               points: _model.polylineCoordinates,
-              color: const Color(0xFF48742c),
+              color: const Color(0xFF6FB12C),
               width: 6,
             ),
           },

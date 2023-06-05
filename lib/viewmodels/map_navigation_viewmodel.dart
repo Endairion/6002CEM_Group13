@@ -38,11 +38,11 @@ class MapNavigationViewModel extends BaseViewModel {
   void onModelDestroy() {}
 
   Future<void> setupMap(String tripId) async {
+    await setCustomMarkerIcon();
     await getTrip(tripId);
     await getAddressLatLng();
     await getPolyPoints();
     await getCurrentLocation();
-    // setCustomMarkerIcon();
     notifyListeners();
   }
 
@@ -87,33 +87,36 @@ class MapNavigationViewModel extends BaseViewModel {
     }
   }
 
-  // BitmapDescriptor sourceIcon = BitmapDescriptor.defaultMarker;
-  // BitmapDescriptor destinationIcon = BitmapDescriptor.defaultMarker;
-  // BitmapDescriptor currentLocationIcon = BitmapDescriptor.defaultMarker;
+  BitmapDescriptor _sourceIcon = BitmapDescriptor.defaultMarker;
+  BitmapDescriptor _destinationIcon = BitmapDescriptor.defaultMarker;
+  BitmapDescriptor _currentLocationIcon = BitmapDescriptor.defaultMarker;
 
-  // void setCustomMarkerIcon() {
-  //   BitmapDescriptor.fromAssetImage(
-  //           ImageConfiguration.empty, "assets/app_logo.png")
-  //       .then(
-  //     (icon) {
-  //       sourceIcon = icon;
-  //     },
-  //   );
-  //   BitmapDescriptor.fromAssetImage(
-  //           ImageConfiguration.empty, "assets/app_logo.png")
-  //       .then(
-  //     (icon) {
-  //       destinationIcon = icon;
-  //     },
-  //   );
-  //   BitmapDescriptor.fromAssetImage(
-  //           ImageConfiguration.empty, "assets/app_logo.png")
-  //       .then(
-  //     (icon) {
-  //       currentLocationIcon = icon;
-  //     },
-  //   );
-  // }
+  Future<void> setCustomMarkerIcon() async {
+    print("6");
+    BitmapDescriptor.fromAssetImage(
+        ImageConfiguration.empty, 'assets/source_pin.png')
+        .then(
+      (icon) {
+        _sourceIcon = icon;
+      },
+    );
+
+    BitmapDescriptor.fromAssetImage(
+            ImageConfiguration.empty, "assets/destination_pin.png")
+        .then(
+      (icon) {
+        _destinationIcon = icon;
+      },
+    );
+    BitmapDescriptor.fromAssetImage(
+            ImageConfiguration.empty, "assets/avatar_pin.png")
+        .then(
+      (icon) {
+        _currentLocationIcon = icon;
+      },
+    );
+    notifyListeners();
+  }
 
   Future <void> getCurrentLocation() async {
     print("4");
@@ -186,5 +189,23 @@ class MapNavigationViewModel extends BaseViewModel {
 
   set startLocationAddress(String value) {
     _startLocationAddress = value;
+  }
+
+  BitmapDescriptor get currentLocationIcon => _currentLocationIcon;
+
+  set currentLocationIcon(BitmapDescriptor value) {
+    _currentLocationIcon = value;
+  }
+
+  BitmapDescriptor get destinationIcon => _destinationIcon;
+
+  set destinationIcon(BitmapDescriptor value) {
+    _destinationIcon = value;
+  }
+
+  BitmapDescriptor get sourceIcon => _sourceIcon;
+
+  set sourceIcon(BitmapDescriptor value) {
+    _sourceIcon = value;
   }
 }

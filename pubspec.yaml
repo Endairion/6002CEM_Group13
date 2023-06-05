@@ -118,6 +118,9 @@ flutter:
     - assets/prof_team2.jpg
     - assets/trips_nearby.png
     - assets/rewards_bg.png
+    - assets/source_pin.png
+    - assets/destination_pin.png
+    - assets/avatar_pin.png
 
 
   #   - images/a_dot_burr.jpeg
