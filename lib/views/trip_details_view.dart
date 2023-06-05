@@ -169,7 +169,7 @@ class _TripDetailsState extends State<TripDetails> {
                         width: 6,
                       ),
                       SizedBox(
-                        width: 300,
+                        width: 280,
                         child: Text(
                           _model.startLocation,
                           overflow: TextOverflow.clip,
@@ -218,7 +218,7 @@ class _TripDetailsState extends State<TripDetails> {
                         width: 6,
                       ),
                       SizedBox(
-                        width: 300,
+                        width: 280,
                         child: Text(
                           'Address aksjdhkasd asjhd kajsdh asdhja sdkjashd kajsdh akjsdhaks dhkajs',
                           overflow: TextOverflow.clip,
@@ -267,7 +267,7 @@ class _TripDetailsState extends State<TripDetails> {
                         width: 6,
                       ),
                       SizedBox(
-                        width: 300,
+                        width: 280,
                         child: Text(
                           _model.destination,
                           overflow: TextOverflow.clip,
@@ -306,7 +306,7 @@ class _TripDetailsState extends State<TripDetails> {
                           Row(
                             children: [
                               CircleAvatar(
-                                radius: 30,
+                                radius: 25,
                                 backgroundColor: Colors.white,
                                 child: Padding(
                                   padding:
@@ -320,7 +320,7 @@ class _TripDetailsState extends State<TripDetails> {
                                 width: 8,
                               ),
                               Container(
-                                width: 150,
+                                width: 132,
                                 child: Text(
                                   'Elizabeth Tan',
                                   overflow: TextOverflow.clip,
@@ -389,7 +389,7 @@ class _TripDetailsState extends State<TripDetails> {
                                 ),
                               ),
                               SizedBox(
-                                width: 240,
+                                width: 215,
                                 child: Text(
                                   'addressa sdasdjasd ashgdjasdjas dasdj alsdkjalsk djakd jslajsdl ajsdlkja lksd jlkaj dklajskdl',
                                   overflow: TextOverflow.clip,
@@ -433,7 +433,7 @@ class _TripDetailsState extends State<TripDetails> {
                           Row(
                             children: [
                               CircleAvatar(
-                                radius: 30,
+                                radius: 25,
                                 backgroundColor: Colors.white,
                                 child: Padding(
                                   padding:
@@ -447,7 +447,7 @@ class _TripDetailsState extends State<TripDetails> {
                                 width: 8,
                               ),
                               Container(
-                                width: 150,
+                                width: 130,
                                 child: Text(
                                   'Elizabeth Tan',
                                   overflow: TextOverflow.clip,
@@ -516,7 +516,7 @@ class _TripDetailsState extends State<TripDetails> {
                                 ),
                               ),
                               SizedBox(
-                                width: 240,
+                                width: 215,
                                 child: Text(
                                   'addressa sdasdjasd ashgdjasdjas dasdj alsdkjalsk djakd jslajsdl ajsdlkja lksd jlkaj dklajskdl',
                                   overflow: TextOverflow.clip,
