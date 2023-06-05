@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:mobile_app_development_cw2/models/rewards_model.dart';
 import 'package:mobile_app_development_cw2/models/trip_model.dart';
 import 'package:mobile_app_development_cw2/models/user_model.dart';
 import 'package:mobile_app_development_cw2/utils/error_codes.dart';
@@ -76,8 +77,23 @@ class FirebaseService {
     }
   }
 
-  Future<QuerySnapshot> fetchRewardsData() {
-    return FirebaseFirestore.instance.collection('Rewards').get();
+  Future<List<Rewards>> getRewardsLists() async {
+    QuerySnapshot querySnapshot =
+        await FirebaseFirestore.instance.collection('Rewards').get();
+
+    // Get data from docs and convert map to List
+    final rewardsList = querySnapshot.docs.map<Rewards>((doc) {
+      return Rewards(
+        desc: doc['desc'],
+        discount: doc['discount'],
+        points: doc['points'],
+        remaining: doc['remaining'],
+        store: doc['store'],
+        url: doc['url'],
+      );
+    }).toList();
+
+    return rewardsList;
   }
 
   // Reference to Trips collection
@@ -189,11 +205,4 @@ class FirebaseService {
       throw Exception('Failed to retrieve trip: $e');
     }
   }
-
-  // Future<DocumentSnapshot<Map<String, dynamic>>> fetchDriverData(String userId) {
-  //   return FirebaseFirestore.instance
-  //       .collection('Users')
-  //       .doc(userId)
-  //       .get();
-  // }
 }

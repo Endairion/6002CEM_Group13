@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:mobile_app_development_cw2/views/plan_trip_view.dart';
-import 'package:mobile_app_development_cw2/SearchAvailableTrips.dart';
+import 'package:mobile_app_development_cw2/views/search_available_trips_view.dart';
 
 void main() {
   runApp(const Homepage());
