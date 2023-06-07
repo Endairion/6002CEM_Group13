@@ -121,11 +121,8 @@ class FirebaseService {
 
   Future<List<Trip>> getTripList() async {
     // Get docs from trips collection reference
-    // where('userId', isEqualTo: userId)
     QuerySnapshot querySnapshot =
-        await FirebaseFirestore.instance.collection('Trips').get();
-
-    // List<Trip> _tripsList;
+        await FirebaseFirestore.instance.collection('Trips').where('userId', isEqualTo: userId).get();
 
     // Get data from docs and convert map to List
     final tripsList = querySnapshot.docs.map<Trip>((doc) {
@@ -204,5 +201,28 @@ class FirebaseService {
     } catch (e) {
       throw Exception('Failed to retrieve trip: $e');
     }
+  }
+
+  Future<List<Trip>> getAvailableTripList() async {
+    // Get docs from trips collection reference
+    QuerySnapshot querySnapshot =
+    await FirebaseFirestore.instance.collection('Trips').get();
+
+    // Get data from docs and convert map to List
+    final tripsList = querySnapshot.docs.map<Trip>((doc) {
+      return Trip(
+          id: doc['id'],
+          userId: doc['userId'],
+          startLocation: doc['startLocation'],
+          destination: doc['destination'],
+          date: doc['date'],
+          time: doc['time'],
+          status: doc['status'],
+          stops: doc['stops'],
+          seats: int.parse(doc['seats']),
+          enablePickupNotification: doc['enablePickupNotification']);
+    }).toList();
+
+    return tripsList;
   }
 }
