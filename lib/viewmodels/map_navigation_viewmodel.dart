@@ -15,6 +15,7 @@ import 'package:mobile_app_development_cw2/viewmodels/map_navigation_viewmodel.d
 import 'package:mobile_app_development_cw2/views/base_view.dart';
 
 class MapNavigationViewModel extends BaseViewModel {
+  String _tripId = "";
   String _startLocationAddress="";
   String _destinationAddress="";
 
@@ -32,6 +33,7 @@ class MapNavigationViewModel extends BaseViewModel {
   final FirebaseService _firebaseService = locator<FirebaseService>();
 
   void onModelReady(String tripId) {
+    _tripId = tripId;
     setupMap(tripId);
   }
 
@@ -50,7 +52,6 @@ class MapNavigationViewModel extends BaseViewModel {
     Trip trip = await _firebaseService.getTrip(tripId);
     _startLocationAddress = trip.startLocation;
     _destinationAddress = trip.destination;
-    print("1");
     notifyListeners();
   }
 
@@ -62,7 +63,6 @@ class MapNavigationViewModel extends BaseViewModel {
 
     _sourceLocation = LatLng(_sourceLocationList[0].latitude, _sourceLocationList[0].longitude);
     _destination = LatLng(_destinationLocationList[0].latitude, _destinationLocationList[0].longitude);
-    print("2");
     notifyListeners();
   }
 
@@ -82,7 +82,6 @@ class MapNavigationViewModel extends BaseViewModel {
           LatLng(point.latitude, point.longitude),
         ),
       );
-      print("3");
       notifyListeners();
     }
   }
@@ -92,7 +91,6 @@ class MapNavigationViewModel extends BaseViewModel {
   BitmapDescriptor _currentLocationIcon = BitmapDescriptor.defaultMarker;
 
   Future<void> setCustomMarkerIcon() async {
-    print("6");
     BitmapDescriptor.fromAssetImage(
         ImageConfiguration.empty, 'assets/source_pin.png')
         .then(
@@ -119,17 +117,14 @@ class MapNavigationViewModel extends BaseViewModel {
   }
 
   Future <void> getCurrentLocation() async {
-    print("4");
     Location location = Location();
     currentLocation = await location.getLocation();
     notifyListeners();
 
     GoogleMapController googleMapController = await _controller.future;
-    print("4b");
     location.onLocationChanged.listen(
           (newLoc) {
         currentLocation = newLoc;
-        print("4c");
         googleMapController.animateCamera(
           CameraUpdate.newCameraPosition(
             CameraPosition(
@@ -148,6 +143,39 @@ class MapNavigationViewModel extends BaseViewModel {
     );
   }
 
+  Future<void> completeTrip() async {
+    await _firebaseService.completeTrip(tripId);
+    notifyListeners();
+  }
+
+  Future<bool> showConfirmationDialog(BuildContext context) async {
+    // Show the error message dialog
+    bool? showConfirm = await showDialog<bool>(
+      context: context,
+      useRootNavigator: false,
+      builder: (context) => AlertDialog(
+        title: Text('Complete Trip'),
+        content: Text("Are you sure you want to complete the trip?"),
+        actions: [
+          TextButton(
+            onPressed: () {
+              Navigator.of(context).pop(false); // Cancel confirmation
+            },
+            child: Text('Cancel'),
+          ),
+          TextButton(
+            onPressed: () {
+              Navigator.of(context).pop(true); // Confirm complete trip
+              completeTrip();
+              Navigator.of(context).pop();
+            },
+            child: Text('Yes'),
+          ),
+        ],
+      ),
+    );
+    return showConfirm ?? false; // Return false if the dialog is dismissed
+  }
 
   LatLng get sourceLocation => _sourceLocation;
 
@@ -207,5 +235,11 @@ class MapNavigationViewModel extends BaseViewModel {
 
   set sourceIcon(BitmapDescriptor value) {
     _sourceIcon = value;
+  }
+
+  String get tripId => _tripId;
+
+  set tripId(String value) {
+    _tripId = value;
   }
 }

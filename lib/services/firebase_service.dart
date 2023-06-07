@@ -225,4 +225,18 @@ class FirebaseService {
 
     return tripsList;
   }
+
+  Future<void> completeTrip(String tripId) async {
+    // print(tripId);
+    var collection = FirebaseFirestore.instance.collection('Trips');
+    collection
+        .doc(tripId)
+        .update({'status' : 'Completed'}) // <-- Updated data
+        .then((_) {
+          print('Update trip status success');
+        })
+        .catchError((error) {
+          print('Failed: $error');
+        });
+  }
 }
