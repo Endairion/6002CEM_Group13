@@ -1,7 +1,9 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:mobile_app_development_cw2/models/rewards_model.dart';
 import 'package:mobile_app_development_cw2/models/trip_model.dart';
+import 'package:mobile_app_development_cw2/models/user_model.dart';
 import 'package:mobile_app_development_cw2/utils/error_codes.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -75,8 +77,23 @@ class FirebaseService {
     }
   }
 
-  Future<QuerySnapshot> fetchRewardsData() {
-    return FirebaseFirestore.instance.collection('Rewards').get();
+  Future<List<Rewards>> getRewardsLists() async {
+    QuerySnapshot querySnapshot =
+        await FirebaseFirestore.instance.collection('Rewards').get();
+
+    // Get data from docs and convert map to List
+    final rewardsList = querySnapshot.docs.map<Rewards>((doc) {
+      return Rewards(
+        desc: doc['desc'],
+        discount: doc['discount'],
+        points: doc['points'],
+        remaining: doc['remaining'],
+        store: doc['store'],
+        url: doc['url'],
+      );
+    }).toList();
+
+    return rewardsList;
   }
 
   // Reference to Trips collection
@@ -105,7 +122,8 @@ class FirebaseService {
   Future<List<Trip>> getTripList() async {
     // Get docs from trips collection reference
     // where('userId', isEqualTo: userId)
-    QuerySnapshot querySnapshot = await FirebaseFirestore.instance.collection('Trips').get();
+    QuerySnapshot querySnapshot =
+        await FirebaseFirestore.instance.collection('Trips').get();
 
     // List<Trip> _tripsList;
 
@@ -129,8 +147,10 @@ class FirebaseService {
 
   Future<Trip> getTrip(String tripId) async {
     try {
-      final DocumentReference<Map<String, dynamic>> documentRef = FirebaseFirestore.instance.collection('Trips').doc(tripId);
-      final DocumentSnapshot<Map<String, dynamic>> snapshot = await documentRef.get();
+      final DocumentReference<Map<String, dynamic>> documentRef =
+          FirebaseFirestore.instance.collection('Trips').doc(tripId);
+      final DocumentSnapshot<Map<String, dynamic>> snapshot =
+          await documentRef.get();
 
       if (snapshot.exists) {
         // Retrieve document data
@@ -150,6 +170,34 @@ class FirebaseService {
             enablePickupNotification: data['enablePickupNotification']);
 
         return trip;
+      } else {
+        throw Exception('Document does not exist');
+      }
+    } catch (e) {
+      throw Exception('Failed to retrieve trip: $e');
+    }
+  }
+
+  Future<Users> getUserData(String userId) async {
+    try {
+      final DocumentReference<Map<String, dynamic>> documentRef =
+          FirebaseFirestore.instance.collection('Users').doc(userId);
+      final DocumentSnapshot<Map<String, dynamic>> snapshot =
+          await documentRef.get();
+
+      if (snapshot.exists) {
+        // Retrieve document data
+        Map<String, dynamic> data = snapshot.data()!;
+
+        // Create a User object from the retrieved data
+        Users user = Users(
+            name: data['name'],
+            email: data['email'],
+            contact: data['contact'],
+            dob: data['dob'],
+            ic_no: data['ic_no'],
+            points: data['points']);
+        return user;
       } else {
         throw Exception('Document does not exist');
       }

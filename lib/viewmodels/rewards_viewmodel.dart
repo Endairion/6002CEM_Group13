@@ -14,24 +14,12 @@ class RewardsViewModel extends BaseViewModel {
     fetchRewardsData();
   }
 
-  void onModelDestroy() {}
+  void onModelDestroy() {
+    _rewardsList.clear();
+  }
 
   void fetchRewardsData() async {
-    try {
-      var snapshot = await _firebaseService.fetchRewardsData();
-      _rewardsList.clear();
-      for (var document in snapshot.docs) {
-        _rewardsList.add(Rewards(
-            desc: document['desc'],
-            discount: document['discount'],
-            points: document['points'],
-            remaining: document['remaining'],
-            store: document['store'],
-            url: document['url']));
-      }
-      notifyListeners();
-    } catch (e) {
-      print('Error fetching data: $e');
-    }
+    _rewardsList = await _firebaseService.getRewardsLists();
+    notifyListeners();
   }
 }
