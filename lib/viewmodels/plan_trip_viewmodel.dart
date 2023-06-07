@@ -1,7 +1,6 @@
 import 'package:mobile_app_development_cw2/locator.dart';
 import 'package:mobile_app_development_cw2/models/trip_model.dart';
 import 'package:mobile_app_development_cw2/services/firebase_service.dart';
-import 'package:mobile_app_development_cw2/utils/validators.dart';
 import 'package:mobile_app_development_cw2/viewmodels/base_viewmodel.dart';
 
 import 'package:flutter/material.dart';
@@ -102,7 +101,6 @@ class PlanTripViewModel extends BaseViewModel {
 
   String getApiRequestUrl(String input) {
     String kPLACES_API_KEY = "AIzaSyA36o5GXvW4Kauogfmfgqnas7oBMzUqmkU";
-    String type = '(regions)';
     String baseURL =
         'https://maps.googleapis.com/maps/api/place/autocomplete/json';
     String request =

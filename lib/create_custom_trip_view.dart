@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:mobile_app_development_cw2/viewmodels/create_custom_trip_viewmodel.dart';
+import 'package:mobile_app_development_cw2/views/base_view.dart';
 import 'package:mobile_app_development_cw2/views/custom_radio_list_tile.dart';
 import 'package:uuid/uuid.dart';
 import 'package:http/http.dart' as http;
@@ -8,101 +10,34 @@ import 'package:intl/intl.dart';
 import 'common/theme_helper.dart';
 
 void main() {
-  runApp(const CreateCustomTrip());
+  runApp(const CreateCustomTripView());
 }
 
-class CreateCustomTrip extends StatefulWidget {
-  const CreateCustomTrip({super.key});
+class CreateCustomTripView extends StatefulWidget {
+  const CreateCustomTripView({super.key});
 
   @override
-  State<CreateCustomTrip> createState() => _CreateCustomTripState();
+  State<CreateCustomTripView> createState() => _CreateCustomTripViewState();
 }
 
-class _CreateCustomTripState extends State<CreateCustomTrip> {
-  final TextEditingController _controller = TextEditingController();
-  final TextEditingController _controller2 = TextEditingController();
-
-  var uuid = new Uuid();
-  String _sessionToken = "";
-  List<dynamic> _placeList = [];
-  List<dynamic> _placeList2 = [];
+class _CreateCustomTripViewState extends State<CreateCustomTripView> {
 
   final _focus = FocusNode();
   final _focusDropdown = FocusNode();
+  late final CreateCustomTripViewmodel _model;
+  late final BuildContext _context;
 
-  @override
-  void initState() {
-    super.initState();
-
-    _controller.addListener(() {
-      _onChanged();
-    });
-    _controller2.addListener(() {
-      _onChanged2();
-    });
-  }
-
-  _onChanged() {
-    if (_sessionToken == null) {
-      setState(() {
-        _sessionToken = uuid.v4();
-      });
-    }
-    getSuggestion(_controller.text);
-  }
-
-  _onChanged2() {
-    if (_sessionToken == null) {
-      setState(() {
-        _sessionToken = uuid.v4();
-      });
-    }
-    getSuggestion2(_controller2.text);
-  }
-
-  String getApiRequestUrl(String input) {
-    String kPLACES_API_KEY = "AIzaSyA36o5GXvW4Kauogfmfgqnas7oBMzUqmkU";
-    String type = '(regions)';
-    String baseURL =
-        'https://maps.googleapis.com/maps/api/place/autocomplete/json';
-    String request =
-        '$baseURL?input=$input&key=$kPLACES_API_KEY&region=my&sessiontoken=$_sessionToken';
-    return request;
-  }
-
-  void getSuggestion(String input) async {
-    String request = getApiRequestUrl(input);
-    http.Response response = await http.get(Uri.parse(request));
-    if (response.statusCode == 200) {
-      setState(() {
-        _placeList = json.decode(response.body)['predictions'];
-      });
-    } else {
-      throw Exception('Failed to load predictions');
-    }
-  }
-
-  void getSuggestion2(String input) async {
-    String request = getApiRequestUrl(input);
-    http.Response response = await http.get(Uri.parse(request));
-    if (response.statusCode == 200) {
-      setState(() {
-        _placeList2 = json.decode(response.body)['predictions'];
-      });
-    } else {
-      throw Exception('Failed to load predictions');
-    }
-  }
-
-  @override
-  void dispose() {
-    _controller.dispose();
-    super.dispose();
-  }
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+    return BaseView<CreateCustomTripViewmodel>(
+        onModelReady: (model) {
+      _model = model;
+      _context = context;
+      model.onModelReady();
+    },
+    onModelDestroy: (model) => model.onModelDestroy(),
+    builder: (context, model, child) =>MaterialApp(
       home: Scaffold(
         resizeToAvoidBottomInset: false,
         appBar: AppBar(
@@ -160,7 +95,7 @@ class _CreateCustomTripState extends State<CreateCustomTrip> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         TextField(
-                          controller: _controller,
+                          controller: _model.startLocationController,
                           onTap: () {},
                           keyboardType: TextInputType.text,
                           cursorColor: Colors.lightGreen,
@@ -196,15 +131,15 @@ class _CreateCustomTripState extends State<CreateCustomTrip> {
                         ListView.builder(
                           physics: NeverScrollableScrollPhysics(),
                           shrinkWrap: true,
-                          itemCount: _placeList.length,
+                          itemCount: _model.placeList.length,
                           itemBuilder: (context, index) {
                             return ListTile(
-                              title: Text(_placeList[index]["description"]),
+                              title: Text(_model.placeList[index]["description"]),
                               onTap: () {
                                 setState(() {
-                                  _controller.text =
-                                      _placeList[index]["description"];
-                                  _placeList.clear();
+                                  _model.startLocationController.text =
+                                      model.placeList[index]["description"];
+                                  model.placeList.clear();
                                   _focus.requestFocus();
                                 });
                               },
@@ -214,7 +149,7 @@ class _CreateCustomTripState extends State<CreateCustomTrip> {
                         SizedBox(height: 12),
                         TextField(
                           focusNode: _focus,
-                          controller: _controller2,
+                          controller: _model.destinationController,
                           keyboardType: TextInputType.text,
                           cursorColor: Colors.lightGreen,
                           decoration: InputDecoration(
@@ -241,15 +176,15 @@ class _CreateCustomTripState extends State<CreateCustomTrip> {
                         ListView.builder(
                           physics: NeverScrollableScrollPhysics(),
                           shrinkWrap: true,
-                          itemCount: _placeList2.length,
+                          itemCount: model.placeList2.length,
                           itemBuilder: (context, index) {
                             return ListTile(
-                              title: Text(_placeList2[index]["description"]),
+                              title: Text(model.placeList2[index]["description"]),
                               onTap: () {
                                 setState(() {
-                                  _controller2.text =
-                                      _placeList2[index]["description"];
-                                  _placeList2.clear();
+                                  _model.destinationController.text =
+                                      model.placeList2[index]["description"];
+                                  _model.placeList2.clear();
                                   _focusDropdown.requestFocus();
                                 });
                               },
@@ -301,6 +236,7 @@ class _CreateCustomTripState extends State<CreateCustomTrip> {
                         ),
                         TextField(
                           onTap: () {},
+                          controller: _model.remarksController,
                           keyboardType: TextInputType.text,
                           cursorColor: Colors.lightGreen,
                           decoration: InputDecoration(
@@ -378,7 +314,9 @@ class _CreateCustomTripState extends State<CreateCustomTrip> {
                                         )),
                                   ),
                                   ElevatedButton(
-                                    onPressed: () {},
+                                    onPressed: () {
+                                      _model.planTrip(context);
+                                    },
                                     child: Text(
                                       'Submit',
                                       style: TextStyle(
@@ -408,44 +346,7 @@ class _CreateCustomTripState extends State<CreateCustomTrip> {
           ),
         ),
       ),
-    );
-  }
-}
-
-class MyRadioListTile<T> extends StatelessWidget {
-  final T value;
-  final T groupValue;
-  final String leading;
-  final Widget? title;
-  final ValueChanged<T?> onChanged;
-
-  const MyRadioListTile({
-    required this.value,
-    required this.groupValue,
-    required this.onChanged,
-    required this.leading,
-    this.title,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    final title = this.title;
-    return InkWell(
-      onTap: () => onChanged(value),
-      child: Container(
-        height: 56,
-        padding: EdgeInsets.symmetric(horizontal: 8),
-        child: Row(
-          children: [
-            CustomRadioListTile(
-                value: value,
-                groupValue: groupValue,
-                onChanged: onChanged,
-                leading: leading),
-            if (title != null) title,
-          ],
-        ),
-      ),
+    ),
     );
   }
 }
