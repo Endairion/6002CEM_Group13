@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:mobile_app_development_cw2/create_custom_trip_view.dart';
+import 'package:mobile_app_development_cw2/views/create_custom_trip_view.dart';
 import 'package:mobile_app_development_cw2/models/trip_model.dart';
 import 'package:mobile_app_development_cw2/views/available_trips_card_view.dart';
 import 'package:mobile_app_development_cw2/viewmodels/search_available_trips_viewmodel.dart';
