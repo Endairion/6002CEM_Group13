@@ -32,7 +32,7 @@ Future<void> setUpLocator() async{
   locator.registerFactory<RewardsViewModel>(() => RewardsViewModel());
   locator.registerFactory<OngoingTripDetailsViewModel>(() => OngoingTripDetailsViewModel());
   locator.registerFactory<MapNavigationViewModel>(() => MapNavigationViewModel());
-  locator.registerFactory<SearchAvailableTripsViewmodel>(() => SearchAvailableTripsViewmodel());
+  locator.registerFactory<SearchAvailableTripsViewModel>(() => SearchAvailableTripsViewModel());
   locator.registerFactory<RequestCarpoolViewmodel>(() => RequestCarpoolViewmodel());
   locator.registerFactory<CreateCustomTripViewmodel>(() => CreateCustomTripViewmodel());
 }
