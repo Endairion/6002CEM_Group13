@@ -6,6 +6,8 @@ import 'package:mobile_app_development_cw2/viewmodels/base_viewmodel.dart';
 import 'package:mobile_app_development_cw2/views/available_trips_card_view.dart';
 
 class SearchAvailableTripsViewModel extends BaseViewModel {
+  late final TextEditingController _startLocationController;
+  late final TextEditingController _destinationController;
   String _startLocation = "";
   String _destination = "";
   String _driver = "";
@@ -13,16 +15,21 @@ class SearchAvailableTripsViewModel extends BaseViewModel {
   String _time = "";
   int _seats = 0;
   List<Trip> _availableTripsList = [];
+  List<String> _tripIdList = [];
   double _singleListViewHeight = 135;
   double _listViewHeight = 400;
 
   final FirebaseService _firebaseService = locator<FirebaseService>();
 
   void onModelReady() {
+    _startLocationController = TextEditingController();
+    _destinationController = TextEditingController();
     getAvailableTripList();
   }
 
   void onModelDestroy() {
+    _startLocationController.dispose();
+    _destinationController.dispose();
     _availableTripsList.clear();
   }
 
@@ -66,7 +73,29 @@ class SearchAvailableTripsViewModel extends BaseViewModel {
     }
   }
 
+  Future <void> getSearchResultTripsList(TextEditingController startLocationController, TextEditingController destinationController) async{
+    _availableTripsList.clear();
+    print("Current input is " + startLocationController.text);
+    _tripIdList = await _firebaseService.compareAvailableTripsLocation(startLocationController.text, destinationController.text);
+    print("List content : " + _tripIdList.toString());
+    _availableTripsList = await _firebaseService.retrieveTripListsbyId(_tripIdList);
+    print(_availableTripsList.toList());
+    if (_availableTripsList.length * _singleListViewHeight > 400) {
+      _listViewHeight = _availableTripsList.length * _singleListViewHeight;
+    }
+    getAvailableTripListSizedBox();
+    notifyListeners();
+  }
+
+
+
+
   // Getter
+  TextEditingController get startLocationController =>
+      _startLocationController;
+
+  TextEditingController get destinationController => _destinationController;
+
   int get seats => _seats;
 
   String get time => _time;
@@ -84,6 +113,14 @@ class SearchAvailableTripsViewModel extends BaseViewModel {
   double get listViewHeight => _listViewHeight;
 
   // Setter
+  set startLocationController(TextEditingController value) {
+    _startLocationController = value;
+  }
+
+  set destinationController(TextEditingController value) {
+    _destinationController = value;
+  }
+
   set seats(int value) {
     _seats = value;
   }
@@ -115,5 +152,6 @@ class SearchAvailableTripsViewModel extends BaseViewModel {
   set listViewHeight(double value) {
     _listViewHeight = value;
   }
+
 
 }

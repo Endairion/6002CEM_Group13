@@ -15,11 +15,9 @@ class _RequestCarpoolViewState extends State<RequestCarpoolView> {
   late final RequestCarpoolViewmodel _model;
   late final BuildContext _context;
   final _focus = FocusNode();
-  final _focusDropdown = FocusNode();
 
   @override
   Widget build(BuildContext context) {
-    print('test ' + widget.tripId);
     return BaseView<RequestCarpoolViewmodel>(
       onModelReady: (model) {
         _model = model;
