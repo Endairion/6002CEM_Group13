@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:mobile_app_development_cw2/CreateCustomTrip.dart';
+import 'package:mobile_app_development_cw2/create_custom_trip_view.dart';
 import 'package:mobile_app_development_cw2/models/trip_model.dart';
 import 'package:mobile_app_development_cw2/views/available_trips_card_view.dart';
 import 'package:mobile_app_development_cw2/viewmodels/search_available_trips_viewmodel.dart';
@@ -17,7 +17,8 @@ class _SearchAvailableTripsState extends State<SearchAvailableTrips> {
   double _listViewHeight = 100;
   late final SearchAvailableTripsViewmodel _model;
   late final BuildContext _context;
-  List<Trip> _availableList = [];
+
+  int current = 0;
 
   // List<Trip> _availableTrips = [
   //   Trip(
@@ -99,7 +100,6 @@ class _SearchAvailableTripsState extends State<SearchAvailableTrips> {
       onModelReady: (model) {
         _model = model;
         _context = context;
-        _availableList = model.tripsList;
         model.onModelReady();
       },
       onModelDestroy: (model) => model.onModelDestroy(),
@@ -359,26 +359,7 @@ class _SearchAvailableTripsState extends State<SearchAvailableTrips> {
                       ),
                       SizedBox(
                         height: _listViewHeight,
-                        child: _availableList.length > 0
-                            ? ListView.builder(
-                                shrinkWrap: true,
-                                physics: NeverScrollableScrollPhysics(),
-                                itemCount: _availableList.length,
-                                itemBuilder: (BuildContext context, int index) {
-                                  var trip = _model.tripsList[index];
-                                  return AvailableTripsCardView(trip: trip);
-                                },
-                              )
-                            : const Center(
-                                child: Text(
-                                  'There are no trips available.',
-                                  style: TextStyle(
-                                    fontStyle: FontStyle.italic,
-                                    color: Colors.red,
-                                    fontSize: 16,
-                                  ),
-                                ),
-                              ),
+                        child: _model.getTripList(current),
                       ),
                     ],
                   ),

@@ -3,29 +3,24 @@ import 'package:get/get.dart';
 import 'package:mobile_app_development_cw2/models/trip_model.dart';
 import 'package:mobile_app_development_cw2/views/request_carpool_view.dart';
 
-class AvailableTripsCardView extends StatelessWidget {
-  final Trip trip;
-  const AvailableTripsCardView({Key? key, required this.trip}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
+Widget AvailableTripsCardView(BuildContext context, List<Trip> trip, int index) {
     String startLocation;
     String destination;
     String tripId;
 
-    if (trip.startLocation.length > 35) {
-      startLocation = trip.startLocation.substring(0, 35);
+    if (trip[index].startLocation.length > 35) {
+      startLocation = trip[index].startLocation.substring(0, 35);
     } else {
-      startLocation = trip.startLocation;
+      startLocation = trip[index].startLocation;
     }
 
-    if (trip.destination.length > 35) {
-      destination = trip.destination.substring(0, 35);
+    if (trip[index].destination.length > 35) {
+      destination = trip[index].destination.substring(0, 35);
     } else {
-      destination = trip.destination;
+      destination = trip[index].destination;
     }
 
-    tripId = trip.id;
+    tripId = trip[index].id;
     return Padding(
       padding: const EdgeInsets.only(bottom: 12),
       child: GestureDetector(
@@ -129,7 +124,7 @@ class AvailableTripsCardView extends StatelessWidget {
                           width: 4,
                         ),
                         Text(
-                          'Date: ' + trip.date,
+                          'Date: ' + trip[index].date,
                           style: TextStyle(
                             fontSize: 14,
                             color: Colors.black87,
@@ -139,7 +134,7 @@ class AvailableTripsCardView extends StatelessWidget {
                           width: 12,
                         ),
                         Text(
-                          'Time: ' + trip.time,
+                          'Time: ' + trip[index].time,
                           style: TextStyle(
                             fontSize: 14,
                             color: Colors.black87,
@@ -153,7 +148,7 @@ class AvailableTripsCardView extends StatelessWidget {
                     Padding(
                       padding: const EdgeInsets.only(left: 4),
                       child: Text(
-                        'Available Seats: ' + trip.seats.toString(),
+                        'Available Seats: ' + trip[index].seats.toString(),
                         style: TextStyle(
                           fontSize: 14,
                           fontWeight: FontWeight.bold,
@@ -178,7 +173,6 @@ class AvailableTripsCardView extends StatelessWidget {
       ),
     );
   }
-}
 
 // Widget AvailableTripCard(List<Trip> trip, int index) {
   // String startLocation;
