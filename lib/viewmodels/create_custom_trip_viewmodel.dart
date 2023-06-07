@@ -124,44 +124,11 @@ class CreateCustomTripViewmodel extends BaseViewModel {
       }
       notComplete = true;
     }
-
-    //value 2 for future
-    // if (_departureValue == 2) {
-    //   if (_selectedDateText == 'Set future date') {
-    //     _errorMessage = _errorMessage + "Please set future date\n";
-    //     notComplete = true;
-    //   }
-    //   if (_timeDropDownValue == 'Select future time') {
-    //     _errorMessage = _errorMessage + "Please set future time\n";
-    //     notComplete = true;
-    //   }
-    // }
-
     if (notComplete == true) {
       showErrorDialog(context);
     } else {
       date = DateFormat("dd-MM-yyyy").format(DateTime.now());
       time = DateFormat.jm().format(DateTime.now());
-      // if (_departureValue == 1) {
-      //
-      // } else if (_departureValue == 2) {
-      //   date = _selectedDateText;
-      //   time = _timeDropDownValue;
-      // }
-
-      // Trip trip = Trip(
-      //     id: uuid.v4().toString(),
-      //     userId: _firebaseService.userId,
-      //     startLocation: _startLocationController.text,
-      //     destination: _destinationController.text,
-      //     date: date,
-      //     time: time,
-      //     stops: "",
-      //     status: "Ongoing",
-      //     seats: int.parse(_dropDownValue),
-      //     enablePickupNotification: _pickupNotificationIsChecked);
-
-      // await _firebaseService.createTrip(trip);
       print("Date: " + date);
       print("Time: " + time);
       print("Remarks: " + _remarksController.text);
