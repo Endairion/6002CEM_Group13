@@ -80,37 +80,37 @@ class SearchAvailableTripsViewmodel extends BaseViewModel {
 
   Widget getTripList(int index) {
     return SizedBox(
-      height: _listViewHeight,
-      child: getTripListCard(index),
+      // height: _listViewHeight,
+      // child: getTripListCard(index),
     );
   }
 
-  Widget getTripListCard(int index) {
-    if (index == 0) {
-      if (_tripsList.isNotEmpty) {
-        return ListView.builder(
-          shrinkWrap: true,
-          physics: NeverScrollableScrollPhysics(),
-          itemCount: _tripsList.length,
-          itemBuilder: (BuildContext context, int index) {
-            return AvailableTripsCardView(context, _tripsList, index);
-          },
-        );
-      } else {
-        return const Center(
-          child: Text(
-            'There are no trips available.',
-            style: TextStyle(
-              fontStyle: FontStyle.italic,
-              color: Colors.red,
-              fontSize: 16,
-            ),
-          ),
-        );
-      }
-    }
-    else{
-      return null;
-    }
-  }
+  // Widget getTripListCard(int index) {
+  //   if (index == 0) {
+  //     if (_tripsList.isNotEmpty) {
+  //       return ListView.builder(
+  //         shrinkWrap: true,
+  //         physics: NeverScrollableScrollPhysics(),
+  //         itemCount: _tripsList.length,
+  //         itemBuilder: (BuildContext context, int index) {
+  //           return AvailableTripsCardView(context, _tripsList, index);
+  //         },
+  //       );
+  //     } else {
+  //       return const Center(
+  //         child: Text(
+  //           'There are no trips available.',
+  //           style: TextStyle(
+  //             fontStyle: FontStyle.italic,
+  //             color: Colors.red,
+  //             fontSize: 16,
+  //           ),
+  //         ),
+  //       );
+  //     }
+  //   }
+  //   else{
+  //     return null;
+  //   }
+  // }
 }

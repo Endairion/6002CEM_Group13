@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:mobile_app_development_cw2/locator.dart';
+import 'package:mobile_app_development_cw2/models/custom_request_model.dart';
 import 'package:mobile_app_development_cw2/models/trip_model.dart';
 import 'package:mobile_app_development_cw2/services/firebase_service.dart';
 import 'package:mobile_app_development_cw2/viewmodels/base_viewmodel.dart';
@@ -10,9 +11,10 @@ import 'package:uuid/uuid.dart';
 import 'package:http/http.dart' as http;
 import 'package:intl/intl.dart';
 
-class CreateCustomTripViewmodel extends BaseViewModel{
+class CreateCustomTripViewmodel extends BaseViewModel {
   late final TextEditingController _startLocationController;
   late final TextEditingController _destinationController;
+  late final TextEditingController _remarksController;
   var uuid = new Uuid();
   String _sessionToken = "";
   List<dynamic> _placeList = [];
@@ -27,6 +29,12 @@ class CreateCustomTripViewmodel extends BaseViewModel{
 
   TextEditingController get destinationController => _destinationController;
 
+  TextEditingController get remarksController => _remarksController;
+
+  List<dynamic> get placeList => _placeList;
+
+  List<dynamic> get placeList2 => _placeList2;
+
   set destinationController(TextEditingController value) {
     _destinationController = value;
   }
@@ -35,9 +43,14 @@ class CreateCustomTripViewmodel extends BaseViewModel{
     _startLocationController = value;
   }
 
-  void onModelReady(){
+  set remarksController(TextEditingController value) {
+    _remarksController = value;
+  }
+
+  void onModelReady() {
     _startLocationController = TextEditingController();
     _destinationController = TextEditingController();
+    _remarksController = TextEditingController();
     startLocationController.addListener(() {
       _onChanged();
     });
@@ -46,9 +59,10 @@ class CreateCustomTripViewmodel extends BaseViewModel{
     });
   }
 
-  void onModelDestroy(){
+  void onModelDestroy() {
     _startLocationController.dispose();
     _destinationController.dispose();
+    _remarksController.dispose();
   }
 
   _onChanged() {
@@ -129,7 +143,6 @@ class CreateCustomTripViewmodel extends BaseViewModel{
     if (notComplete == true) {
       showErrorDialog(context);
     } else {
-
       date = DateFormat("dd-MM-yyyy").format(DateTime.now());
       time = DateFormat.jm().format(DateTime.now());
       // if (_departureValue == 1) {
@@ -138,8 +151,6 @@ class CreateCustomTripViewmodel extends BaseViewModel{
       //   date = _selectedDateText;
       //   time = _timeDropDownValue;
       // }
-
-
 
       // Trip trip = Trip(
       //     id: uuid.v4().toString(),
@@ -154,6 +165,22 @@ class CreateCustomTripViewmodel extends BaseViewModel{
       //     enablePickupNotification: _pickupNotificationIsChecked);
 
       // await _firebaseService.createTrip(trip);
+      print("Date: " + date);
+      print("Time: " + time);
+      print("Remarks: " + _remarksController.text);
+
+      CustomRequest customRequest = CustomRequest(
+          id: uuid.v4().toString(),
+          userId: _firebaseService.userId,
+          startLocation: _startLocationController.text,
+          destination: _destinationController.text,
+          date: date,
+          time: time,
+          status: 0,
+          remarks: _remarksController.text
+      );
+
+      await _firebaseService.createCustomRequest(customRequest);
 
       showSuccessDialog(context);
     }
@@ -200,5 +227,4 @@ class CreateCustomTripViewmodel extends BaseViewModel{
     );
     return showSuccess ?? false; // Return false if the dialog is dismissed
   }
-
 }

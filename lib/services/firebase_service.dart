@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:mobile_app_development_cw2/models/custom_request_model.dart';
 import 'package:mobile_app_development_cw2/models/rewards_model.dart';
 import 'package:mobile_app_development_cw2/models/trip_model.dart';
 import 'package:mobile_app_development_cw2/models/user_model.dart';
@@ -204,5 +205,25 @@ class FirebaseService {
     } catch (e) {
       throw Exception('Failed to retrieve trip: $e');
     }
+  }
+
+  CollectionReference customRequests =
+      FirebaseFirestore.instance.collection('CustomRequests');
+  createCustomRequest(CustomRequest customRequest) {
+    return customRequests
+        .doc(customRequest.id)
+        .set({
+          'id': customRequest.id,
+          'userId': customRequest.userId,
+          'startLocation': customRequest.startLocation,
+          'destination': customRequest.destination,
+          'date': customRequest.date,
+          'time': customRequest.time,
+          'status': customRequest.status,
+          'remarks': customRequest.remarks,
+        })
+        .then((value) => print("Custom Request Created"))
+        .catchError(
+            (error) => print("Failed to create custom request: $error"));
   }
 }

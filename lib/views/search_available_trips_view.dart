@@ -265,7 +265,7 @@ class _SearchAvailableTripsState extends State<SearchAvailableTrips> {
                           Navigator.push(
                             context,
                             MaterialPageRoute(
-                                builder: (context) => const CreateCustomTrip()),
+                                builder: (context) => const CreateCustomTripView()),
                           );
                         },
                         style: ElevatedButton.styleFrom(
