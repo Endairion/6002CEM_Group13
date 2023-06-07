@@ -1,7 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:mobile_app_development_cw2/PointsEarn.dart';
+import 'package:mobile_app_development_cw2/locator.dart';
+import 'package:mobile_app_development_cw2/models/earn_point_model.dart';
+import 'package:mobile_app_development_cw2/models/trip_model.dart';
+import 'package:mobile_app_development_cw2/viewmodels/activity_page_viewmodel.dart';
+import 'package:mobile_app_development_cw2/services/firebase_service.dart';
 
-Widget PointsEarnCard(List<PointsEarn> pointsEarnList, int index) {
+
+Widget PointsEarnCard(BuildContext context, List<EarnPoint> pointsEarnList, List<Trip> tripList,int index) {
   return Padding(
     padding: const EdgeInsets.only(bottom: 12),
     child: Container(
@@ -45,7 +51,7 @@ Widget PointsEarnCard(List<PointsEarn> pointsEarnList, int index) {
                       SizedBox(
                         width: 205,
                         child: Text(
-                          pointsEarnList[index].startLocation,
+                          tripList[index].startLocation,
                           overflow: TextOverflow.clip,
                           style: TextStyle(
                             fontSize: 14,
@@ -56,7 +62,7 @@ Widget PointsEarnCard(List<PointsEarn> pointsEarnList, int index) {
                     ],
                   ),
                   SizedBox(
-                    height: 4,
+                    height: 12,
                   ),
                   Row(
                     children: [
@@ -74,7 +80,7 @@ Widget PointsEarnCard(List<PointsEarn> pointsEarnList, int index) {
                       SizedBox(
                         width: 205,
                         child: Text(
-                          pointsEarnList[index].destination,
+                          tripList[index].destination,
                           overflow: TextOverflow.clip,
                           style: TextStyle(
                             fontSize: 14,
@@ -85,7 +91,7 @@ Widget PointsEarnCard(List<PointsEarn> pointsEarnList, int index) {
                     ],
                   ),
                   SizedBox(
-                    height: 4,
+                    height: 12,
                   ),
                   Row(
                     children: [
@@ -98,7 +104,7 @@ Widget PointsEarnCard(List<PointsEarn> pointsEarnList, int index) {
                         ),
                       ),
                       Text(
-                        pointsEarnList[index].date,
+                        tripList[index].date,
                         style: TextStyle(
                           fontSize: 14,
                           color: Colors.black87,
@@ -116,7 +122,7 @@ Widget PointsEarnCard(List<PointsEarn> pointsEarnList, int index) {
                         ),
                       ),
                       Text(
-                        pointsEarnList[index].time,
+                        tripList[index].time,
                         style: TextStyle(
                           fontSize: 14,
                           color: Colors.black87,
@@ -125,7 +131,7 @@ Widget PointsEarnCard(List<PointsEarn> pointsEarnList, int index) {
                     ],
                   ),
                   SizedBox(
-                    height: 4,
+                    height: 12,
                   ),
                   Text(
                     'Role: ' + pointsEarnList[index].role,
@@ -135,11 +141,17 @@ Widget PointsEarnCard(List<PointsEarn> pointsEarnList, int index) {
                       fontWeight: FontWeight.bold
                     ),
                   ),
+                  SizedBox(
+                    height: 8,
+                  ),
                 ],
               ),
             ],
           ),
-          Divider(),
+          Divider(
+            height: 20.0,
+            color: Colors.green,
+          ),
         ],
       ),
     ),

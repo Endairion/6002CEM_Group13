@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:mobile_app_development_cw2/PointsEarn.dart';
-import 'package:mobile_app_development_cw2/PointsEarnCard.dart';
+import 'package:mobile_app_development_cw2/views/points_earn_card.dart';
 import 'package:mobile_app_development_cw2/models/trip_model.dart';
 import 'package:mobile_app_development_cw2/views/available_trips_card_view.dart';
 import 'package:mobile_app_development_cw2/views/trip_history_card_view.dart';
@@ -28,41 +28,6 @@ class _ActivityPageState extends State<ActivityPage> {
     "Points Earned",
   ];
   int current = 0;
-
-  // List<PointsEarn> _pointsEarnedList = [
-  //   PointsEarn(
-  //       id: "123",
-  //       startLocation: "Inti International College Penang Inti International College Penang",
-  //       destination: "Inti International College Penang Inti International College Penang",
-  //       date: "15-03-2023",
-  //       time: "3:00pm",
-  //       role: "Passenger",
-  //       points: 50),
-  //   PointsEarn(
-  //       id: "123",
-  //       startLocation: "Inti International College Penang",
-  //       destination: "Inti International College Penang",
-  //       date: "15-03-2023",
-  //       time: "3:00pm",
-  //       role: "Passenger",
-  //       points: 50),
-  //   PointsEarn(
-  //       id: "123",
-  //       startLocation: "Inti International College Penang",
-  //       destination: "Inti International College Penang",
-  //       date: "15-03-2023",
-  //       time: "3:00pm",
-  //       role: "Driver",
-  //       points: 150),
-  //   PointsEarn(
-  //       id: "123",
-  //       startLocation: "Inti International College Penang",
-  //       destination: "Inti International College Penang",
-  //       date: "15-03-2023",
-  //       time: "3:00pm",
-  //       role: "Driver",
-  //       points: 150),
-  // ];
 
   @override
   Widget build(BuildContext context) {
@@ -157,8 +122,6 @@ class _ActivityPageState extends State<ActivityPage> {
                 Padding(
                   padding: const EdgeInsets.fromLTRB(24, 8, 24, 24),
                   child: _model.getHistoryList(current),
-                  // child: Text('Hey'),
-                  // child: getHistoryList(current, _listViewHeight, _tripsHistory, _pointsEarnedList),
                 )
               ],
             ),

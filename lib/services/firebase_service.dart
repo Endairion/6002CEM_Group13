@@ -122,8 +122,10 @@ class FirebaseService {
 
   Future<List<Trip>> getTripList() async {
     // Get docs from trips collection reference
-    QuerySnapshot querySnapshot =
-        await FirebaseFirestore.instance.collection('Trips').where('userId', isEqualTo: userId).get();
+    QuerySnapshot querySnapshot = await FirebaseFirestore.instance
+        .collection('Trips')
+        .where('userId', isEqualTo: userId)
+        .get();
 
     // Get data from docs and convert map to List
     final tripsList = querySnapshot.docs.map<Trip>((doc) {
@@ -207,7 +209,7 @@ class FirebaseService {
   Future<List<Trip>> getAvailableTripList() async {
     // Get docs from trips collection reference
     QuerySnapshot querySnapshot =
-    await FirebaseFirestore.instance.collection('Trips').get();
+        await FirebaseFirestore.instance.collection('Trips').get();
 
     // Get data from docs and convert map to List
     final tripsList = querySnapshot.docs.map<Trip>((doc) {
@@ -230,20 +232,18 @@ class FirebaseService {
   Future<void> completeTrip(String tripId) async {
     // print(tripId);
     var collection = FirebaseFirestore.instance.collection('Trips');
-    collection
-        .doc(tripId)
-        .update({'status' : 'Completed'}) // <-- Updated data
+    collection.doc(tripId).update({'status': 'Completed'}) // <-- Updated data
         .then((_) {
-          print('Update trip status success');
-        })
-        .catchError((error) {
-          print('Failed: $error');
-        });
+      print('Update trip status success');
+    }).catchError((error) {
+      print('Failed: $error');
+    });
   }
 
   Future<void> createPointsEarn(EarnPoint earnPoint) async {
     // Reference to PointsEarned collection
-    CollectionReference pointsEarned = FirebaseFirestore.instance.collection('PointsEarned');
+    CollectionReference pointsEarned =
+        FirebaseFirestore.instance.collection('PointsEarned');
 
     earnPoint.userId = userId;
 
@@ -251,12 +251,32 @@ class FirebaseService {
     return pointsEarned
         .doc()
         .set({
-      'tripId': earnPoint.tripId,
-      'userId': earnPoint.userId,
-      'points': earnPoint.points,
-      'role': earnPoint.role,
-    })
+          'tripId': earnPoint.tripId,
+          'userId': earnPoint.userId,
+          'points': earnPoint.points,
+          'role': earnPoint.role,
+        })
         .then((value) => print("Points earned history created"))
-        .catchError((error) => print("Failed to create points earned history: $error"));
+        .catchError(
+            (error) => print("Failed to create points earned history: $error"));
+  }
+
+  Future<List<EarnPoint>> getPointsEarnedList() async {
+    // Get docs from trips collection reference
+    QuerySnapshot querySnapshot = await FirebaseFirestore.instance
+        .collection('PointsEarned')
+        .where('userId', isEqualTo: userId)
+        .get();
+
+    // Get data from docs and convert map to List
+    final pointsEarnedList = querySnapshot.docs.map<EarnPoint>((doc) {
+      return EarnPoint(
+          tripId: doc['tripId'],
+          userId: doc['userId'],
+          points: doc['points'],
+          role: doc['role']);
+    }).toList();
+
+    return pointsEarnedList;
   }
 }
