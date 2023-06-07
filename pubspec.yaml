@@ -63,6 +63,7 @@ dependencies:
   dio: ^5.1.2
   flutter_polyline_points: ^1.0.0
   location: ^4.4.0
+  string_similarity: ^2.0.0
 
 flutter_native_splash:
   android: true

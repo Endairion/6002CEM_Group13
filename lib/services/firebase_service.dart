@@ -11,6 +11,7 @@ import 'package:mobile_app_development_cw2/utils/error_codes.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/foundation.dart';
+import 'package:string_similarity/string_similarity.dart';
 import 'package:mobile_app_development_cw2/locator.dart';
 
 class FirebaseService {
@@ -351,4 +352,57 @@ class FirebaseService {
       print('Failed: $error');
     });
   }
+
+  Future compareAvailableTripsLocation(String startLocation, String destination) async {
+    QuerySnapshot querySnapshot = await FirebaseFirestore.instance.collection("Trips").get();
+    List<String> tripIdList = [];
+
+    for (final DocumentSnapshot doc in querySnapshot.docs){
+      final String fireStoreStartLocation = doc["startLocation"];
+      final String fireStoreDestination = doc["destination"];
+
+      final double startLocationSimilarity = StringSimilarity.compareTwoStrings(startLocation, fireStoreStartLocation);
+      final double destinationSimilarity = StringSimilarity.compareTwoStrings(destination, fireStoreDestination);
+
+      print("$startLocation and $fireStoreStartLocation diff $startLocationSimilarity");
+      print("$destination and $fireStoreDestination diff $destinationSimilarity");
+
+      if (startLocationSimilarity > 0.25 || destinationSimilarity > 0.25){
+        print('1');
+        print(doc['id']);
+        tripIdList.add(doc['id']);
+      }
+      else{
+        print('0');
+      }
+    }
+    return tripIdList;
+  }
+
+  Future<List<Trip>> retrieveTripListsbyId(List<String> tripIdList) async{
+    // Get docs from trips collection reference where ID is in the tripIds list
+    QuerySnapshot querySnapshot = await FirebaseFirestore.instance
+        .collection('Trips')
+        .where(FieldPath.documentId, whereIn: tripIdList)
+        .get();
+
+    // Get data from docs and convert map to List
+    final tripsList = querySnapshot.docs.map<Trip>((doc) {
+      return Trip(
+          id: doc.id,
+          userId: doc['userId'],
+          startLocation: doc['startLocation'],
+          destination: doc['destination'],
+          date: doc['date'],
+          time: doc['time'],
+          status: doc['status'],
+          stops: doc['stops'],
+          seats: int.parse(doc['seats']),
+          enablePickupNotification: doc['enablePickupNotification']);
+    }).toList();
+
+    return tripsList;
+  }
+
+
 }
