@@ -161,25 +161,6 @@ class RequestCarpoolViewmodel extends BaseViewModel {
     if (notComplete == true) {
       showErrorDialog(context);
     } else {
-      // date = DateFormat("dd-MM-yyyy").format(DateTime.now());
-      // time = DateFormat.jm().format(DateTime.now());
-      // print("Date: " + date);
-      // print("Time: " + time);
-      // print("Remarks: " + _remarksController.text);
-      //
-      // CustomRequest customRequest = CustomRequest(
-      //     id: uuid.v4().toString(),
-      //     userId: _firebaseService.userId,
-      //     startLocation: _startLocationController.text,
-      //     destination: _destinationController.text,
-      //     date: date,
-      //     time: time,
-      //     status: "Pending",
-      //     remarks: _remarksController.text
-      // );
-      //
-      // await _firebaseService.createCustomRequest(customRequest);
-
       CarpoolRequest carpoolRequest = CarpoolRequest(
           id: uuid.v4().toString(),
           requesterId: _firebaseService.userId,

@@ -79,6 +79,7 @@ class _SearchAvailableTripsState extends State<SearchAvailableTrips> {
                                     width: 240,
                                     child: TextField(
                                       onTap: () {},
+                                      controller: _model.startLocationController,
                                       keyboardType: TextInputType.text,
                                       cursorColor: Colors.lightGreen,
                                       decoration: InputDecoration(
@@ -120,6 +121,7 @@ class _SearchAvailableTripsState extends State<SearchAvailableTrips> {
                                     height: 50,
                                     width: 240,
                                     child: TextField(
+                                      controller: _model.destinationController,
                                       keyboardType: TextInputType.text,
                                       cursorColor: Colors.lightGreen,
                                       decoration: InputDecoration(
@@ -149,7 +151,7 @@ class _SearchAvailableTripsState extends State<SearchAvailableTrips> {
                                 ],
                               ),
                               ElevatedButton(
-                                onPressed: () {},
+                                onPressed: () {_model.getSearchResultTripsList(_model.startLocationController, _model.destinationController);},
                                 style: ElevatedButton.styleFrom(
                                   padding: EdgeInsets.zero,
                                   shape: RoundedRectangleBorder(
