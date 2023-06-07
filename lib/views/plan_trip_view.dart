@@ -57,6 +57,7 @@ class _PlanTripViewState extends State<PlanTripView> {
 
   @override
   Widget build(BuildContext context) {
+    final Size size = MediaQuery.of(context).size;
     return BaseView<PlanTripViewModel>(
         onModelReady: (model) {
           _model = model;
@@ -95,7 +96,7 @@ class _PlanTripViewState extends State<PlanTripView> {
                             const EdgeInsets.only(top: 32, left: 32, right: 32),
                         child: Container(
                           height: 520,
-                          width: double.infinity,
+                          width: size.width,
                           decoration: BoxDecoration(
                             border: Border.all(
                               color: Colors.white,
@@ -262,7 +263,7 @@ class _PlanTripViewState extends State<PlanTripView> {
                                 Container(
                                     padding:
                                         const EdgeInsets.only(top: 16, left: 8),
-                                    width: double.infinity,
+                                    width: size.width,
                                     child: Text('Departure Date & Time:')),
                                 Row(
                                   children: [
@@ -371,7 +372,7 @@ class _PlanTripViewState extends State<PlanTripView> {
                                                   ),
                                                 ),
                                                 style: ElevatedButton.styleFrom(
-                                                    minimumSize: Size(140, 40),
+                                                    minimumSize: Size(124, 40),
                                                     backgroundColor:
                                                         Colors.red[700],
                                                     shape:
@@ -394,7 +395,7 @@ class _PlanTripViewState extends State<PlanTripView> {
                                                   ),
                                                 ),
                                                 style: ElevatedButton.styleFrom(
-                                                    minimumSize: Size(140, 40),
+                                                    minimumSize: Size(124, 40),
                                                     backgroundColor:
                                                         Colors.lightGreen,
                                                     shape:

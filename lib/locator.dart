@@ -1,6 +1,7 @@
 import 'package:mobile_app_development_cw2/services/firebase_service.dart';
 import 'package:mobile_app_development_cw2/viewmodels/activity_page_viewmodel.dart';
 import 'package:mobile_app_development_cw2/viewmodels/login_viewmodel.dart';
+import 'package:mobile_app_development_cw2/viewmodels/map_navigation_viewmodel.dart';
 import 'package:mobile_app_development_cw2/viewmodels/ongoing_trip_details_viewmodel.dart';
 import 'package:mobile_app_development_cw2/viewmodels/plan_trip_viewmodel.dart';
 import 'package:mobile_app_development_cw2/viewmodels/my_profile_viewmodel.dart';
@@ -27,5 +28,6 @@ Future<void> setUpLocator() async{
   locator.registerFactory<TripDetailsViewModel>(() => TripDetailsViewModel());
   locator.registerFactory<RewardsViewModel>(() => RewardsViewModel());
   locator.registerFactory<OngoingTripDetailsViewModel>(() => OngoingTripDetailsViewModel());
+  locator.registerFactory<MapNavigationViewModel>(() => MapNavigationViewModel());
 }
 

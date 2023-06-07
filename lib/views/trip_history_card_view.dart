@@ -3,20 +3,6 @@ import 'package:mobile_app_development_cw2/models/trip_model.dart';
 import 'package:mobile_app_development_cw2/views/trip_details_view.dart';
 
 Widget TripHistoryCard(BuildContext context, List<Trip> trip, int index) {
-  String startLocation;
-  String destination;
-
-  if (trip[index].startLocation.length > 30) {
-    startLocation = trip[index].startLocation.substring(0, 30) + "...";
-  } else {
-    startLocation = trip[index].startLocation;
-  }
-
-  if (trip[index].destination.length > 30) {
-    destination = trip[index].destination.substring(0, 30) + "...";
-  } else {
-    destination = trip[index].destination;
-  }
 
   statusColor(String status) {
     switch (status) {
@@ -79,11 +65,15 @@ Widget TripHistoryCard(BuildContext context, List<Trip> trip, int index) {
                           ),
                         ),
                       ),
-                      Text(
-                        startLocation,
-                        style: TextStyle(
-                          fontSize: 16,
-                          color: Colors.black87,
+                      Container(
+                        width: 219,
+                        child: Text(
+                          trip[index].startLocation,
+                          overflow: TextOverflow.ellipsis,
+                          style: TextStyle(
+                            fontSize: 16,
+                            color: Colors.black87,
+                          ),
                         ),
                       ),
                     ],
@@ -118,11 +108,15 @@ Widget TripHistoryCard(BuildContext context, List<Trip> trip, int index) {
                           ),
                         ),
                       ),
-                      Text(
-                        destination,
-                        style: TextStyle(
-                          fontSize: 16,
-                          color: Colors.black87,
+                      Container(
+                        width: 219,
+                        child: Text(
+                          trip[index].destination,
+                          overflow: TextOverflow.ellipsis,
+                          style: TextStyle(
+                            fontSize: 16,
+                            color: Colors.black87,
+                          ),
                         ),
                       ),
                     ],
