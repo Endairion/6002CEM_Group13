@@ -1,4 +1,6 @@
+import 'package:mobile_app_development_cw2/PointsEarn.dart';
 import 'package:mobile_app_development_cw2/locator.dart';
+import 'package:mobile_app_development_cw2/models/earn_point_model.dart';
 import 'package:mobile_app_development_cw2/models/trip_model.dart';
 import 'package:mobile_app_development_cw2/services/firebase_service.dart';
 import 'package:mobile_app_development_cw2/viewmodels/base_viewmodel.dart';
@@ -144,7 +146,9 @@ class MapNavigationViewModel extends BaseViewModel {
   }
 
   Future<void> completeTrip() async {
-    await _firebaseService.completeTrip(tripId);
+    await _firebaseService.completeTrip(_tripId);
+    EarnPoint ep = EarnPoint(tripId: _tripId, userId: "", points: 150, role: "Driver");
+    await _firebaseService.createPointsEarn(ep);
     notifyListeners();
   }
 

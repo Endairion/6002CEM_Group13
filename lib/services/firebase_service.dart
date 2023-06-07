@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:mobile_app_development_cw2/models/earn_point_model.dart';
 import 'package:mobile_app_development_cw2/models/rewards_model.dart';
 import 'package:mobile_app_development_cw2/models/trip_model.dart';
 import 'package:mobile_app_development_cw2/models/user_model.dart';
@@ -238,5 +239,24 @@ class FirebaseService {
         .catchError((error) {
           print('Failed: $error');
         });
+  }
+
+  Future<void> createPointsEarn(EarnPoint earnPoint) async {
+    // Reference to PointsEarned collection
+    CollectionReference pointsEarned = FirebaseFirestore.instance.collection('PointsEarned');
+
+    earnPoint.userId = userId;
+
+    // Call the Trip's CollectionReference to add a new user
+    return pointsEarned
+        .doc()
+        .set({
+      'tripId': earnPoint.tripId,
+      'userId': earnPoint.userId,
+      'points': earnPoint.points,
+      'role': earnPoint.role,
+    })
+        .then((value) => print("Points earned history created"))
+        .catchError((error) => print("Failed to create points earned history: $error"));
   }
 }
