@@ -162,7 +162,7 @@ class RequestCarpoolViewmodel extends BaseViewModel {
       showErrorDialog(context);
     } else {
       CarpoolRequest carpoolRequest = CarpoolRequest(
-          id: uuid.v4().toString(),
+          requestId: uuid.v4().toString(),
           requesterId: _firebaseService.userId,
           tripId: trip.id,
           driverId: trip.userId,

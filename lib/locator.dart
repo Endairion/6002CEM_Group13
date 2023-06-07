@@ -1,4 +1,5 @@
 import 'package:mobile_app_development_cw2/services/firebase_service.dart';
+import 'package:mobile_app_development_cw2/viewmodels/TripPassengerRequestViewModel.dart';
 import 'package:mobile_app_development_cw2/viewmodels/activity_page_viewmodel.dart';
 import 'package:mobile_app_development_cw2/viewmodels/create_custom_trip_viewmodel.dart';
 import 'package:mobile_app_development_cw2/viewmodels/login_viewmodel.dart';
@@ -35,5 +36,6 @@ Future<void> setUpLocator() async{
   locator.registerFactory<SearchAvailableTripsViewModel>(() => SearchAvailableTripsViewModel());
   locator.registerFactory<RequestCarpoolViewmodel>(() => RequestCarpoolViewmodel());
   locator.registerFactory<CreateCustomTripViewmodel>(() => CreateCustomTripViewmodel());
+  locator.registerFactory<TripPassengerRequestViewModel>(() => TripPassengerRequestViewModel());
 }
 

@@ -1,5 +1,5 @@
 class CarpoolRequest {
-  final String id;
+  final String requestId;
   final String requesterId;
   final String tripId;
   final String driverId;
@@ -8,7 +8,7 @@ class CarpoolRequest {
   final String status;
 
   CarpoolRequest(
-      {required this.id,
+      {required this.requestId,
       required this.requesterId,
       required this.tripId,
       required this.driverId,

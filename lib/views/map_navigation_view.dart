@@ -51,6 +51,14 @@ class _MapNavigationState extends State<MapNavigation> {
             ),
           ),
         ),
+        floatingActionButton: FloatingActionButton(
+          onPressed: () {
+            _model.showConfirmationDialog(context);
+          },
+          backgroundColor: Colors.lightGreen,
+          child: const Icon(Icons.done),
+        ),
+        floatingActionButtonLocation: FloatingActionButtonLocation.endTop,
         body: _model.currentLocation == null
             ? const Center(child: Text("Loading"))
             :GoogleMap(

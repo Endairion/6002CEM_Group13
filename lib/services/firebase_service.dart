@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:mobile_app_development_cw2/models/earn_point_model.dart';
 import 'package:mobile_app_development_cw2/models/carpool_request_model.dart';
 import 'package:mobile_app_development_cw2/models/custom_request_model.dart';
 import 'package:mobile_app_development_cw2/models/rewards_model.dart';
@@ -124,8 +125,10 @@ class FirebaseService {
 
   Future<List<Trip>> getTripList() async {
     // Get docs from trips collection reference
-    QuerySnapshot querySnapshot =
-        await FirebaseFirestore.instance.collection('Trips').where('userId', isEqualTo: userId).get();
+    QuerySnapshot querySnapshot = await FirebaseFirestore.instance
+        .collection('Trips')
+        .where('userId', isEqualTo: userId)
+        .get();
 
     // Get data from docs and convert map to List
     final tripsList = querySnapshot.docs.map<Trip>((doc) {
@@ -209,7 +212,7 @@ class FirebaseService {
   Future<List<Trip>> getAvailableTripList() async {
     // Get docs from trips collection reference
     QuerySnapshot querySnapshot =
-    await FirebaseFirestore.instance.collection('Trips').get();
+        await FirebaseFirestore.instance.collection('Trips').get();
 
     // Get data from docs and convert map to List
     final tripsList = querySnapshot.docs.map<Trip>((doc) {
@@ -229,9 +232,58 @@ class FirebaseService {
     return tripsList;
   }
 
-  CollectionReference customRequests =
-      FirebaseFirestore.instance.collection('CustomRequests');
+  Future<void> completeTrip(String tripId) async {
+    var collection = FirebaseFirestore.instance.collection('Trips');
+    collection.doc(tripId).update({'status': 'Completed'}) // <-- Updated data
+        .then((_) {
+      print('Update trip status success');
+    }).catchError((error) {
+      print('Failed: $error');
+    });
+  }
+
+  Future<void> createPointsEarn(EarnPoint earnPoint) async {
+    // Reference to PointsEarned collection
+    CollectionReference pointsEarned = FirebaseFirestore.instance.collection('PointsEarned');
+
+    earnPoint.userId = userId;
+
+    // Call the PointsEarned CollectionReference to add a new record
+    return pointsEarned
+        .doc()
+        .set({
+          'tripId': earnPoint.tripId,
+          'userId': earnPoint.userId,
+          'points': earnPoint.points,
+          'role': earnPoint.role,
+        })
+        .then((value) => print("Points earned history created"))
+        .catchError(
+            (error) => print("Failed to create points earned history: $error"));
+  }
+
+  Future<List<EarnPoint>> getPointsEarnedList() async {
+    // Get docs from trips collection reference
+    QuerySnapshot querySnapshot = await FirebaseFirestore.instance
+        .collection('PointsEarned')
+        .where('userId', isEqualTo: userId)
+        .get();
+
+    // Get data from docs and convert map to List
+    final pointsEarnedList = querySnapshot.docs.map<EarnPoint>((doc) {
+      return EarnPoint(
+          tripId: doc['tripId'],
+          userId: doc['userId'],
+          points: doc['points'],
+          role: doc['role']);
+    }).toList();
+
+    return pointsEarnedList;
+  }
+
   createCustomRequest(CustomRequest customRequest) {
+    CollectionReference customRequests = FirebaseFirestore.instance.collection('CustomRequests');
+
     return customRequests
         .doc(customRequest.id)
         .set({
@@ -249,12 +301,11 @@ class FirebaseService {
             (error) => print("Failed to create custom request: $error"));
   }
 
-
-  CollectionReference carpoolRequests =
-  FirebaseFirestore.instance.collection('CarpoolRequests');
   createCarpoolRequest(CarpoolRequest carpoolRequest) {
-    return carpoolRequests.doc(carpoolRequest.id).set({
-      'id' : carpoolRequest.id,
+    CollectionReference carpoolRequests = FirebaseFirestore.instance.collection('CarpoolRequests');
+
+    return carpoolRequests.doc(carpoolRequest.requestId).set({
+      'id' : carpoolRequest.requestId,
       'requesterId' : carpoolRequest.requesterId,
       'tripId' : carpoolRequest.tripId,
       'driverId' : carpoolRequest.driverId,
@@ -266,6 +317,40 @@ class FirebaseService {
         .catchError(
         (error) => print("Failed to create carpool request: $error")
     );
+  }
+
+  Future<List<CarpoolRequest>> getCarpoolRequestList(String tripId) async {
+    // Get docs from CarpoolRequests collection reference
+    QuerySnapshot querySnapshot = await FirebaseFirestore.instance
+        .collection('CarpoolRequests')
+        .where('tripId', isEqualTo: tripId)
+        .where('status', isEqualTo: "Pending")
+        .get();
+
+    // Get data from docs and convert map to List
+    final carpoolRequestList = querySnapshot.docs.map<CarpoolRequest>((doc) {
+      return CarpoolRequest(
+          requestId: doc['driverId'],
+          requesterId: doc['requesterId'],
+          tripId: doc['tripId'],
+          driverId: doc['driverId'],
+          pickupLocation: doc['pickupLocation'],
+          remarks: doc['remarks'],
+          status: doc['status']);
+    }).toList();
+
+    return carpoolRequestList;
+  }
+
+  Future<void> acceptCarpoolRequest(String requestId) async {
+    print("Firebase: " + requestId);
+    var collection = FirebaseFirestore.instance.collection('CarpoolRequests');
+    collection.doc(requestId).update({'status': 'Accepted'}) // <-- Updated data
+        .then((_) {
+      print('Update carpool request status success');
+    }).catchError((error) {
+      print('Failed: $error');
+    });
   }
 
   Future compareAvailableTripsLocation(String startLocation, String destination) async {
