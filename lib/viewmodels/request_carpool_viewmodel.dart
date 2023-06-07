@@ -181,7 +181,7 @@ class RequestCarpoolViewmodel extends BaseViewModel {
       // await _firebaseService.createCustomRequest(customRequest);
 
       CarpoolRequest carpoolRequest = CarpoolRequest(
-          id: uuid.v4().toString(),
+          requestId: uuid.v4().toString(),
           requesterId: _firebaseService.userId,
           tripId: trip.id,
           driverId: trip.userId,

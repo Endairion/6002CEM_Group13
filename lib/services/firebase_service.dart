@@ -232,7 +232,6 @@ class FirebaseService {
   }
 
   Future<void> completeTrip(String tripId) async {
-    // print(tripId);
     var collection = FirebaseFirestore.instance.collection('Trips');
     collection.doc(tripId).update({'status': 'Completed'}) // <-- Updated data
         .then((_) {
@@ -244,8 +243,7 @@ class FirebaseService {
 
   Future<void> createPointsEarn(EarnPoint earnPoint) async {
     // Reference to PointsEarned collection
-    CollectionReference pointsEarned =
-        FirebaseFirestore.instance.collection('PointsEarned');
+    CollectionReference pointsEarned = FirebaseFirestore.instance.collection('PointsEarned');
 
     earnPoint.userId = userId;
 
@@ -282,9 +280,9 @@ class FirebaseService {
     return pointsEarnedList;
   }
 
-  CollectionReference customRequests =
-      FirebaseFirestore.instance.collection('CustomRequests');
   createCustomRequest(CustomRequest customRequest) {
+    CollectionReference customRequests = FirebaseFirestore.instance.collection('CustomRequests');
+
     return customRequests
         .doc(customRequest.id)
         .set({
@@ -302,12 +300,11 @@ class FirebaseService {
             (error) => print("Failed to create custom request: $error"));
   }
 
-
-  CollectionReference carpoolRequests =
-  FirebaseFirestore.instance.collection('CarpoolRequests');
   createCarpoolRequest(CarpoolRequest carpoolRequest) {
-    return carpoolRequests.doc(carpoolRequest.id).set({
-      'id' : carpoolRequest.id,
+    CollectionReference carpoolRequests = FirebaseFirestore.instance.collection('CarpoolRequests');
+
+    return carpoolRequests.doc(carpoolRequest.requestId).set({
+      'id' : carpoolRequest.requestId,
       'requesterId' : carpoolRequest.requesterId,
       'tripId' : carpoolRequest.tripId,
       'driverId' : carpoolRequest.driverId,
@@ -319,5 +316,39 @@ class FirebaseService {
         .catchError(
         (error) => print("Failed to create carpool request: $error")
     );
+  }
+
+  Future<List<CarpoolRequest>> getCarpoolRequestList(String tripId) async {
+    // Get docs from CarpoolRequests collection reference
+    QuerySnapshot querySnapshot = await FirebaseFirestore.instance
+        .collection('CarpoolRequests')
+        .where('tripId', isEqualTo: tripId)
+        .where('status', isEqualTo: "Pending")
+        .get();
+
+    // Get data from docs and convert map to List
+    final carpoolRequestList = querySnapshot.docs.map<CarpoolRequest>((doc) {
+      return CarpoolRequest(
+          requestId: doc['driverId'],
+          requesterId: doc['requesterId'],
+          tripId: doc['tripId'],
+          driverId: doc['driverId'],
+          pickupLocation: doc['pickupLocation'],
+          remarks: doc['remarks'],
+          status: doc['status']);
+    }).toList();
+
+    return carpoolRequestList;
+  }
+
+  Future<void> acceptCarpoolRequest(String requestId) async {
+    print("Firebase: " + requestId);
+    var collection = FirebaseFirestore.instance.collection('CarpoolRequests');
+    collection.doc(requestId).update({'status': 'Accepted'}) // <-- Updated data
+        .then((_) {
+      print('Update carpool request status success');
+    }).catchError((error) {
+      print('Failed: $error');
+    });
   }
 }
