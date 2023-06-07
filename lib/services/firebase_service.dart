@@ -247,7 +247,7 @@ class FirebaseService {
 
     earnPoint.userId = userId;
 
-    // Call the Trip's CollectionReference to add a new user
+    // Call the PointsEarned CollectionReference to add a new record
     return pointsEarned
         .doc()
         .set({
