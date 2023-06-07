@@ -2,6 +2,8 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:mobile_app_development_cw2/models/earn_point_model.dart';
+import 'package:mobile_app_development_cw2/models/carpool_request_model.dart';
+import 'package:mobile_app_development_cw2/models/custom_request_model.dart';
 import 'package:mobile_app_development_cw2/models/rewards_model.dart';
 import 'package:mobile_app_development_cw2/models/trip_model.dart';
 import 'package:mobile_app_development_cw2/models/user_model.dart';
@@ -278,5 +280,44 @@ class FirebaseService {
     }).toList();
 
     return pointsEarnedList;
+  }
+
+  CollectionReference customRequests =
+      FirebaseFirestore.instance.collection('CustomRequests');
+  createCustomRequest(CustomRequest customRequest) {
+    return customRequests
+        .doc(customRequest.id)
+        .set({
+          'id': customRequest.id,
+          'userId': customRequest.userId,
+          'startLocation': customRequest.startLocation,
+          'destination': customRequest.destination,
+          'date': customRequest.date,
+          'time': customRequest.time,
+          'status': customRequest.status,
+          'remarks': customRequest.remarks,
+        })
+        .then((value) => print("Custom Request Created"))
+        .catchError(
+            (error) => print("Failed to create custom request: $error"));
+  }
+
+
+  CollectionReference carpoolRequests =
+  FirebaseFirestore.instance.collection('CarpoolRequests');
+  createCarpoolRequest(CarpoolRequest carpoolRequest) {
+    return carpoolRequests.doc(carpoolRequest.id).set({
+      'id' : carpoolRequest.id,
+      'requesterId' : carpoolRequest.requesterId,
+      'tripId' : carpoolRequest.tripId,
+      'driverId' : carpoolRequest.driverId,
+      'pickupLocation' : carpoolRequest.pickupLocation,
+      'remarks' : carpoolRequest.remarks,
+      'status' : carpoolRequest.status,
+    })
+        .then((value) => print("Carpool Request Created"))
+        .catchError(
+        (error) => print("Failed to create carpool request: $error")
+    );
   }
 }
