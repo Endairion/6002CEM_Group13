@@ -2,30 +2,18 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:mobile_app_development_cw2/models/trip_model.dart';
 import 'package:mobile_app_development_cw2/views/request_carpool_view.dart';
+import 'package:mobile_app_development_cw2/views/trip_details_view.dart';
 
 Widget AvailableTripsCardView(BuildContext context, List<Trip> trip, int index) {
-    String startLocation;
-    String destination;
-    String tripId;
-
-    if (trip[index].startLocation.length > 35) {
-      startLocation = trip[index].startLocation.substring(0, 35);
-    } else {
-      startLocation = trip[index].startLocation;
-    }
-
-    if (trip[index].destination.length > 35) {
-      destination = trip[index].destination.substring(0, 35);
-    } else {
-      destination = trip[index].destination;
-    }
-
-    tripId = trip[index].id;
     return Padding(
       padding: const EdgeInsets.only(bottom: 12),
       child: GestureDetector(
         onTap: () {
-          print("Container clicked");
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+                builder: (context) => RequestCarpoolView(tripId: trip[index].id)),
+          );
         },
         child: Container(
           height: 120,
@@ -67,11 +55,15 @@ Widget AvailableTripsCardView(BuildContext context, List<Trip> trip, int index) 
                             ),
                           ),
                         ),
-                        Text(
-                          startLocation,
-                          style: TextStyle(
-                            fontSize: 16,
-                            color: Colors.black87,
+                        Container(
+                          width: 235,
+                          child: Text(
+                            trip[index].startLocation,
+                            overflow: TextOverflow.ellipsis,
+                            style: TextStyle(
+                              fontSize: 16,
+                              color: Colors.black87,
+                            ),
                           ),
                         ),
                       ],
@@ -106,11 +98,15 @@ Widget AvailableTripsCardView(BuildContext context, List<Trip> trip, int index) 
                             ),
                           ),
                         ),
-                        Text(
-                          destination,
-                          style: TextStyle(
-                            fontSize: 16,
-                            color: Colors.black87,
+                        Container(
+                          width: 235,
+                          child: Text(
+                            trip[index].destination,
+                            overflow: TextOverflow.ellipsis,
+                            style: TextStyle(
+                              fontSize: 16,
+                              color: Colors.black87,
+                            ),
                           ),
                         ),
                       ],
@@ -158,13 +154,10 @@ Widget AvailableTripsCardView(BuildContext context, List<Trip> trip, int index) 
                     ),
                   ],
                 ),
-                IconButton(
-                  icon: Icon(Icons.navigate_next),
-                  iconSize: 45,
+                Icon(
+                  Icons.navigate_next,
+                  size: 45,
                   color: Colors.green[900],
-                  onPressed: () {
-                    Get.to(RequestCarpoolView(tripId: tripId,));
-                  },
                 ),
               ],
             ),

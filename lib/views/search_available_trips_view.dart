@@ -13,90 +13,12 @@ class SearchAvailableTrips extends StatefulWidget {
 }
 
 class _SearchAvailableTripsState extends State<SearchAvailableTrips> {
-  double _singleListViewHeight = 135;
-  double _listViewHeight = 100;
-  late final SearchAvailableTripsViewmodel _model;
+  late final SearchAvailableTripsViewModel _model;
   late final BuildContext _context;
-
-  int current = 0;
-
-  // List<Trip> _availableTrips = [
-  //   Trip(
-  //     id: "8ccdc5d8-8b03-4585-889f-79f354412d3b",
-  //     userId: "3RnDlwJmltTHpRNVAs895wp8Gyq1",
-  //     startLocation: "Inti International College Penang",
-  //     destination: "Queensbay",
-  //     date: "25-04-2023",
-  //     time: "10:00am",
-  //     status: "Ongoing",
-  //     stops: "",
-  //     seats: 3,
-  //     enablePickupNotification: true,
-  //   ),Trip(
-  //     id: "qwe012",
-  //     userId: "3RnDlwJmltTHpRNVAs895wp8Gyq1",
-  //     startLocation: "Inti International College Penang",
-  //     destination: "Queensbay",
-  //     date: "25-04-2023",
-  //     time: "10:00am",
-  //     status: "Ongoing",
-  //     stops: "",
-  //     seats: 3,
-  //     enablePickupNotification: true,
-  //   ),
-  //   Trip(
-  //     id: "zxc012",
-  //     userId: "3RnDlwJmltTHpRNVAs895wp8Gyq1",
-  //     startLocation: "Inti International College Penang",
-  //     destination: "Queensbay",
-  //     date: "25-04-2023",
-  //     time: "10:00am",
-  //     status: "Completed",
-  //     stops: "",
-  //     seats: 3,
-  //     enablePickupNotification: true,
-  //   ),Trip(
-  //     id: "rty012",
-  //     userId: "3RnDlwJmltTHpRNVAs895wp8Gyq1",
-  //     startLocation: "Inti International College Penang",
-  //     destination: "Queensbay",
-  //     date: "25-04-2023",
-  //     time: "10:00am",
-  //     status: "Completed",
-  //     stops: "",
-  //     seats: 3,
-  //     enablePickupNotification: true,
-  //   ),Trip(
-  //     id: "dfg012",
-  //     userId: "3RnDlwJmltTHpRNVAs895wp8Gyq1",
-  //     startLocation: "Inti International College Penang",
-  //     destination: "Queensbay",
-  //     date: "25-04-2023",
-  //     time: "10:00am",
-  //     status: "Expired",
-  //     stops: "",
-  //     seats: 3,
-  //     enablePickupNotification: true,
-  //   ),Trip(
-  //     id: "vbn012",
-  //     userId: "3RnDlwJmltTHpRNVAs895wp8Gyq1",
-  //     startLocation: "Inti International College Penang",
-  //     destination: "Queensbay",
-  //     date: "25-04-2023",
-  //     time: "10:00am",
-  //     status: "Expired",
-  //     stops: "",
-  //     seats: 3,
-  //     enablePickupNotification: true,
-  //   ),
-  // ];
-
-  // if (_availableTrips.length * _singleListViewHeight > 100) {
-  //   _listViewHeight = _availableTrips.length * _singleListViewHeight;
 
   @override
   Widget build(BuildContext context) {
-    return BaseView<SearchAvailableTripsViewmodel>(
+    return BaseView<SearchAvailableTripsViewModel>(
       onModelReady: (model) {
         _model = model;
         _context = context;
@@ -357,10 +279,7 @@ class _SearchAvailableTripsState extends State<SearchAvailableTrips> {
                       SizedBox(
                         height: 12,
                       ),
-                      SizedBox(
-                        height: _listViewHeight,
-                        child: _model.getTripList(current),
-                      ),
+                      _model.getAvailableTripListSizedBox(),
                     ],
                   ),
                 ),

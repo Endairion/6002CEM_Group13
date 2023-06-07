@@ -5,33 +5,65 @@ import 'package:mobile_app_development_cw2/services/firebase_service.dart';
 import 'package:mobile_app_development_cw2/viewmodels/base_viewmodel.dart';
 import 'package:mobile_app_development_cw2/views/available_trips_card_view.dart';
 
-class SearchAvailableTripsViewmodel extends BaseViewModel {
+class SearchAvailableTripsViewModel extends BaseViewModel {
   String _startLocation = "";
   String _destination = "";
   String _driver = "";
   String _date = "";
   String _time = "";
   int _seats = 0;
-  List<Trip> _tripsList = [];
+  List<Trip> _availableTripsList = [];
+  double _singleListViewHeight = 135;
   double _listViewHeight = 400;
 
   final FirebaseService _firebaseService = locator<FirebaseService>();
 
   void onModelReady() {
     getAvailableTripList();
-    print('2');
-    print(_tripsList.length);
   }
 
   void onModelDestroy() {
-    _tripsList.clear();
+    _availableTripsList.clear();
   }
 
   Future<void> getAvailableTripList() async {
-    print('1');
-    _tripsList = await _firebaseService.getTripList();
-    print(_tripsList.length);
+    _availableTripsList = await _firebaseService.getAvailableTripList();
+
+    if (_availableTripsList.length * _singleListViewHeight > 400) {
+        _listViewHeight = _availableTripsList.length * _singleListViewHeight;
+      }
     notifyListeners();
+  }
+
+  Widget getAvailableTripListSizedBox() {
+    return SizedBox(
+      height: _listViewHeight,
+      child: getAvailableTripListCard(),
+    );
+  }
+
+  Widget getAvailableTripListCard() {
+    if (_availableTripsList.isNotEmpty) {
+      return ListView.builder(
+        shrinkWrap: true,
+        physics: NeverScrollableScrollPhysics(),
+        itemCount: _availableTripsList.length,
+        itemBuilder: (BuildContext context, int index) {
+          return AvailableTripsCardView(context, _availableTripsList, index);
+        },
+      );
+    } else {
+      return const Center(
+        child: Text(
+          'There are no trips available.',
+          style: TextStyle(
+            fontStyle: FontStyle.italic,
+            color: Colors.red,
+            fontSize: 16,
+          ),
+        ),
+      );
+    }
   }
 
   // Getter
@@ -47,7 +79,9 @@ class SearchAvailableTripsViewmodel extends BaseViewModel {
 
   String get startLocation => _startLocation;
 
-  List<Trip> get tripsList => _tripsList;
+  List<Trip> get availableTripsList => _availableTripsList;
+
+  double get listViewHeight => _listViewHeight;
 
   // Setter
   set seats(int value) {
@@ -74,43 +108,12 @@ class SearchAvailableTripsViewmodel extends BaseViewModel {
     _startLocation = value;
   }
 
-  set tripsList(List<Trip> value) {
-    _tripsList = value;
+  set availableTripsList(List<Trip> value) {
+    _availableTripsList = value;
   }
 
-  Widget getTripList(int index) {
-    return SizedBox(
-      height: _listViewHeight,
-      child: getTripListCard(index),
-    );
+  set listViewHeight(double value) {
+    _listViewHeight = value;
   }
 
-  Widget getTripListCard(int index) {
-    if (index == 0) {
-      if (_tripsList.isNotEmpty) {
-        return ListView.builder(
-          shrinkWrap: true,
-          physics: NeverScrollableScrollPhysics(),
-          itemCount: _tripsList.length,
-          itemBuilder: (BuildContext context, int index) {
-            return AvailableTripsCardView(context, _tripsList, index);
-          },
-        );
-      } else {
-        return const Center(
-          child: Text(
-            'There are no trips available.',
-            style: TextStyle(
-              fontStyle: FontStyle.italic,
-              color: Colors.red,
-              fontSize: 16,
-            ),
-          ),
-        );
-      }
-    }
-    else{
-      return null;
-    }
-  }
 }
