@@ -36,7 +36,7 @@ class CustomRadioListTile<T> extends StatelessWidget {
   Widget get _customRadioButton {
     final isSelected = value == groupValue;
     return Container(
-      padding: EdgeInsets.symmetric(horizontal: 40, vertical: 8),
+      padding: EdgeInsets.symmetric(horizontal: 34, vertical: 8),
       decoration: BoxDecoration(
         color: isSelected ? Colors.green[900] : null,
         borderRadius: BorderRadius.circular(4),
