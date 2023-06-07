@@ -5,7 +5,7 @@ class CustomRequest {
   final String destination;
   final String date;
   final String time;
-  final int status;
+  final String status;
   final String remarks;
 
   CustomRequest(

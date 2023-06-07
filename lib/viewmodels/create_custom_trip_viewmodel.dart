@@ -4,7 +4,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:mobile_app_development_cw2/locator.dart';
 import 'package:mobile_app_development_cw2/models/custom_request_model.dart';
-import 'package:mobile_app_development_cw2/models/trip_model.dart';
 import 'package:mobile_app_development_cw2/services/firebase_service.dart';
 import 'package:mobile_app_development_cw2/viewmodels/base_viewmodel.dart';
 import 'package:uuid/uuid.dart';
@@ -21,7 +20,6 @@ class CreateCustomTripViewmodel extends BaseViewModel {
   List<dynamic> _placeList2 = [];
   String _errorMessage = "";
   bool notComplete = false;
-  int _departureValue = 1;
 
   final FirebaseService _firebaseService = locator<FirebaseService>();
 
@@ -103,7 +101,6 @@ class CreateCustomTripViewmodel extends BaseViewModel {
 
   String getApiRequestUrl(String input) {
     String kPLACES_API_KEY = "AIzaSyA36o5GXvW4Kauogfmfgqnas7oBMzUqmkU";
-    String type = '(regions)';
     String baseURL =
         'https://maps.googleapis.com/maps/api/place/autocomplete/json';
     String request =
@@ -176,7 +173,7 @@ class CreateCustomTripViewmodel extends BaseViewModel {
           destination: _destinationController.text,
           date: date,
           time: time,
-          status: 0,
+          status: "Pending",
           remarks: _remarksController.text
       );
 
