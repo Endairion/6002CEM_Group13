@@ -58,15 +58,20 @@ class _TripDetailsState extends State<TripDetails> {
                     width: double.infinity,
                     child: ElevatedButton(
                       onPressed: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => OngoingTripDetails(tripId: widget.tripId)),
-                        );
+                        if (_model.status == "Completed") {
+                          return null;
+                        }
+                        else {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => OngoingTripDetails(tripId: widget.tripId)),
+                          );
+                        }
                       },
                       style: ElevatedButton.styleFrom(
                           padding: EdgeInsets.zero,
-                          backgroundColor: Colors.limeAccent[700],
+                          backgroundColor: (_model.status == "Completed")? Colors.grey[400] : Colors.limeAccent[700],
                           foregroundColor: Colors.black,
                           shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(10))),
@@ -76,51 +81,20 @@ class _TripDetailsState extends State<TripDetails> {
                   SizedBox(
                     height: 12,
                   ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            'Date: ' + _model.date,
-                            style: TextStyle(
-                              fontSize: 16,
-                            ),
-                          ),
-                          Text(
-                            'Time: ' + _model.time,
-                            style: TextStyle(
-                              fontSize: 16,
-                            ),
-                          ),
-                        ],
-                      ),
-                      Container(
-                        width: 120,
-                        child: ElevatedButton(
-                          onPressed: () {},
-                          style: ElevatedButton.styleFrom(
-                              padding: EdgeInsets.zero,
-                              backgroundColor: Colors.limeAccent[700],
-                              foregroundColor: Colors.black,
-                              shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(10))),
-                          child: Row(
-                            children: [
-                              SizedBox(
-                                width: 10,
-                              ),
-                              Icon(Icons.edit),
-                              SizedBox(
-                                width: 4,
-                              ),
-                              Text('Edit Details'),
-                            ],
-                          ),
-                        ),
-                      ),
-                    ],
+                  Text(
+                    'Date: ' + _model.date,
+                    style: TextStyle(
+                      fontSize: 16,
+                    ),
+                  ),
+                  SizedBox(
+                    height: 12,
+                  ),
+                  Text(
+                    'Time: ' + _model.time,
+                    style: TextStyle(
+                      fontSize: 16,
+                    ),
                   ),
                   SizedBox(
                     height: 16,

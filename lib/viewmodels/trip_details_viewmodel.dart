@@ -10,6 +10,7 @@ class TripDetailsViewModel extends BaseViewModel {
   String _time = "";
   String _startLocation = "";
   String _destination = "";
+  String _status = "";
 
   // Services
   final FirebaseService _firebaseService = locator<FirebaseService>();
@@ -28,6 +29,7 @@ class TripDetailsViewModel extends BaseViewModel {
     _time = trip.time;
     _startLocation = trip.startLocation;
     _destination = trip.destination;
+    _status = trip.status;
 
     notifyListeners();
   }
@@ -52,5 +54,11 @@ class TripDetailsViewModel extends BaseViewModel {
 
   set startLocation(String value) {
     _startLocation = value;
+  }
+
+  String get status => _status;
+
+  set status(String value) {
+    _status = value;
   }
 }
