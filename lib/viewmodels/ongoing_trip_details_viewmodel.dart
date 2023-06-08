@@ -1,4 +1,5 @@
 import 'package:mobile_app_development_cw2/locator.dart';
+import 'package:mobile_app_development_cw2/models/carpool_request_model.dart';
 import 'package:mobile_app_development_cw2/models/trip_model.dart';
 import 'package:mobile_app_development_cw2/services/firebase_service.dart';
 import 'package:mobile_app_development_cw2/utils/validators.dart';
@@ -12,6 +13,8 @@ import 'dart:convert';
 import 'package:intl/intl.dart';
 
 class OngoingTripDetailsViewModel extends BaseViewModel {
+
+  String _tripId = "";
   String _startLocation = "";
   String _destination = "";
   String _departureTime = "";
@@ -21,11 +24,15 @@ class OngoingTripDetailsViewModel extends BaseViewModel {
   int _durationValue = 0;
   int _seats = 0;
 
+  List<CarpoolRequest> _acceptedCarpoolRequestList = [];
+
   // Services
   final FirebaseService _firebaseService = locator<FirebaseService>();
 
   void onModelReady(String tripId) {
+    _tripId = tripId;
     getTrip(tripId);
+    getPickupLocationList();
   }
 
   void onModelDestroy() {}
@@ -73,6 +80,79 @@ class OngoingTripDetailsViewModel extends BaseViewModel {
     _arrivalTime = DateFormat.jm().format(arrivalDateTime);
 
     notifyListeners();
+  }
+
+  Future<void> getPickupLocationList() async {
+    _acceptedCarpoolRequestList = await _firebaseService.getAcceptedCarpoolRequestList(_tripId);
+    notifyListeners();
+  }
+
+  Widget getPickupLocationContainerList() {
+    if (_acceptedCarpoolRequestList.isNotEmpty) {
+      return ListView.builder(
+        shrinkWrap: true,
+        physics: NeverScrollableScrollPhysics(),
+        itemCount: _acceptedCarpoolRequestList.length,
+        itemBuilder: (BuildContext context, int index) {
+          getPickupLocationList();
+          return Column(
+            children: [
+              Row(
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.only(right: 4),
+                    child: Container(
+                      width: 25,
+                      height: 25,
+                      decoration: BoxDecoration(
+                        border: Border.all(
+                          color: Colors.grey,
+                        ),
+                        borderRadius: new BorderRadius.circular(30.0),
+                        color: Colors.white,
+                      ),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Text(
+                            (index+1).toString(),
+                            style: TextStyle(
+                              fontSize: 14,
+                              fontWeight: FontWeight.bold,
+                              color: Colors.grey,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                  SizedBox(
+                    width: 6,
+                  ),
+                  SizedBox(
+                    width: 300,
+                    child: Text(
+                      _acceptedCarpoolRequestList[index].pickupLocation,
+                      overflow: TextOverflow.clip,
+                      style: TextStyle(
+                        fontSize: 16,
+                        color: Colors.grey,
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+              SizedBox(
+                height: 10,
+              ),
+            ],
+          );
+        },
+      );
+    } else {
+      return Container();
+    }
   }
 
   // Getters

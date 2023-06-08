@@ -22,7 +22,7 @@ class TripDetailsViewModel extends BaseViewModel {
 
   List<CarpoolRequest> _carpoolRequestList = [];
   List<Users> _passengerList = [];
-  List<String> _pickupLocationList = [];
+  List<CarpoolRequest> _acceptedCarpoolRequestList = [];
 
   // Services
   final FirebaseService _firebaseService = locator<FirebaseService>();
@@ -69,16 +69,16 @@ class TripDetailsViewModel extends BaseViewModel {
   }
 
   Future<void> getPickupLocationList() async {
-    _pickupLocationList = await _firebaseService.getPickupLocationList(_tripId);
+    _acceptedCarpoolRequestList = await _firebaseService.getAcceptedCarpoolRequestList(_tripId);
     notifyListeners();
   }
 
   Widget getPickupLocationContainerList() {
-    if (_pickupLocationList.isNotEmpty) {
+    if (_acceptedCarpoolRequestList.isNotEmpty) {
       return ListView.builder(
         shrinkWrap: true,
         physics: NeverScrollableScrollPhysics(),
-        itemCount: _pickupLocationList.length,
+        itemCount: _acceptedCarpoolRequestList.length,
         itemBuilder: (BuildContext context, int index) {
           getPickupLocationList();
           return Column(
@@ -119,7 +119,7 @@ class TripDetailsViewModel extends BaseViewModel {
                   SizedBox(
                     width: 280,
                     child: Text(
-                      _pickupLocationList[index],
+                      _acceptedCarpoolRequestList[index].pickupLocation,
                       overflow: TextOverflow.clip,
                       style: TextStyle(
                         fontSize: 16,

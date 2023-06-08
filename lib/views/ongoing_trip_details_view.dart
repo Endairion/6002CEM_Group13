@@ -140,54 +140,8 @@ class _OngoingTripDetailsState extends State<OngoingTripDetails> {
                   SizedBox(
                     height: 10,
                   ),
-                  Row(
-                    children: [
-                      Padding(
-                        padding: const EdgeInsets.only(right: 4),
-                        child: Container(
-                          width: 25,
-                          height: 25,
-                          decoration: BoxDecoration(
-                            border: Border.all(
-                              color: Colors.grey,
-                            ),
-                            borderRadius: new BorderRadius.circular(30.0),
-                            color: Colors.white,
-                          ),
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              Text(
-                                '1',
-                                style: TextStyle(
-                                  fontSize: 14,
-                                  fontWeight: FontWeight.bold,
-                                  color: Colors.grey,
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                      ),
-                      SizedBox(
-                        width: 6,
-                      ),
-                      SizedBox(
-                        width: 300,
-                        child: Text(
-                          'Address aksjdhkasd asjhd kajsdh asdhja sdkjashd kajsdh akjsdhaks dhkajs',
-                          overflow: TextOverflow.clip,
-                          style: TextStyle(
-                            fontSize: 16,
-                            color: Colors.grey,
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                  SizedBox(
-                    height: 10,
+                  Container(
+                    child: _model.getPickupLocationContainerList(),
                   ),
                   Row(
                     children: [
