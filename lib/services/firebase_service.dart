@@ -305,7 +305,7 @@ class FirebaseService {
     CollectionReference carpoolRequests = FirebaseFirestore.instance.collection('CarpoolRequests');
 
     return carpoolRequests.doc(carpoolRequest.requestId).set({
-      'id' : carpoolRequest.requestId,
+      'requestId' : carpoolRequest.requestId,
       'requesterId' : carpoolRequest.requesterId,
       'tripId' : carpoolRequest.tripId,
       'driverId' : carpoolRequest.driverId,
@@ -330,7 +330,7 @@ class FirebaseService {
     // Get data from docs and convert map to List
     final carpoolRequestList = querySnapshot.docs.map<CarpoolRequest>((doc) {
       return CarpoolRequest(
-          requestId: doc['driverId'],
+          requestId: doc['requestId'],
           requesterId: doc['requesterId'],
           tripId: doc['tripId'],
           driverId: doc['driverId'],

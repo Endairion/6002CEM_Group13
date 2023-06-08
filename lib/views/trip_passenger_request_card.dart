@@ -2,7 +2,7 @@
 import 'package:flutter/material.dart';
 import 'package:mobile_app_development_cw2/models/carpool_request_model.dart';
 import 'package:mobile_app_development_cw2/models/user_model.dart';
-import 'package:mobile_app_development_cw2/viewmodels/TripPassengerRequestViewModel.dart';
+import 'package:mobile_app_development_cw2/viewmodels/trip_passenger_request_view_model.dart';
 import 'package:mobile_app_development_cw2/views/base_view.dart';
 
 class TripPassengerRequestCard extends StatefulWidget {
