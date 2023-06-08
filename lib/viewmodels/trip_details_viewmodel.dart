@@ -6,6 +6,7 @@ import 'package:mobile_app_development_cw2/models/user_model.dart';
 import 'package:mobile_app_development_cw2/services/firebase_service.dart';
 import 'package:mobile_app_development_cw2/utils/validators.dart';
 import 'package:mobile_app_development_cw2/viewmodels/base_viewmodel.dart';
+import 'package:mobile_app_development_cw2/views/pickup_address_card_view.dart';
 import 'package:mobile_app_development_cw2/views/trip_passenger_request_card.dart';
 
 class TripDetailsViewModel extends BaseViewModel {
@@ -81,59 +82,60 @@ class TripDetailsViewModel extends BaseViewModel {
         itemCount: _acceptedCarpoolRequestList.length,
         itemBuilder: (BuildContext context, int index) {
           getPickupLocationList();
-          return Column(
-            children: [
-              Row(
-                children: [
-                  Padding(
-                    padding: const EdgeInsets.only(right: 4),
-                    child: Container(
-                      width: 25,
-                      height: 25,
-                      decoration: BoxDecoration(
-                        border: Border.all(
-                          color: Colors.grey,
-                        ),
-                        borderRadius: new BorderRadius.circular(30.0),
-                        color: Colors.white,
-                      ),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Text(
-                            (index+1).toString(),
-                            style: TextStyle(
-                              fontSize: 14,
-                              fontWeight: FontWeight.bold,
-                              color: Colors.grey,
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
-                  SizedBox(
-                    width: 6,
-                  ),
-                  SizedBox(
-                    width: 280,
-                    child: Text(
-                      _acceptedCarpoolRequestList[index].pickupLocation,
-                      overflow: TextOverflow.clip,
-                      style: TextStyle(
-                        fontSize: 16,
-                        color: Colors.grey,
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-              SizedBox(
-                height: 12,
-              ),
-            ],
-          );
+          return PickupAddressCardView(_acceptedCarpoolRequestList[index], index);
+          // return Column(
+          //   children: [
+          //     Row(
+          //       children: [
+          //         Padding(
+          //           padding: const EdgeInsets.only(right: 4),
+          //           child: Container(
+          //             width: 25,
+          //             height: 25,
+          //             decoration: BoxDecoration(
+          //               border: Border.all(
+          //                 color: Colors.grey,
+          //               ),
+          //               borderRadius: new BorderRadius.circular(30.0),
+          //               color: Colors.white,
+          //             ),
+          //             child: Column(
+          //               crossAxisAlignment: CrossAxisAlignment.center,
+          //               mainAxisAlignment: MainAxisAlignment.center,
+          //               children: [
+          //                 Text(
+          //                   (index+1).toString(),
+          //                   style: TextStyle(
+          //                     fontSize: 14,
+          //                     fontWeight: FontWeight.bold,
+          //                     color: Colors.grey,
+          //                   ),
+          //                 ),
+          //               ],
+          //             ),
+          //           ),
+          //         ),
+          //         SizedBox(
+          //           width: 6,
+          //         ),
+          //         SizedBox(
+          //           width: 280,
+          //           child: Text(
+          //             _acceptedCarpoolRequestList[index].pickupLocation,
+          //             overflow: TextOverflow.clip,
+          //             style: TextStyle(
+          //               fontSize: 16,
+          //               color: Colors.grey,
+          //             ),
+          //           ),
+          //         ),
+          //       ],
+          //     ),
+          //     SizedBox(
+          //       height: 12,
+          //     ),
+          //   ],
+          // );
         },
       );
     } else {

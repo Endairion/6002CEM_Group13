@@ -7,6 +7,8 @@ import 'package:mobile_app_development_cw2/viewmodels/base_viewmodel.dart';
 import 'package:dio/dio.dart';
 
 import 'package:flutter/material.dart';
+import 'package:mobile_app_development_cw2/views/pickup_address_card_view.dart';
+import 'package:mobile_app_development_cw2/views/pickup_passenger_card_view.dart';
 import 'package:uuid/uuid.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
@@ -32,7 +34,7 @@ class OngoingTripDetailsViewModel extends BaseViewModel {
   void onModelReady(String tripId) {
     _tripId = tripId;
     getTrip(tripId);
-    getPickupLocationList();
+    getAcceptedCarpoolRequestList();
   }
 
   void onModelDestroy() {}
@@ -82,7 +84,7 @@ class OngoingTripDetailsViewModel extends BaseViewModel {
     notifyListeners();
   }
 
-  Future<void> getPickupLocationList() async {
+  Future<void> getAcceptedCarpoolRequestList() async {
     _acceptedCarpoolRequestList = await _firebaseService.getAcceptedCarpoolRequestList(_tripId);
     notifyListeners();
   }
@@ -94,60 +96,24 @@ class OngoingTripDetailsViewModel extends BaseViewModel {
         physics: NeverScrollableScrollPhysics(),
         itemCount: _acceptedCarpoolRequestList.length,
         itemBuilder: (BuildContext context, int index) {
-          getPickupLocationList();
-          return Column(
-            children: [
-              Row(
-                children: [
-                  Padding(
-                    padding: const EdgeInsets.only(right: 4),
-                    child: Container(
-                      width: 25,
-                      height: 25,
-                      decoration: BoxDecoration(
-                        border: Border.all(
-                          color: Colors.grey,
-                        ),
-                        borderRadius: new BorderRadius.circular(30.0),
-                        color: Colors.white,
-                      ),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Text(
-                            (index+1).toString(),
-                            style: TextStyle(
-                              fontSize: 14,
-                              fontWeight: FontWeight.bold,
-                              color: Colors.grey,
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
-                  SizedBox(
-                    width: 6,
-                  ),
-                  SizedBox(
-                    width: 300,
-                    child: Text(
-                      _acceptedCarpoolRequestList[index].pickupLocation,
-                      overflow: TextOverflow.clip,
-                      style: TextStyle(
-                        fontSize: 16,
-                        color: Colors.grey,
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-              SizedBox(
-                height: 10,
-              ),
-            ],
-          );
+          getAcceptedCarpoolRequestList();
+          return PickupAddressCardView(_acceptedCarpoolRequestList[index], index);
+        },
+      );
+    } else {
+      return Container();
+    }
+  }
+
+  Widget getPickupPassengerContainerList() {
+    if (_acceptedCarpoolRequestList.isNotEmpty) {
+      return ListView.builder(
+        shrinkWrap: true,
+        physics: NeverScrollableScrollPhysics(),
+        itemCount: _acceptedCarpoolRequestList.length,
+        itemBuilder: (BuildContext context, int index) {
+          getAcceptedCarpoolRequestList();
+          return PickupPassengerCardView(_acceptedCarpoolRequestList[index]);
         },
       );
     } else {
