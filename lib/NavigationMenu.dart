@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:mobile_app_development_cw2/Homepage.dart';
+import 'package:mobile_app_development_cw2/views/homepage_view.dart';
 import 'package:mobile_app_development_cw2/views/plan_trip_view.dart';
 import 'package:mobile_app_development_cw2/views/profile_view.dart';
 
