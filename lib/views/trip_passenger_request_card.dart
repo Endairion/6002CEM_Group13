@@ -85,7 +85,6 @@ class _TripPassengerRequestCardState extends State<TripPassengerRequestCard> {
                             color: Colors.lightGreen,
                           ),
                           onPressed: () {
-                            print('Pressed Accept');
                             _model.acceptRequest();
                           },
                         ),
@@ -109,6 +108,7 @@ class _TripPassengerRequestCardState extends State<TripPassengerRequestCard> {
                           ),
                           onPressed: () {
                             print('Pressed Decline');
+                            _model.rejectRequest();
                           },
                         ),
                       ),

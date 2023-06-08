@@ -347,7 +347,18 @@ class FirebaseService {
     var collection = FirebaseFirestore.instance.collection('CarpoolRequests');
     collection.doc(requestId).update({'status': 'Accepted'}) // <-- Updated data
         .then((_) {
-      print('Update carpool request status success');
+      print('Accept carpool request success');
+    }).catchError((error) {
+      print('Failed: $error');
+    });
+  }
+
+  Future<void> rejectCarpoolRequest(String requestId) async {
+    print("Firebase: " + requestId);
+    var collection = FirebaseFirestore.instance.collection('CarpoolRequests');
+    collection.doc(requestId).update({'status': 'Rejected'}) // <-- Updated data
+        .then((_) {
+      print('Reject carpool request status success');
     }).catchError((error) {
       print('Failed: $error');
     });
