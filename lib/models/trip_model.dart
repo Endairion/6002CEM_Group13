@@ -6,7 +6,6 @@ class Trip {
   final String date;
   final String time;
   final String status;
-  final String stops;
   final int seats;
   final bool enablePickupNotification;
 
@@ -18,7 +17,6 @@ class Trip {
       required this.date,
       required this.time,
       required this.status,
-      required this.stops,
       required this.seats,
       required this.enablePickupNotification});
 }

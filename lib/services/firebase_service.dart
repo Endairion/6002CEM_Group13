@@ -115,8 +115,7 @@ class FirebaseService {
           'date': trip.date,
           'time': trip.time,
           'status': trip.status,
-          'stops': trip.stops,
-          'seats': trip.seats.toString(),
+          'seats': trip.seats,
           'enablePickupNotification': trip.enablePickupNotification,
         })
         .then((value) => print("Trip Created"))
@@ -140,8 +139,7 @@ class FirebaseService {
           date: doc['date'],
           time: doc['time'],
           status: doc['status'],
-          stops: doc['stops'],
-          seats: int.parse(doc['seats']),
+          seats: doc['seats'],
           enablePickupNotification: doc['enablePickupNotification']);
     }).toList();
 
@@ -168,10 +166,8 @@ class FirebaseService {
             date: data['date'],
             time: data['time'],
             status: data['status'],
-            stops: data['stops'],
-            seats: int.parse(data['seats']),
+            seats: data['seats'],
             enablePickupNotification: data['enablePickupNotification']);
-
         return trip;
       } else {
         throw Exception('Document does not exist');
@@ -224,8 +220,7 @@ class FirebaseService {
           date: doc['date'],
           time: doc['time'],
           status: doc['status'],
-          stops: doc['stops'],
-          seats: int.parse(doc['seats']),
+          seats: doc['seats'],
           enablePickupNotification: doc['enablePickupNotification']);
     }).toList();
 
@@ -343,7 +338,6 @@ class FirebaseService {
   }
 
   Future<void> acceptCarpoolRequest(String requestId) async {
-    print("Firebase: " + requestId);
     var collection = FirebaseFirestore.instance.collection('CarpoolRequests');
     collection.doc(requestId).update({'status': 'Accepted'}) // <-- Updated data
         .then((_) {
@@ -353,8 +347,17 @@ class FirebaseService {
     });
   }
 
+  Future<void> decrementCarpoolSeats(String tripId) async {
+    var collection = FirebaseFirestore.instance.collection('Trips');
+    collection.doc(tripId).update({'seats': FieldValue.increment(-1)}) // <-- Updated data
+        .then((_) {
+      print('Decrement carpool remaining seats success');
+    }).catchError((error) {
+      print('Failed: $error');
+    });
+  }
+
   Future<void> rejectCarpoolRequest(String requestId) async {
-    print("Firebase: " + requestId);
     var collection = FirebaseFirestore.instance.collection('CarpoolRequests');
     collection.doc(requestId).update({'status': 'Rejected'}) // <-- Updated data
         .then((_) {
@@ -407,8 +410,7 @@ class FirebaseService {
           date: doc['date'],
           time: doc['time'],
           status: doc['status'],
-          stops: doc['stops'],
-          seats: int.parse(doc['seats']),
+          seats: doc['seats'],
           enablePickupNotification: doc['enablePickupNotification']);
     }).toList();
 

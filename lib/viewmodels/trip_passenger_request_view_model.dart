@@ -27,6 +27,12 @@ class TripPassengerRequestViewModel extends BaseViewModel {
 
   Future<void> acceptRequest() async {
     await _firebaseService.acceptCarpoolRequest(_requestId);
+    await decrementCarpoolSeats();
+    notifyListeners();
+  }
+
+  Future<void> decrementCarpoolSeats() async {
+    await _firebaseService.decrementCarpoolSeats(_tripId);
     notifyListeners();
   }
 
