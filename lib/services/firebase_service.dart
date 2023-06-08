@@ -415,5 +415,20 @@ class FirebaseService {
     return tripsList;
   }
 
+  Future<List<String>> getPickupLocationList(String tripId) async {
+    // Get docs from CarpoolRequests collection reference
+    QuerySnapshot querySnapshot = await FirebaseFirestore.instance
+        .collection('CarpoolRequests')
+        .where('tripId', isEqualTo: tripId)
+        .where('status', isEqualTo: "Accepted")
+        .get();
+
+    // Get data from docs and convert map to List
+    final pickupLocationList = querySnapshot.docs.map<String>((doc) {
+      return doc['pickupLocation'];
+    }).toList();
+
+    return pickupLocationList;
+  }
 
 }
