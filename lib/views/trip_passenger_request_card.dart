@@ -26,7 +26,7 @@ class _TripPassengerRequestCardState extends State<TripPassengerRequestCard> {
       onModelReady: (model) {
         _model = model;
         _context = context;
-        model.onModelReady(widget.carpoolRequest.requestId);
+        model.onModelReady(widget.carpoolRequest.requestId, widget.carpoolRequest.tripId);
       },
       onModelDestroy: (model) => model.onModelDestroy(),
       builder: (context, model, child) => Column(
@@ -85,7 +85,7 @@ class _TripPassengerRequestCardState extends State<TripPassengerRequestCard> {
                             color: Colors.lightGreen,
                           ),
                           onPressed: () {
-                            _model.acceptRequest();
+                            _model.acceptRequestClicked(context);
                           },
                         ),
                       ),
@@ -107,8 +107,7 @@ class _TripPassengerRequestCardState extends State<TripPassengerRequestCard> {
                             color: Colors.red,
                           ),
                           onPressed: () {
-                            print('Pressed Decline');
-                            _model.rejectRequest();
+                            _model.rejectRequestClicked(context);
                           },
                         ),
                       ),
