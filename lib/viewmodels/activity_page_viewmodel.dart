@@ -76,7 +76,7 @@ class ActivityPageViewModel extends BaseViewModel {
           itemCount: _tripsList.length,
           itemBuilder: (BuildContext context, int index) {
             getTripHistoryList();
-            return TripHistoryCard(context, _tripsList, index);
+            return TripHistoryCard(context, _tripsList[index]);
           },
         );
       } else {
@@ -101,7 +101,7 @@ class ActivityPageViewModel extends BaseViewModel {
                 itemCount: _tripsList.length,
                 itemBuilder: (BuildContext context, int index) {
                   getTripHistoryList();
-                  return TripHistoryCard(context, _tripsList, index);
+                  return TripHistoryCard(context, _tripsList[index]);
                 },
               )
             : const Center(
@@ -123,7 +123,7 @@ class ActivityPageViewModel extends BaseViewModel {
           itemCount: _pointsEarnList.length,
           itemBuilder: (BuildContext context, int index) {
             getPointsHistoryList();
-            return PointsEarnCard(context, _pointsEarnList, _pointsEarnTripList, index);
+            return PointsEarnCard(context, _pointsEarnList[index], _pointsEarnTripList[index]);
           },
         );
       } else {

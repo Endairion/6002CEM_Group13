@@ -67,14 +67,15 @@ class TripDetailsViewModel extends BaseViewModel {
   }
 
   Widget getPassengerCardList() {
+    getCarpoolRequestList();
+
     if (_carpoolRequestList.isNotEmpty) {
       return ListView.builder(
         shrinkWrap: true,
         physics: NeverScrollableScrollPhysics(),
         itemCount: _carpoolRequestList.length,
         itemBuilder: (BuildContext context, int index) {
-          getCarpoolRequestList();
-          return TripPassengerRequestCard(requestList: _carpoolRequestList, passengerList: _passengerList, index: index);
+          return TripPassengerRequestCard(carpoolRequest: _carpoolRequestList[index],passenger: _passengerList[index]);
         },
       );
     } else {
