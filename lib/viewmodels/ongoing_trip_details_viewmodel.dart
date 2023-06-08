@@ -129,7 +129,19 @@ class OngoingTripDetailsViewModel extends BaseViewModel {
         },
       );
     } else {
-      return Container();
+      return SizedBox(
+        height: 100,
+        child: const Center(
+          child: Text(
+            'There are no carpool passenger.',
+            style: TextStyle(
+              fontStyle: FontStyle.italic,
+              color: Colors.red,
+              fontSize: 16,
+            ),
+          ),
+        ),
+      );
     }
   }
 
