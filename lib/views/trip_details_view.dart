@@ -160,7 +160,7 @@ class _TripDetailsState extends State<TripDetails> {
                     height: 12,
                   ),
                   Container(
-                    child: _model.getPickupLocationContainerList(),
+                    child: _model.getPickupAddressCardList(),
                   ),
                   Row(
                     children: [
