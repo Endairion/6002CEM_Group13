@@ -7,7 +7,7 @@ import 'package:mobile_app_development_cw2/viewmodels/activity_page_viewmodel.da
 import 'package:mobile_app_development_cw2/services/firebase_service.dart';
 
 
-Widget PointsEarnCard(BuildContext context, List<EarnPoint> pointsEarnList, List<Trip> tripList,int index) {
+Widget PointsEarnCard(BuildContext context, EarnPoint earnPoint, Trip trip) {
   return Padding(
     padding: const EdgeInsets.only(bottom: 12),
     child: Container(
@@ -23,7 +23,7 @@ Widget PointsEarnCard(BuildContext context, List<EarnPoint> pointsEarnList, List
                     borderRadius: BorderRadius.all(Radius.circular(15))),
                 child: Center(
                   child: Text(
-                    "+" + pointsEarnList[index].points.toString(),
+                    "+" + earnPoint.points.toString(),
                     style: TextStyle(
                       fontWeight: FontWeight.bold,
                       fontSize: 20,
@@ -51,7 +51,7 @@ Widget PointsEarnCard(BuildContext context, List<EarnPoint> pointsEarnList, List
                       SizedBox(
                         width: 205,
                         child: Text(
-                          tripList[index].startLocation,
+                          trip.startLocation,
                           overflow: TextOverflow.clip,
                           style: TextStyle(
                             fontSize: 14,
@@ -80,7 +80,7 @@ Widget PointsEarnCard(BuildContext context, List<EarnPoint> pointsEarnList, List
                       SizedBox(
                         width: 205,
                         child: Text(
-                          tripList[index].destination,
+                          trip.destination,
                           overflow: TextOverflow.clip,
                           style: TextStyle(
                             fontSize: 14,
@@ -104,7 +104,7 @@ Widget PointsEarnCard(BuildContext context, List<EarnPoint> pointsEarnList, List
                         ),
                       ),
                       Text(
-                        tripList[index].date,
+                        trip.date,
                         style: TextStyle(
                           fontSize: 14,
                           color: Colors.black87,
@@ -122,7 +122,7 @@ Widget PointsEarnCard(BuildContext context, List<EarnPoint> pointsEarnList, List
                         ),
                       ),
                       Text(
-                        tripList[index].time,
+                        trip.time,
                         style: TextStyle(
                           fontSize: 14,
                           color: Colors.black87,
@@ -134,7 +134,7 @@ Widget PointsEarnCard(BuildContext context, List<EarnPoint> pointsEarnList, List
                     height: 12,
                   ),
                   Text(
-                    'Role: ' + pointsEarnList[index].role,
+                    'Role: ' + earnPoint.role,
                     style: TextStyle(
                       fontSize: 14,
                       color: Colors.green[900],

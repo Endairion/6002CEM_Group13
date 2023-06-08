@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:mobile_app_development_cw2/models/trip_model.dart';
 import 'package:mobile_app_development_cw2/views/trip_details_view.dart';
 
-Widget TripHistoryCard(BuildContext context, List<Trip> trip, int index) {
+Widget TripHistoryCard(BuildContext context, Trip trip) {
 
   statusColor(String status) {
     switch (status) {
@@ -22,7 +22,7 @@ Widget TripHistoryCard(BuildContext context, List<Trip> trip, int index) {
         Navigator.push(
           context,
           MaterialPageRoute(
-              builder: (context) => TripDetails(tripId: trip[index].id)),
+              builder: (context) => TripDetails(tripId: trip.id)),
         );
       },
       child: Container(
@@ -68,7 +68,7 @@ Widget TripHistoryCard(BuildContext context, List<Trip> trip, int index) {
                       Container(
                         width: 219,
                         child: Text(
-                          trip[index].startLocation,
+                          trip.startLocation,
                           overflow: TextOverflow.ellipsis,
                           style: TextStyle(
                             fontSize: 16,
@@ -111,7 +111,7 @@ Widget TripHistoryCard(BuildContext context, List<Trip> trip, int index) {
                       Container(
                         width: 219,
                         child: Text(
-                          trip[index].destination,
+                          trip.destination,
                           overflow: TextOverflow.ellipsis,
                           style: TextStyle(
                             fontSize: 16,
@@ -130,7 +130,7 @@ Widget TripHistoryCard(BuildContext context, List<Trip> trip, int index) {
                         width: 4,
                       ),
                       Text(
-                        'Date: ' + trip[index].date,
+                        'Date: ' + trip.date,
                         style: TextStyle(
                           fontSize: 14,
                           color: Colors.black87,
@@ -140,7 +140,7 @@ Widget TripHistoryCard(BuildContext context, List<Trip> trip, int index) {
                         width: 12,
                       ),
                       Text(
-                        'Time: ' + trip[index].time,
+                        'Time: ' + trip.time,
                         style: TextStyle(
                           fontSize: 14,
                           color: Colors.black87,
@@ -170,11 +170,11 @@ Widget TripHistoryCard(BuildContext context, List<Trip> trip, int index) {
                         width: 100,
                         height: 24,
                         decoration: BoxDecoration(
-                            color: statusColor(trip[index].status),
+                            color: statusColor(trip.status),
                             borderRadius: BorderRadius.all(Radius.circular(5))),
                         child: Center(
                             child: Text(
-                          trip[index].status,
+                          trip.status,
                           style: TextStyle(
                             color: Colors.white,
                           ),

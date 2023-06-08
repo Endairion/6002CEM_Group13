@@ -305,7 +305,7 @@ class FirebaseService {
     CollectionReference carpoolRequests = FirebaseFirestore.instance.collection('CarpoolRequests');
 
     return carpoolRequests.doc(carpoolRequest.requestId).set({
-      'id' : carpoolRequest.requestId,
+      'requestId' : carpoolRequest.requestId,
       'requesterId' : carpoolRequest.requesterId,
       'tripId' : carpoolRequest.tripId,
       'driverId' : carpoolRequest.driverId,
@@ -330,7 +330,7 @@ class FirebaseService {
     // Get data from docs and convert map to List
     final carpoolRequestList = querySnapshot.docs.map<CarpoolRequest>((doc) {
       return CarpoolRequest(
-          requestId: doc['driverId'],
+          requestId: doc['requestId'],
           requesterId: doc['requesterId'],
           tripId: doc['tripId'],
           driverId: doc['driverId'],
@@ -347,7 +347,18 @@ class FirebaseService {
     var collection = FirebaseFirestore.instance.collection('CarpoolRequests');
     collection.doc(requestId).update({'status': 'Accepted'}) // <-- Updated data
         .then((_) {
-      print('Update carpool request status success');
+      print('Accept carpool request success');
+    }).catchError((error) {
+      print('Failed: $error');
+    });
+  }
+
+  Future<void> rejectCarpoolRequest(String requestId) async {
+    print("Firebase: " + requestId);
+    var collection = FirebaseFirestore.instance.collection('CarpoolRequests');
+    collection.doc(requestId).update({'status': 'Rejected'}) // <-- Updated data
+        .then((_) {
+      print('Reject carpool request status success');
     }).catchError((error) {
       print('Failed: $error');
     });
@@ -404,5 +415,20 @@ class FirebaseService {
     return tripsList;
   }
 
+  Future<List<String>> getPickupLocationList(String tripId) async {
+    // Get docs from CarpoolRequests collection reference
+    QuerySnapshot querySnapshot = await FirebaseFirestore.instance
+        .collection('CarpoolRequests')
+        .where('tripId', isEqualTo: tripId)
+        .where('status', isEqualTo: "Accepted")
+        .get();
+
+    // Get data from docs and convert map to List
+    final pickupLocationList = querySnapshot.docs.map<String>((doc) {
+      return doc['pickupLocation'];
+    }).toList();
+
+    return pickupLocationList;
+  }
 
 }

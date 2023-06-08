@@ -384,7 +384,7 @@ class _OngoingTripDetailsState extends State<OngoingTripDetails> {
                   ),
                   Container(
                     width: double.infinity,
-                    height: 130,
+                    height: 210,
                     decoration: BoxDecoration(
                       borderRadius: new BorderRadius.circular(10),
                       color: Colors.grey[200],
@@ -455,6 +455,34 @@ class _OngoingTripDetailsState extends State<OngoingTripDetails> {
                           SizedBox(
                             height: 8,
                           ),
+                          SizedBox(
+                            width: 350,
+                            child: Text(
+                              'Pickup Location: ',
+                              overflow: TextOverflow.clip,
+                              style: TextStyle(
+                                fontSize: 14,
+                                color: Colors.black87,
+                              ),
+                            ),
+                          ),
+                          SizedBox(
+                            height: 8,
+                          ),
+                          SizedBox(
+                            width: 350,
+                            child: Text(
+                              'Remarks: ',
+                              overflow: TextOverflow.clip,
+                              style: TextStyle(
+                                fontSize: 14,
+                                color: Colors.black87,
+                              ),
+                            ),
+                          ),
+                          SizedBox(
+                            height: 8,
+                          ),
                           Container(
                             width: 100,
                             height: 30,
@@ -492,7 +520,7 @@ class _OngoingTripDetailsState extends State<OngoingTripDetails> {
                   ),
                   Container(
                     width: double.infinity,
-                    height: 130,
+                    height: 210,
                     decoration: BoxDecoration(
                       borderRadius: new BorderRadius.circular(10),
                       color: Colors.grey[200],
@@ -509,10 +537,10 @@ class _OngoingTripDetailsState extends State<OngoingTripDetails> {
                                 backgroundColor: Colors.white,
                                 child: Padding(
                                   padding:
-                                      const EdgeInsets.all(4), // Border radius
+                                  const EdgeInsets.all(4), // Border radius
                                   child: ClipOval(
                                       child:
-                                          Image.asset('assets/app_logo.png')),
+                                      Image.asset('assets/app_logo.png')),
                                 ),
                               ),
                               SizedBox(
@@ -559,6 +587,34 @@ class _OngoingTripDetailsState extends State<OngoingTripDetails> {
                                     )),
                               ),
                             ],
+                          ),
+                          SizedBox(
+                            height: 8,
+                          ),
+                          SizedBox(
+                            width: 350,
+                            child: Text(
+                              'Pickup Location: ',
+                              overflow: TextOverflow.clip,
+                              style: TextStyle(
+                                fontSize: 14,
+                                color: Colors.black87,
+                              ),
+                            ),
+                          ),
+                          SizedBox(
+                            height: 8,
+                          ),
+                          SizedBox(
+                            width: 350,
+                            child: Text(
+                              'Remarks: ',
+                              overflow: TextOverflow.clip,
+                              style: TextStyle(
+                                fontSize: 14,
+                                color: Colors.black87,
+                              ),
+                            ),
                           ),
                           SizedBox(
                             height: 8,

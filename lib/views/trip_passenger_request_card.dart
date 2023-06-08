@@ -2,15 +2,15 @@
 import 'package:flutter/material.dart';
 import 'package:mobile_app_development_cw2/models/carpool_request_model.dart';
 import 'package:mobile_app_development_cw2/models/user_model.dart';
-import 'package:mobile_app_development_cw2/viewmodels/TripPassengerRequestViewModel.dart';
+import 'package:mobile_app_development_cw2/viewmodels/trip_passenger_request_view_model.dart';
 import 'package:mobile_app_development_cw2/views/base_view.dart';
 
 class TripPassengerRequestCard extends StatefulWidget {
   // BuildContext context;
-  final List<CarpoolRequest> requestList;
-  final List<Users> passengerList;
-  final int index;
-  TripPassengerRequestCard({Key? key, required this.requestList, required this.passengerList, required this.index}) : super(key: key);
+  final CarpoolRequest carpoolRequest;
+  final Users passenger;
+  // final int index;
+  TripPassengerRequestCard({Key? key, required this.carpoolRequest, required this.passenger}) : super(key: key);
 
   @override
   State<TripPassengerRequestCard> createState() => _TripPassengerRequestCardState();
@@ -26,7 +26,7 @@ class _TripPassengerRequestCardState extends State<TripPassengerRequestCard> {
       onModelReady: (model) {
         _model = model;
         _context = context;
-        model.onModelReady(widget.requestList[widget.index].requestId);
+        model.onModelReady(widget.carpoolRequest.requestId, widget.carpoolRequest.tripId);
       },
       onModelDestroy: (model) => model.onModelDestroy(),
       builder: (context, model, child) => Column(
@@ -62,7 +62,7 @@ class _TripPassengerRequestCardState extends State<TripPassengerRequestCard> {
                       Container(
                         width: 150,
                         child: Text(
-                          widget.passengerList[widget.index].name,
+                          widget.passenger.name,
                           overflow: TextOverflow.clip,
                           style: TextStyle(
                             fontSize: 16,
@@ -85,8 +85,7 @@ class _TripPassengerRequestCardState extends State<TripPassengerRequestCard> {
                             color: Colors.lightGreen,
                           ),
                           onPressed: () {
-                            print('Pressed Accept');
-                            _model.acceptRequest();
+                            _model.acceptRequestClicked(context);
                           },
                         ),
                       ),
@@ -108,7 +107,7 @@ class _TripPassengerRequestCardState extends State<TripPassengerRequestCard> {
                             color: Colors.red,
                           ),
                           onPressed: () {
-                            print('Pressed Decline');
+                            _model.rejectRequestClicked(context);
                           },
                         ),
                       ),
@@ -132,7 +131,7 @@ class _TripPassengerRequestCardState extends State<TripPassengerRequestCard> {
                       SizedBox(
                         width: 215,
                         child: Text(
-                          widget.requestList[widget.index].pickupLocation,
+                          widget.carpoolRequest.pickupLocation,
                           overflow: TextOverflow.clip,
                           style: TextStyle(
                             fontSize: 14,
@@ -148,7 +147,7 @@ class _TripPassengerRequestCardState extends State<TripPassengerRequestCard> {
                   SizedBox(
                     width: 350,
                     child: Text(
-                      'Remarks: ' + widget.requestList[widget.index].remarks,
+                      'Remarks: ' + widget.carpoolRequest.remarks,
                       overflow: TextOverflow.clip,
                       style: TextStyle(
                         fontSize: 14,

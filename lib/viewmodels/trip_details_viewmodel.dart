@@ -22,6 +22,7 @@ class TripDetailsViewModel extends BaseViewModel {
 
   List<CarpoolRequest> _carpoolRequestList = [];
   List<Users> _passengerList = [];
+  List<String> _pickupLocationList = [];
 
   // Services
   final FirebaseService _firebaseService = locator<FirebaseService>();
@@ -29,6 +30,7 @@ class TripDetailsViewModel extends BaseViewModel {
   void onModelReady(String tripId) {
     _tripId = tripId;
     getTrip(tripId);
+    getPickupLocationList();
     getCarpoolRequestList();
   }
 
@@ -66,6 +68,79 @@ class TripDetailsViewModel extends BaseViewModel {
     notifyListeners();
   }
 
+  Future<void> getPickupLocationList() async {
+    _pickupLocationList = await _firebaseService.getPickupLocationList(_tripId);
+    notifyListeners();
+  }
+
+  Widget getPickupLocationContainerList() {
+    if (_pickupLocationList.isNotEmpty) {
+      return ListView.builder(
+        shrinkWrap: true,
+        physics: NeverScrollableScrollPhysics(),
+        itemCount: _pickupLocationList.length,
+        itemBuilder: (BuildContext context, int index) {
+          getPickupLocationList();
+          return Column(
+            children: [
+              Row(
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.only(right: 4),
+                    child: Container(
+                      width: 25,
+                      height: 25,
+                      decoration: BoxDecoration(
+                        border: Border.all(
+                          color: Colors.grey,
+                        ),
+                        borderRadius: new BorderRadius.circular(30.0),
+                        color: Colors.white,
+                      ),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Text(
+                            (index+1).toString(),
+                            style: TextStyle(
+                              fontSize: 14,
+                              fontWeight: FontWeight.bold,
+                              color: Colors.grey,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                  SizedBox(
+                    width: 6,
+                  ),
+                  SizedBox(
+                    width: 280,
+                    child: Text(
+                      _pickupLocationList[index],
+                      overflow: TextOverflow.clip,
+                      style: TextStyle(
+                        fontSize: 16,
+                        color: Colors.grey,
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+              SizedBox(
+                height: 12,
+              ),
+            ],
+          );
+        },
+      );
+    } else {
+      return Container();
+    }
+  }
+
   Widget getPassengerCardList() {
     if (_carpoolRequestList.isNotEmpty) {
       return ListView.builder(
@@ -74,7 +149,7 @@ class TripDetailsViewModel extends BaseViewModel {
         itemCount: _carpoolRequestList.length,
         itemBuilder: (BuildContext context, int index) {
           getCarpoolRequestList();
-          return TripPassengerRequestCard(requestList: _carpoolRequestList, passengerList: _passengerList, index: index);
+          return TripPassengerRequestCard(carpoolRequest: _carpoolRequestList[index],passenger: _passengerList[index]);
         },
       );
     } else {
