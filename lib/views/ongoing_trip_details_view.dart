@@ -142,7 +142,7 @@ class _OngoingTripDetailsState extends State<OngoingTripDetails> {
                     height: 10,
                   ),
                   Container(
-                    child: _model.getPickupLocationContainerList(),
+                    child: _model.getPickupAddressCardList(),
                   ),
                   Row(
                     children: [
@@ -338,7 +338,7 @@ class _OngoingTripDetailsState extends State<OngoingTripDetails> {
                     height: 8,
                   ),
                   Container(
-                    child: _model.getPickupPassengerContainerList(),
+                    child: _model.getPickupPassengerCardList(),
                   ),
                 ],
               ),

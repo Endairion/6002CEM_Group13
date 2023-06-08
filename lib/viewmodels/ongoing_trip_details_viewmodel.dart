@@ -1,6 +1,7 @@
 import 'package:mobile_app_development_cw2/locator.dart';
 import 'package:mobile_app_development_cw2/models/carpool_request_model.dart';
 import 'package:mobile_app_development_cw2/models/trip_model.dart';
+import 'package:mobile_app_development_cw2/models/user_model.dart';
 import 'package:mobile_app_development_cw2/services/firebase_service.dart';
 import 'package:mobile_app_development_cw2/utils/validators.dart';
 import 'package:mobile_app_development_cw2/viewmodels/base_viewmodel.dart';
@@ -27,6 +28,7 @@ class OngoingTripDetailsViewModel extends BaseViewModel {
   int _seats = 0;
 
   List<CarpoolRequest> _acceptedCarpoolRequestList = [];
+  List<Users> _passengerList = [];
 
   // Services
   final FirebaseService _firebaseService = locator<FirebaseService>();
@@ -86,10 +88,20 @@ class OngoingTripDetailsViewModel extends BaseViewModel {
 
   Future<void> getAcceptedCarpoolRequestList() async {
     _acceptedCarpoolRequestList = await _firebaseService.getAcceptedCarpoolRequestList(_tripId);
+
+    await getPassengerList();
     notifyListeners();
   }
 
-  Widget getPickupLocationContainerList() {
+  Future<void> getPassengerList() async {
+    for(var i=0; i<_acceptedCarpoolRequestList.length; i++){
+      Users user = await _firebaseService.getUserData(_acceptedCarpoolRequestList[i].requesterId);
+      _passengerList.add(user);
+    }
+    notifyListeners();
+  }
+
+  Widget getPickupAddressCardList() {
     if (_acceptedCarpoolRequestList.isNotEmpty) {
       return ListView.builder(
         shrinkWrap: true,
@@ -105,7 +117,7 @@ class OngoingTripDetailsViewModel extends BaseViewModel {
     }
   }
 
-  Widget getPickupPassengerContainerList() {
+  Widget getPickupPassengerCardList() {
     if (_acceptedCarpoolRequestList.isNotEmpty) {
       return ListView.builder(
         shrinkWrap: true,
@@ -113,7 +125,7 @@ class OngoingTripDetailsViewModel extends BaseViewModel {
         itemCount: _acceptedCarpoolRequestList.length,
         itemBuilder: (BuildContext context, int index) {
           getAcceptedCarpoolRequestList();
-          return PickupPassengerCardView(_acceptedCarpoolRequestList[index]);
+          return PickupPassengerCardView(carpoolRequest: _acceptedCarpoolRequestList[index], user: _passengerList[index]);
         },
       );
     } else {
