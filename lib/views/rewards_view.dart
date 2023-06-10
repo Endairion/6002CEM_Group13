@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:mobile_app_development_cw2/RedemptionHistory.dart';
 import 'package:mobile_app_development_cw2/viewmodels/rewards_viewmodel.dart';
 import 'package:mobile_app_development_cw2/views/base_view.dart';
@@ -79,7 +80,7 @@ class _RewardsViewState extends State<RewardsView>
                                         ),
                                       ),
                                       Text(
-                                        '1570',
+                                        _model.userPoints.toString(),
                                         style: TextStyle(
                                           fontSize: 16,
                                           color: Colors.black,
