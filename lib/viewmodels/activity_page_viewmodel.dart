@@ -32,6 +32,7 @@ class ActivityPageViewModel extends BaseViewModel {
   void onModelReady() {
     getTripHistoryList();
     getPointsHistoryList();
+    updateAllTripStatus();
   }
 
   void setListHeight() async {
@@ -61,6 +62,24 @@ class ActivityPageViewModel extends BaseViewModel {
     notifyListeners();
   }
 
+  //function to update list expiry status
+  Future<void> updateAllTripStatus() async {
+    List<Trip> _tripList = await _firebaseService.getAvailableTripList();
+
+    for(var i=0;i<_tripList.length;i++){
+      Trip trip = await _firebaseService.getTrip(_tripList[i].id);
+
+      DateTime date = new DateFormat("dd-MM-yyyy").parse(trip.date);
+      DateTime currentDate = DateTime.now();
+
+      if (currentDate.difference(date).inDays > 1 ) {
+        await _firebaseService.updateTripExpiry(_tripList[i].id);
+      }
+    }
+
+    notifyListeners();
+  }
+
   void onModelDestroy() {
     // _startLocationController.dispose();
     // _destinationController.dispose();
@@ -75,6 +94,7 @@ class ActivityPageViewModel extends BaseViewModel {
           physics: NeverScrollableScrollPhysics(),
           itemCount: _tripsList.length,
           itemBuilder: (BuildContext context, int index) {
+            updateAllTripStatus();
             getTripHistoryList();
             return TripHistoryCard(context, _tripsList[index]);
           },

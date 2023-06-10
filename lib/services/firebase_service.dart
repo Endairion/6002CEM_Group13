@@ -126,7 +126,7 @@ class FirebaseService {
     // Get docs from trips collection reference
     QuerySnapshot querySnapshot = await FirebaseFirestore.instance
         .collection('Trips')
-        .where('userId', isEqualTo: userId)
+        .where('userId', isEqualTo: userId).orderBy('date')
         .get();
 
     // Get data from docs and convert map to List
@@ -208,7 +208,7 @@ class FirebaseService {
   Future<List<Trip>> getAvailableTripList() async {
     // Get docs from trips collection reference
     QuerySnapshot querySnapshot =
-        await FirebaseFirestore.instance.collection('Trips').get();
+        await FirebaseFirestore.instance.collection('Trips').where('status', isEqualTo: "Ongoing").get();
 
     // Get data from docs and convert map to List
     final tripsList = querySnapshot.docs.map<Trip>((doc) {
@@ -232,6 +232,16 @@ class FirebaseService {
     collection.doc(tripId).update({'status': 'Completed'}) // <-- Updated data
         .then((_) {
       print('Update trip status success');
+    }).catchError((error) {
+      print('Failed: $error');
+    });
+  }
+
+  Future<void> updateTripExpiry(String tripId) async {
+    var collection = FirebaseFirestore.instance.collection('Trips');
+    collection.doc(tripId).update({'status': 'Expired'}) // <-- Updated data
+        .then((_) {
+      print('Update trip expire status success');
     }).catchError((error) {
       print('Failed: $error');
     });
@@ -368,7 +378,7 @@ class FirebaseService {
   }
 
   Future compareAvailableTripsLocation(String startLocation, String destination) async {
-    QuerySnapshot querySnapshot = await FirebaseFirestore.instance.collection("Trips").get();
+    QuerySnapshot querySnapshot = await FirebaseFirestore.instance.collection("Trips").where('status', isEqualTo: "Ongoing").get();
     List<String> tripIdList = [];
 
     for (final DocumentSnapshot doc in querySnapshot.docs){
