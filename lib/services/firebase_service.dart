@@ -128,7 +128,8 @@ class FirebaseService {
     // Get docs from trips collection reference
     QuerySnapshot querySnapshot = await FirebaseFirestore.instance
         .collection('Trips')
-        .where('userId', isEqualTo: userId).orderBy('date', descending: true)
+        .where('userId', isEqualTo: userId)
+        .orderBy('date', descending: true)
         .get();
 
     // Get data from docs and convert map to List
@@ -209,8 +210,11 @@ class FirebaseService {
 
   Future<List<Trip>> getAvailableTripList() async {
     // Get docs from trips collection reference
-    QuerySnapshot querySnapshot =
-        await FirebaseFirestore.instance.collection('Trips').orderBy('date', descending: true).get();
+    QuerySnapshot querySnapshot = await FirebaseFirestore.instance
+        .collection('Trips')
+        .where('status', isEqualTo: 'Ongoing')
+        .where('seats', isNotEqualTo: 0)
+        .get();
 
     // Get data from docs and convert map to List
     final tripsList = querySnapshot.docs.map<Trip>((doc) {
@@ -516,24 +520,27 @@ class FirebaseService {
 
   createRedeemRewards(RewardsRedemption rewardsRedeem) {
     CollectionReference rewardRedemption =
-    FirebaseFirestore.instance.collection('RewardsRedemption');
+        FirebaseFirestore.instance.collection('RewardsRedemption');
 
-    return rewardRedemption.doc(rewardsRedeem.redemptionId).set({
-      'redemptionId' : rewardsRedeem.redemptionId,
-      'storeId' : rewardsRedeem.storeId,
-      'userId' : rewardsRedeem.userId,
-      'date' : rewardsRedeem.date,
-      'status' : rewardsRedeem.status,
-    }
-    ).then((value) => print("RewardsRedemption Created"))
-        .catchError((error) => print("Failed to create rewardsRedeem : $error"));
+    return rewardRedemption
+        .doc(rewardsRedeem.redemptionId)
+        .set({
+          'redemptionId': rewardsRedeem.redemptionId,
+          'storeId': rewardsRedeem.storeId,
+          'userId': rewardsRedeem.userId,
+          'date': rewardsRedeem.date,
+          'status': rewardsRedeem.status,
+        })
+        .then((value) => print("RewardsRedemption Created"))
+        .catchError(
+            (error) => print("Failed to create rewardsRedeem : $error"));
   }
 
-  Future updateStoreStock(String id, int remaining) async{
+  Future updateStoreStock(String id, int remaining) async {
     try {
       await _firebaseFirestore.collection('Rewards').doc(id).set(
         {
-          'remaining' : remaining,
+          'remaining': remaining,
         },
         SetOptions(merge: true),
       );
@@ -544,7 +551,7 @@ class FirebaseService {
     }
   }
 
-  Future updateUserPointsAfterRedeem(int points) async{
+  Future updateUserPointsAfterRedeem(int points) async {
     try {
       await _firebaseFirestore.collection('Users').doc(currentUser.uid).set(
         {
@@ -558,6 +565,4 @@ class FirebaseService {
       throw '${e.toString()} Error Occured!';
     }
   }
-
-
 }
