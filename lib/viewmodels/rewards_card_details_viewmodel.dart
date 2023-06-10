@@ -4,7 +4,7 @@ import 'package:intl/intl.dart';
 import 'package:mobile_app_development_cw2/views/navigation_menu_view.dart';
 import 'package:mobile_app_development_cw2/locator.dart';
 import 'package:mobile_app_development_cw2/models/rewards_model.dart';
-import 'package:mobile_app_development_cw2/models/rewards_redeem_model.dart';
+import 'package:mobile_app_development_cw2/models/rewards_redemption_model.dart';
 import 'package:mobile_app_development_cw2/services/firebase_service.dart';
 import 'package:mobile_app_development_cw2/viewmodels/base_viewmodel.dart';
 import 'package:mobile_app_development_cw2/views/rewards_view.dart';
@@ -147,9 +147,6 @@ class RewardsCardDetailsViewModel extends BaseViewModel {
   }
 
 
-  int parseToInt(String number) {
-    return int.parse(number);
-  }
 
   int get userPoints => _userPoints;
 
