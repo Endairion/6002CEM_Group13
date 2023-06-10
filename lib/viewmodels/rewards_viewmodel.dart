@@ -9,9 +9,11 @@ class RewardsViewModel extends BaseViewModel {
   final FirebaseService _firebaseService = locator<FirebaseService>();
   List<Rewards> _rewardsList = [];
   List<Rewards> get rewardsList => _rewardsList;
+  int _userPoints = 0;
 
   void onModelReady() {
     fetchRewardsData();
+    // getUserPoints();
   }
 
   void onModelDestroy() {
@@ -20,6 +22,18 @@ class RewardsViewModel extends BaseViewModel {
 
   void fetchRewardsData() async {
     _rewardsList = await _firebaseService.getRewardsLists();
+    print("get user points");
+    _userPoints = (await _firebaseService.getUserPoints())!;
+    print("Viewmodel " + _userPoints.toString());
     notifyListeners();
   }
+
+  // void getUserPoints() async{
+  //   print("get user points");
+  //   _userPoints = await _firebaseService.getUserPoints();
+  //   print("Viewmodel " + _userPoints);
+  //   notifyListeners();
+  // }
+
+  int get userPoints => _userPoints;
 }
