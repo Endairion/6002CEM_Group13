@@ -5,7 +5,7 @@ import 'package:mobile_app_development_cw2/models/earn_point_model.dart';
 import 'package:mobile_app_development_cw2/models/carpool_request_model.dart';
 import 'package:mobile_app_development_cw2/models/custom_request_model.dart';
 import 'package:mobile_app_development_cw2/models/rewards_model.dart';
-import 'package:mobile_app_development_cw2/models/rewards_redeem_model.dart';
+import 'package:mobile_app_development_cw2/models/rewards_redemption_model.dart';
 import 'package:mobile_app_development_cw2/models/trip_model.dart';
 import 'package:mobile_app_development_cw2/models/user_model.dart';
 import 'package:mobile_app_development_cw2/utils/error_codes.dart';
@@ -506,24 +506,26 @@ class FirebaseService {
 
   createRedeemRewards(RewardsRedemption rewardsRedeem) {
     CollectionReference rewardRedemption =
-    FirebaseFirestore.instance.collection('RewardsRedemption');
+        FirebaseFirestore.instance.collection('RewardsRedemption');
 
-    return rewardRedemption.doc(rewardsRedeem.redemptionId).set({
-      'redemptionId' : rewardsRedeem.redemptionId,
-      'storeId' : rewardsRedeem.storeId,
-      'userId' : rewardsRedeem.userId,
-      'date' : rewardsRedeem.date,
-      'status' : rewardsRedeem.status,
-    }
-    ).then((value) => print("RewardsRedemption Created"))
-        .catchError((error) => print("Failed to create rewardsRedeem : $error"));
+    return rewardRedemption
+        .doc(rewardsRedeem.redemptionId)
+        .set({
+          'redemptionId': rewardsRedeem.redemptionId,
+          'storeId': rewardsRedeem.storeId,
+          'userId': rewardsRedeem.userId,
+          'date': rewardsRedeem.date,
+          'status': rewardsRedeem.status,
+        })
+        .then((value) => print("RewardsRedemption Created"))
+        .catchError((error) => print("Failed to redeem reward: $error"));
   }
 
-  Future updateStoreStock(String id, int remaining) async{
+  Future updateStoreStock(String id, int remaining) async {
     try {
       await _firebaseFirestore.collection('Rewards').doc(id).set(
         {
-          'remaining' : remaining,
+          'remaining': remaining,
         },
         SetOptions(merge: true),
       );
@@ -534,7 +536,7 @@ class FirebaseService {
     }
   }
 
-  Future updateUserPointsAfterRedeem(int points) async{
+  Future updateUserPointsAfterRedeem(int points) async {
     try {
       await _firebaseFirestore.collection('Users').doc(currentUser.uid).set(
         {
@@ -549,5 +551,39 @@ class FirebaseService {
     }
   }
 
+  Future<List<RewardsRedemption>> getMyRewardsList(String userId) async {
+    // Get docs from CarpoolRequests collection reference
+    QuerySnapshot querySnapshot = await FirebaseFirestore.instance
+        .collection('RewardsRedemption')
+        .where('userId', isEqualTo: userId)
+        .where('status', isEqualTo: "Unused")
+        .get();
 
+    // Get data from docs and convert map to List
+    final rewardsRedemption = querySnapshot.docs.map<RewardsRedemption>((doc) {
+      return RewardsRedemption(
+          redemptionId: doc['redemptionId'],
+          storeId: doc['storeId'],
+          userId: doc['userId'],
+          date: doc['date'],
+          status: doc['status']);
+    }).toList();
+
+    return rewardsRedemption;
+  }
+
+  Future updateRewardsRedemptionStatus(String redemptionId) async {
+    try {
+      await _firebaseFirestore.collection('RewardsRedemption').doc(redemptionId).set(
+        {
+          'status': 'Used',
+        },
+        SetOptions(merge: true),
+      );
+    } on FirebaseAuthException catch (e) {
+      throw signUpErrorCodes[e.code] ?? 'Firebase ${e.code} Error Occured!';
+    } catch (e) {
+      throw '${e.toString()} Error Occured!';
+    }
+  }
 }

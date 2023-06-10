@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:mobile_app_development_cw2/NavigationMenu.dart';
@@ -7,12 +6,12 @@ import 'package:mobile_app_development_cw2/models/rewards_model.dart';
 import 'package:mobile_app_development_cw2/models/rewards_redemption_model.dart';
 import 'package:mobile_app_development_cw2/services/firebase_service.dart';
 import 'package:mobile_app_development_cw2/viewmodels/base_viewmodel.dart';
-import 'package:mobile_app_development_cw2/views/rewards_view.dart';
-import 'package:uuid/uuid.dart';
 
-class RewardsCardDetailsViewModel extends BaseViewModel {
+class MyRewardsViewModel extends BaseViewModel {
   // Services
   final FirebaseService _firebaseService = locator<FirebaseService>();
+  List<RewardsRedemption> _myRewardsList = [];
+  List<RewardsRedemption> get myRewardsList => _myRewardsList;
   int _userPoints = 0;
   String _id = "";
   String _desc = "";
@@ -21,17 +20,19 @@ class RewardsCardDetailsViewModel extends BaseViewModel {
   int _remaining = 0;
   String _store = "";
   String _url = "";
-  var uuid = new Uuid();
+  String _expiryDate = "";
 
-  void onModelReady(String id) {
-    getReward(id);
-    getUserPoints();
+  void onModelReady() {
+    fetchRewardsData();
   }
 
-  void onModelDestroy() {}
+  void onModelDestroy(){
+    _myRewardsList.clear();
+  }
 
-  void getUserPoints() async {
-    _userPoints = (await _firebaseService.getUserPoints())!;
+
+  void fetchRewardsData() async {
+    _myRewardsList = await _firebaseService.getMyRewardsList(_firebaseService.userId);
     notifyListeners();
   }
 
@@ -47,109 +48,6 @@ class RewardsCardDetailsViewModel extends BaseViewModel {
     notifyListeners();
   }
 
-  Future<void> redeemRewards(BuildContext context) async {
-
-
-    if (_userPoints >= _points) {
-      showConfirmationDialog(context);
-    } else {
-      showErrorDialog(context);
-    }
-  }
-
-  Future<bool> showErrorDialog(BuildContext context) async {
-    bool? showError = await showDialog<bool>(
-      context: context,
-      builder: (context) => AlertDialog(
-        title: Text('Error Message'),
-        content: Text('You don\'t have enough points to redeem this reward'),
-        actions: [
-          TextButton(
-            onPressed: () {
-              Navigator.of(context).pop(); // Cancel logout
-            },
-            child: Text('Ok'),
-          ),
-        ],
-      ),
-    );
-
-    return showError ?? false;
-  }
-
-  Future<bool> showConfirmationDialog(BuildContext context) async {
-    // Show the error message dialog
-    bool? showSuccess = await showDialog<bool>(
-      context: context,
-      builder: (context) => AlertDialog(
-        title: Text('Rewards Redeem Confirmation'),
-        content: Text("Are you sure you want to redeem this reward?"),
-        actions: [
-          TextButton(
-            onPressed: () {
-              Navigator.of(context).pop();
-            },
-            child: Text('Cancel'),
-          ),
-          TextButton(
-            onPressed: () {
-              Navigator.of(context).pop(); // Cancel logout
-              createRedeemRewards();
-              showSuccessDialog(context);
-            },
-            child: Text('Redeem'),
-          ),
-        ],
-      ),
-    );
-    return showSuccess ?? false; // Return false if the dialog is dismissed
-  }
-
-  Future<bool> showSuccessDialog(BuildContext context) async {
-
-    // Show the error message dialog
-    bool? showSuccess = await showDialog<bool>(
-      context: context,
-      builder: (context) => AlertDialog(
-        title: Text('Redeemed Rewards Successfully'),
-        content: Text("Check it out in My Rewards tab"),
-        actions: [
-          TextButton(
-            onPressed: () {
-              Navigator.of(context).pop(true);
-              Navigator.pushReplacement(
-                  context,
-                  MaterialPageRoute(
-                      builder: (BuildContext context) => NavigationMenu()));
-            },
-            child: Text('Ok'),
-          ),
-        ],
-      ),
-    );
-    return showSuccess ?? false; // Return false if the dialog is dismissed
-  }
-
-  Future<void> createRedeemRewards() async {
-    String date = DateFormat("dd-MM-yyyy").format(DateTime.now());
-    int difference = _userPoints - _points;
-
-    RewardsRedemption rewardsRedeem = RewardsRedemption(
-        redemptionId: uuid.v4().toString(),
-        storeId: id,
-        userId: _firebaseService.userId,
-        date: date,
-        status: 'Unused');
-
-    await _firebaseService.createRedeemRewards(rewardsRedeem);
-    await _firebaseService.updateUserPointsAfterRedeem(difference);
-    await _firebaseService.updateStoreStock(id, remaining-1);
-  }
-
-
-
-  int get userPoints => _userPoints;
-
   String get url => _url;
 
   String get store => _store;
@@ -163,6 +61,8 @@ class RewardsCardDetailsViewModel extends BaseViewModel {
   String get desc => _desc;
 
   String get id => _id;
+
+  String get expiryDate => _expiryDate;
 
   set url(String value) {
     _url = value;
@@ -190,5 +90,87 @@ class RewardsCardDetailsViewModel extends BaseViewModel {
 
   set id(String value) {
     _id = value;
+  }
+
+  set userPoints(int value) {
+    _userPoints = value;
+  }
+
+  set expiryDate(String value) {
+    _expiryDate = value;
+  }
+
+  void getExpiryDate(String date) {
+    // Parse the given date string to DateTime object
+    DateTime initialDate = DateFormat('dd-MM-yyyy').parse(date);
+
+    // Add 1 month to the initial date
+    DateTime expired = DateTime(initialDate.year, initialDate.month + 1, initialDate.day);
+
+    // Format the expiry date to the desired format
+    _expiryDate = DateFormat('dd-MM-yyyy').format(expired);
+
+  }
+
+  Future<void> redeemRewards(BuildContext context, String redemptionId) async {
+    showConfirmationDialog(context, redemptionId);
+  }
+
+  Future<bool> showConfirmationDialog(BuildContext context, String redemptionId) async {
+    // Show the error message dialog
+    bool? showSuccess = await showDialog<bool>(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: Text('Rewards Redeem Confirmation'),
+        content: Text("Are you sure you want to use it now?"),
+        actions: [
+          TextButton(
+            onPressed: () {
+              Navigator.of(context).pop();
+            },
+            child: Text('Cancel'),
+          ),
+          TextButton(
+            onPressed: () {
+              Navigator.of(context).pop(); // Cancel logout
+              updateRedemptionStatus(redemptionId);
+              showSuccessDialog(context);
+            },
+            child: Text('Redeem'),
+          ),
+        ],
+      ),
+    );
+    return showSuccess ?? false; // Return false if the dialog is dismissed
+  }
+
+  Future<bool> showSuccessDialog(BuildContext context) async {
+
+    // Show the error message dialog
+    bool? showSuccess = await showDialog<bool>(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: Text('Redeemed Rewards Successfully'),
+        content: Text("Check it out in Rewards Redemption History"),
+        actions: [
+          TextButton(
+            onPressed: () {
+              Navigator.of(context).pop(true);
+              Navigator.pushReplacement(
+                  context,
+                  MaterialPageRoute(
+                      builder: (BuildContext context) => NavigationMenu()));
+            },
+            child: Text('Ok'),
+          ),
+        ],
+      ),
+    );
+    return showSuccess ?? false; // Return false if the dialog is dismissed
+  }
+
+  Future<void> updateRedemptionStatus(String redemptionId) async{
+    await _firebaseService.updateRewardsRedemptionStatus(redemptionId);
+    notifyListeners();
   }
 }
