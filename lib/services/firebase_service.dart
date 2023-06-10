@@ -536,7 +536,7 @@ class FirebaseService {
     }
   }
 
-  Future updateUserPointsAfterRedeem(int points) async {
+  Future updateUserPoints(int points) async {
     try {
       await _firebaseFirestore.collection('Users').doc(currentUser.uid).set(
         {
@@ -585,5 +585,25 @@ class FirebaseService {
     } catch (e) {
       throw '${e.toString()} Error Occured!';
     }
+  }
+
+  Future<List<RewardsRedemption>> getUserRedemptionList(String userId) async {
+    // Get docs from CarpoolRequests collection reference
+    QuerySnapshot querySnapshot = await FirebaseFirestore.instance
+        .collection('RewardsRedemption')
+        .where('userId', isEqualTo: userId)
+        .get();
+
+    // Get data from docs and convert map to List
+    final rewardsRedemption = querySnapshot.docs.map<RewardsRedemption>((doc) {
+      return RewardsRedemption(
+          redemptionId: doc['redemptionId'],
+          storeId: doc['storeId'],
+          userId: doc['userId'],
+          date: doc['date'],
+          status: doc['status']);
+    }).toList();
+
+    return rewardsRedemption;
   }
 }

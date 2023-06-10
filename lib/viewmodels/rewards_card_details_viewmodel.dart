@@ -142,7 +142,7 @@ class RewardsCardDetailsViewModel extends BaseViewModel {
         status: 'Unused');
 
     await _firebaseService.createRedeemRewards(rewardsRedeem);
-    await _firebaseService.updateUserPointsAfterRedeem(difference);
+    await _firebaseService.updateUserPoints(difference);
     await _firebaseService.updateStoreStock(id, remaining-1);
   }
 
