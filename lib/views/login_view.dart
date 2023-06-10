@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:mobile_app_development_cw2/ForgotPassword.dart';
-import 'package:mobile_app_development_cw2/NavigationMenu.dart';
+import 'package:mobile_app_development_cw2/views/navigation_menu_view.dart';
 import 'package:mobile_app_development_cw2/viewmodels/login_viewmodel.dart';
 import 'package:mobile_app_development_cw2/views/base_view.dart';
 import 'package:mobile_app_development_cw2/views/register_view.dart';

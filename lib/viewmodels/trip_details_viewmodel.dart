@@ -159,4 +159,23 @@ class TripDetailsViewModel extends BaseViewModel {
   set singleListViewHeight(double value) {
     _singleListViewHeight = value;
   }
+
+  List<CarpoolRequest> get acceptedCarpoolRequestList =>
+      _acceptedCarpoolRequestList;
+
+  set acceptedCarpoolRequestList(List<CarpoolRequest> value) {
+    _acceptedCarpoolRequestList = value;
+  }
+
+  List<Users> get passengerList => _passengerList;
+
+  set passengerList(List<Users> value) {
+    _passengerList = value;
+  }
+
+  String get tripId => _tripId;
+
+  set tripId(String value) {
+    _tripId = value;
+  }
 }

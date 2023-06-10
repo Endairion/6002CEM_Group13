@@ -1,16 +1,18 @@
 import 'package:flutter/material.dart';
+import 'package:mobile_app_development_cw2/models/carpool_request_model.dart';
 import 'package:mobile_app_development_cw2/models/trip_model.dart';
+import 'package:mobile_app_development_cw2/views/carpool_details_view.dart';
 import 'package:mobile_app_development_cw2/views/trip_details_view.dart';
 
-Widget TripHistoryCard(BuildContext context, Trip trip) {
+Widget CarpoolHistoryCard(BuildContext context, CarpoolRequest carpoolRequest, Trip trip) {
 
   statusColor(String status) {
     switch (status) {
-      case 'Ongoing':
+      case 'Pending':
+        return Colors.grey[500];
+      case 'Accepted':
         return Colors.lightGreen;
-      case 'Completed':
-        return Colors.yellow[800];
-      case 'Expired':
+      case 'Rejected':
         return Colors.red[300];
     }
   }
@@ -22,7 +24,7 @@ Widget TripHistoryCard(BuildContext context, Trip trip) {
         Navigator.push(
           context,
           MaterialPageRoute(
-              builder: (context) => TripDetails(tripId: trip.id)),
+              builder: (context) => CarpoolDetails(requestId: carpoolRequest.requestId,)),
         );
       },
       child: Container(
@@ -170,11 +172,11 @@ Widget TripHistoryCard(BuildContext context, Trip trip) {
                         width: 100,
                         height: 24,
                         decoration: BoxDecoration(
-                            color: statusColor(trip.status),
+                            color: statusColor(carpoolRequest.status),
                             borderRadius: BorderRadius.all(Radius.circular(5))),
                         child: Center(
                             child: Text(
-                          trip.status,
+                              carpoolRequest.status,
                           style: TextStyle(
                             color: Colors.white,
                           ),

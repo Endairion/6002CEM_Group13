@@ -189,4 +189,6 @@ class OngoingTripDetailsViewModel extends BaseViewModel {
   set durationValue(int value) {
     _durationValue = value;
   }
+
+
 }

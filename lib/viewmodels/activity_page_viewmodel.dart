@@ -1,5 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:mobile_app_development_cw2/models/carpool_request_model.dart';
 import 'package:mobile_app_development_cw2/models/earn_point_model.dart';
+import 'package:mobile_app_development_cw2/views/carpool_history_card_view.dart';
 import 'package:mobile_app_development_cw2/views/points_earn_card.dart';
 import 'package:mobile_app_development_cw2/views/trip_history_card_view.dart';
 import 'package:mobile_app_development_cw2/locator.dart';
@@ -25,6 +27,8 @@ class ActivityPageViewModel extends BaseViewModel {
   List<Trip> _carpoolList = [];
   List<EarnPoint> _pointsEarnList = [];
   List<Trip> _pointsEarnTripList = [];
+  List<CarpoolRequest> _userCarpoolRequestList = [];
+  List<Trip> _userCarpoolTripList = [];
 
   // Services
   final FirebaseService _firebaseService = locator<FirebaseService>();
@@ -32,6 +36,8 @@ class ActivityPageViewModel extends BaseViewModel {
   void onModelReady() {
     getTripHistoryList();
     getPointsHistoryList();
+    getUserCarpoolRequestList();
+    updateAllTripStatus();
   }
 
   void setListHeight() async {
@@ -49,6 +55,18 @@ class ActivityPageViewModel extends BaseViewModel {
     notifyListeners();
   }
 
+  Future<void> getUserCarpoolRequestList() async {
+    _userCarpoolRequestList = await _firebaseService.getUserCarpoolRequestList();
+    setListHeight();
+
+    for(var i=0;i<_userCarpoolRequestList.length;i++){
+      Trip trip = await _firebaseService.getTrip(_userCarpoolRequestList[i].tripId);
+      _userCarpoolTripList.add(trip);
+    }
+
+    notifyListeners();
+  }
+
   Future<void> getPointsHistoryList() async {
     _pointsEarnList = await _firebaseService.getPointsEarnedList();
     setListHeight();
@@ -61,9 +79,25 @@ class ActivityPageViewModel extends BaseViewModel {
     notifyListeners();
   }
 
+  //function to update list expiry status
+  Future<void> updateAllTripStatus() async {
+    List<Trip> _tripList = await _firebaseService.getAvailableTripList();
+
+    for(var i=0;i<_tripList.length;i++){
+      Trip trip = await _firebaseService.getTrip(_tripList[i].id);
+
+      DateTime date = new DateFormat("dd-MM-yyyy").parse(trip.date);
+      DateTime currentDate = DateTime.now();
+
+      if (currentDate.difference(date).inDays > 1 ) {
+        await _firebaseService.updateTripExpiry(_tripList[i].id);
+      }
+    }
+
+    notifyListeners();
+  }
+
   void onModelDestroy() {
-    // _startLocationController.dispose();
-    // _destinationController.dispose();
     _tripsList.clear();
   }
 
@@ -75,6 +109,7 @@ class ActivityPageViewModel extends BaseViewModel {
           physics: NeverScrollableScrollPhysics(),
           itemCount: _tripsList.length,
           itemBuilder: (BuildContext context, int index) {
+            updateAllTripStatus();
             getTripHistoryList();
             return TripHistoryCard(context, _tripsList[index]);
           },
@@ -82,7 +117,7 @@ class ActivityPageViewModel extends BaseViewModel {
       } else {
         return const Center(
           child: Text(
-            'There are no trips history available.',
+            'There is no trips history available.',
             style: TextStyle(
               fontStyle: FontStyle.italic,
               color: Colors.red,
@@ -94,19 +129,19 @@ class ActivityPageViewModel extends BaseViewModel {
     } else if (index == 1) {
       return SizedBox(
         height: 400,
-        child: _tripsList.length > 0
+        child: _userCarpoolRequestList.length > 0
             ? ListView.builder(
                 shrinkWrap: true,
                 physics: NeverScrollableScrollPhysics(),
-                itemCount: _tripsList.length,
+                itemCount: _userCarpoolRequestList.length,
                 itemBuilder: (BuildContext context, int index) {
-                  getTripHistoryList();
-                  return TripHistoryCard(context, _tripsList[index]);
+                  getUserCarpoolRequestList();
+                  return CarpoolHistoryCard(context, _userCarpoolRequestList[index], _userCarpoolTripList[index]);
                 },
               )
             : const Center(
                 child: Text(
-                  'There are no trips history available.',
+                  'There is no carpool history available.',
                   style: TextStyle(
                     fontStyle: FontStyle.italic,
                     color: Colors.red,
@@ -129,7 +164,7 @@ class ActivityPageViewModel extends BaseViewModel {
       } else {
         return const Center(
           child: Text(
-            'There are no points earned history available.',
+            'There is no points earned history available.',
             style: TextStyle(
               fontStyle: FontStyle.italic,
               color: Colors.red,

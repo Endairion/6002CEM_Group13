@@ -59,7 +59,7 @@ class _TripDetailsState extends State<TripDetails> {
                     width: double.infinity,
                     child: ElevatedButton(
                       onPressed: () {
-                        if (_model.status == "Completed") {
+                        if (_model.status != "Ongoing" || _model.acceptedCarpoolRequestList.isEmpty) {
                           return null;
                         }
                         else {
@@ -72,7 +72,7 @@ class _TripDetailsState extends State<TripDetails> {
                       },
                       style: ElevatedButton.styleFrom(
                           padding: EdgeInsets.zero,
-                          backgroundColor: (_model.status == "Completed")? Colors.grey[400] : Colors.limeAccent[700],
+                          backgroundColor: (_model.status != "Ongoing" || _model.acceptedCarpoolRequestList.isEmpty)? Colors.grey[400] : Colors.limeAccent[700],
                           foregroundColor: Colors.black,
                           shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(10))),
