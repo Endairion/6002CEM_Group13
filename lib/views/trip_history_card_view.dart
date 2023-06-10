@@ -26,7 +26,7 @@ Widget TripHistoryCard(BuildContext context, Trip trip) {
         );
       },
       child: Container(
-        height: 125,
+        height: 130,
         decoration: BoxDecoration(
             color: Colors.white,
             borderRadius: BorderRadius.all(Radius.circular(20))),

@@ -1,4 +1,3 @@
-import 'package:mobile_app_development_cw2/PointsEarn.dart';
 import 'package:mobile_app_development_cw2/locator.dart';
 import 'package:mobile_app_development_cw2/models/earn_point_model.dart';
 import 'package:mobile_app_development_cw2/models/trip_model.dart';
@@ -171,6 +170,7 @@ class MapNavigationViewModel extends BaseViewModel {
             onPressed: () {
               Navigator.of(context).pop(true); // Confirm complete trip
               completeTrip();
+              showSuccessDialog(context);
               Navigator.of(context).pop();
             },
             child: Text('Yes'),
@@ -179,6 +179,28 @@ class MapNavigationViewModel extends BaseViewModel {
       ),
     );
     return showConfirm ?? false; // Return false if the dialog is dismissed
+  }
+
+  Future<bool> showSuccessDialog(BuildContext context) async {
+    Navigator.of(context).pop();
+
+    // Show the error message dialog
+    bool? showSuccess = await showDialog<bool>(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: Text('You have earned 150 points'),
+        content: Text("Check it out in Activity tab"),
+        actions: [
+          TextButton(
+            onPressed: () {
+              Navigator.of(context).pop(); // Cancel logout
+            },
+            child: Text('Ok'),
+          ),
+        ],
+      ),
+    );
+    return showSuccess ?? false; // Return false if the dialog is dismissed
   }
 
   LatLng get sourceLocation => _sourceLocation;

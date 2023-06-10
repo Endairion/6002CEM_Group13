@@ -3,8 +3,8 @@ import 'package:mobile_app_development_cw2/views/homepage_view.dart';
 import 'package:mobile_app_development_cw2/views/plan_trip_view.dart';
 import 'package:mobile_app_development_cw2/views/profile_view.dart';
 
-import 'views/activity_page_view.dart';
-import 'views/rewards_view.dart';
+import 'activity_page_view.dart';
+import 'rewards_view.dart';
 
 void main() {
   runApp(const NavigationMenu());
