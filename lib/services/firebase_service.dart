@@ -287,8 +287,6 @@ class FirebaseService {
     CollectionReference pointsEarned =
         FirebaseFirestore.instance.collection('PointsEarned');
 
-    earnPoint.userId = userId;
-
     // Call the PointsEarned CollectionReference to add a new record
     return pointsEarned
         .doc()
@@ -602,9 +600,9 @@ class FirebaseService {
     }
   }
 
-  Future updateUserPointsAfterRedeem(int points) async {
+  Future updateUserPoints(String userId, int points) async {
     try {
-      await _firebaseFirestore.collection('Users').doc(currentUser.uid).set(
+      await _firebaseFirestore.collection('Users').doc(userId).set(
         {
           'points': points,
         },
