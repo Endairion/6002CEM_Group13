@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:mobile_app_development_cw2/RedemptionHistory.dart';
+import 'package:mobile_app_development_cw2/views/redemption_history_view.dart';
 import 'package:mobile_app_development_cw2/viewmodels/rewards_viewmodel.dart';
 import 'package:mobile_app_development_cw2/views/base_view.dart';
 import 'package:mobile_app_development_cw2/views/my_rewards_card_view.dart';
@@ -103,7 +103,7 @@ class _RewardsViewState extends State<RewardsView>
                                   context,
                                   MaterialPageRoute(
                                       builder: (context) =>
-                                          const RedemptionHistory()));
+                                          const RedemptionHistoryView()));
                             },
                             style: TextButton.styleFrom(
                               backgroundColor: Colors.transparent,

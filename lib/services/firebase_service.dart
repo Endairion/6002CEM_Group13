@@ -5,7 +5,7 @@ import 'package:mobile_app_development_cw2/models/earn_point_model.dart';
 import 'package:mobile_app_development_cw2/models/carpool_request_model.dart';
 import 'package:mobile_app_development_cw2/models/custom_request_model.dart';
 import 'package:mobile_app_development_cw2/models/rewards_model.dart';
-import 'package:mobile_app_development_cw2/models/rewards_redeem_model.dart';
+import 'package:mobile_app_development_cw2/models/rewards_redemption_model.dart';
 import 'package:mobile_app_development_cw2/models/trip_model.dart';
 import 'package:mobile_app_development_cw2/models/user_model.dart';
 import 'package:mobile_app_development_cw2/utils/error_codes.dart';
@@ -286,6 +286,8 @@ class FirebaseService {
     // Reference to PointsEarned collection
     CollectionReference pointsEarned =
     FirebaseFirestore.instance.collection('PointsEarned');
+
+    earnPoint.userId = userId;
 
     // Call the PointsEarned CollectionReference to add a new record
     return pointsEarned
@@ -613,5 +615,61 @@ class FirebaseService {
     } catch (e) {
       throw '${e.toString()} Error Occured!';
     }
+  }
+
+  Future<List<RewardsRedemption>> getMyRewardsList(String userId) async {
+    // Get docs from CarpoolRequests collection reference
+    QuerySnapshot querySnapshot = await FirebaseFirestore.instance
+        .collection('RewardsRedemption')
+        .where('userId', isEqualTo: userId)
+        .where('status', isEqualTo: "Unused")
+        .get();
+
+    // Get data from docs and convert map to List
+    final rewardsRedemption = querySnapshot.docs.map<RewardsRedemption>((doc) {
+      return RewardsRedemption(
+          redemptionId: doc['redemptionId'],
+          storeId: doc['storeId'],
+          userId: doc['userId'],
+          date: doc['date'],
+          status: doc['status']);
+    }).toList();
+
+    return rewardsRedemption;
+  }
+
+  Future updateRewardsRedemptionStatus(String redemptionId) async {
+    try {
+      await _firebaseFirestore.collection('RewardsRedemption').doc(redemptionId).set(
+        {
+          'status': 'Used',
+        },
+        SetOptions(merge: true),
+      );
+    } on FirebaseAuthException catch (e) {
+      throw signUpErrorCodes[e.code] ?? 'Firebase ${e.code} Error Occured!';
+    } catch (e) {
+      throw '${e.toString()} Error Occured!';
+    }
+  }
+
+  Future<List<RewardsRedemption>> getUserRedemptionList(String userId) async {
+    // Get docs from CarpoolRequests collection reference
+    QuerySnapshot querySnapshot = await FirebaseFirestore.instance
+        .collection('RewardsRedemption')
+        .where('userId', isEqualTo: userId)
+        .get();
+
+    // Get data from docs and convert map to List
+    final rewardsRedemption = querySnapshot.docs.map<RewardsRedemption>((doc) {
+      return RewardsRedemption(
+          redemptionId: doc['redemptionId'],
+          storeId: doc['storeId'],
+          userId: doc['userId'],
+          date: doc['date'],
+          status: doc['status']);
+    }).toList();
+
+    return rewardsRedemption;
   }
 }

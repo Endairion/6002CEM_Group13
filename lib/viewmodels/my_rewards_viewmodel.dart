@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import 'package:mobile_app_development_cw2/NavigationMenu.dart';
+import 'package:mobile_app_development_cw2/views/navigation_menu_view.dart';
 import 'package:mobile_app_development_cw2/locator.dart';
 import 'package:mobile_app_development_cw2/models/rewards_model.dart';
 import 'package:mobile_app_development_cw2/models/rewards_redemption_model.dart';
