@@ -180,6 +180,35 @@ class FirebaseService {
     }
   }
 
+  Future<CarpoolRequest> getCarpoolRequest(String requestId) async {
+    try {
+      final DocumentReference<Map<String, dynamic>> documentRef =
+      FirebaseFirestore.instance.collection('CarpoolRequests').doc(requestId);
+      final DocumentSnapshot<Map<String, dynamic>> snapshot =
+      await documentRef.get();
+
+      if (snapshot.exists) {
+        // Retrieve document data
+        Map<String, dynamic> data = snapshot.data()!;
+
+        // Create a CarpoolRequest object from the retrieved data
+        CarpoolRequest carpoolRequest = CarpoolRequest(
+            requestId: data['requestId'],
+            requesterId: data['requesterId'],
+            tripId: data['tripId'],
+            driverId: data['driverId'],
+            pickupLocation: data['pickupLocation'],
+            remarks: data['remarks'],
+            status: data['status']);
+        return carpoolRequest;
+      } else {
+        throw Exception('Document does not exist');
+      }
+    } catch (e) {
+      throw Exception('Failed to retrieve trip: $e');
+    }
+  }
+
   Future<Users> getUserData(String userId) async {
     try {
       final DocumentReference<Map<String, dynamic>> documentRef =

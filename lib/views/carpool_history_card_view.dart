@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:mobile_app_development_cw2/models/carpool_request_model.dart';
 import 'package:mobile_app_development_cw2/models/trip_model.dart';
+import 'package:mobile_app_development_cw2/views/carpool_details_view.dart';
 import 'package:mobile_app_development_cw2/views/trip_details_view.dart';
 
 Widget CarpoolHistoryCard(BuildContext context, CarpoolRequest carpoolRequest, Trip trip) {
@@ -23,7 +24,7 @@ Widget CarpoolHistoryCard(BuildContext context, CarpoolRequest carpoolRequest, T
         Navigator.push(
           context,
           MaterialPageRoute(
-              builder: (context) => TripDetails(tripId: trip.id)),
+              builder: (context) => CarpoolDetails(requestId: carpoolRequest.requestId,)),
         );
       },
       child: Container(
