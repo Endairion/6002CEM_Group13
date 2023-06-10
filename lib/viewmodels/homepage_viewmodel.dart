@@ -25,7 +25,7 @@ class HomepageViewModel extends BaseViewModel {
   Future<void> getUser() async {
     Users user = await _firebaseService.getUserData(_firebaseService.userId);
     _name = user.name;
-    _points = int.parse(user.points);
+    _points = user.points;
     notifyListeners();
   }
 

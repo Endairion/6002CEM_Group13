@@ -128,7 +128,7 @@ class FirebaseService {
     // Get docs from trips collection reference
     QuerySnapshot querySnapshot = await FirebaseFirestore.instance
         .collection('Trips')
-        .where('userId', isEqualTo: userId).orderBy('date')
+        .where('userId', isEqualTo: userId).orderBy('date', descending: true)
         .get();
 
     // Get data from docs and convert map to List
@@ -210,7 +210,7 @@ class FirebaseService {
   Future<List<Trip>> getAvailableTripList() async {
     // Get docs from trips collection reference
     QuerySnapshot querySnapshot =
-        await FirebaseFirestore.instance.collection('Trips').get();
+        await FirebaseFirestore.instance.collection('Trips').orderBy('date', descending: true).get();
 
     // Get data from docs and convert map to List
     final tripsList = querySnapshot.docs.map<Trip>((doc) {
