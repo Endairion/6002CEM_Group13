@@ -5,7 +5,7 @@ import 'package:mobile_app_development_cw2/viewmodels/register_viewmodel.dart';
 import 'package:mobile_app_development_cw2/views/login_view.dart';
 import 'package:mobile_app_development_cw2/views/base_view.dart';
 
-import '../NavigationMenu.dart';
+import 'navigation_menu_view.dart';
 
 class RegisterView extends StatefulWidget {
   RegisterView({Key? key}) : super(key: key);

@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:mobile_app_development_cw2/PointsEarn.dart';
 import 'package:mobile_app_development_cw2/views/points_earn_card.dart';
 import 'package:mobile_app_development_cw2/models/trip_model.dart';
 import 'package:mobile_app_development_cw2/views/available_trips_card_view.dart';

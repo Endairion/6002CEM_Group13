@@ -1,7 +1,8 @@
-import 'package:mobile_app_development_cw2/PointsEarn.dart';
 import 'package:mobile_app_development_cw2/locator.dart';
+import 'package:mobile_app_development_cw2/models/carpool_request_model.dart';
 import 'package:mobile_app_development_cw2/models/earn_point_model.dart';
 import 'package:mobile_app_development_cw2/models/trip_model.dart';
+import 'package:mobile_app_development_cw2/models/user_model.dart';
 import 'package:mobile_app_development_cw2/services/firebase_service.dart';
 import 'package:mobile_app_development_cw2/viewmodels/base_viewmodel.dart';
 
@@ -20,6 +21,8 @@ class MapNavigationViewModel extends BaseViewModel {
   String _tripId = "";
   String _startLocationAddress="";
   String _destinationAddress="";
+
+  List<CarpoolRequest> _acceptedCarpoolRequestList = [];
 
   List<geo.Location> _sourceLocationList = [];
   List<geo.Location> _destinationLocationList = [];
@@ -147,8 +150,26 @@ class MapNavigationViewModel extends BaseViewModel {
 
   Future<void> completeTrip() async {
     await _firebaseService.completeTrip(_tripId);
-    EarnPoint ep = EarnPoint(tripId: _tripId, userId: "", points: 150, role: "Driver");
+
+    EarnPoint ep = EarnPoint(tripId: _tripId, userId: _firebaseService.userId, points: 150, role: "Driver");
     await _firebaseService.createPointsEarn(ep);
+    
+    Users currentUser = await _firebaseService.getUserData(_firebaseService.userId);
+    int driverPoints = currentUser.points + 150;
+    await _firebaseService.updateUserPoints(_firebaseService.userId, driverPoints);
+
+    _acceptedCarpoolRequestList = await _firebaseService.getAcceptedCarpoolRequestList(_tripId);
+
+    for(var i=0;i<_acceptedCarpoolRequestList.length;i++){
+      Users passenger = await _firebaseService.getUserData(_acceptedCarpoolRequestList[i].requesterId);
+
+      EarnPoint passengerEp = EarnPoint(tripId: _tripId, userId: _acceptedCarpoolRequestList[i].requesterId, points: 50, role: "Passenger");
+      await _firebaseService.createPointsEarn(passengerEp);
+
+      int passengerPoints = passenger.points + 50;
+      await _firebaseService.updateUserPoints(_acceptedCarpoolRequestList[i].requesterId, passengerPoints);
+    }
+
     notifyListeners();
   }
 
@@ -171,6 +192,7 @@ class MapNavigationViewModel extends BaseViewModel {
             onPressed: () {
               Navigator.of(context).pop(true); // Confirm complete trip
               completeTrip();
+              showSuccessDialog(context);
               Navigator.of(context).pop();
             },
             child: Text('Yes'),
@@ -179,6 +201,28 @@ class MapNavigationViewModel extends BaseViewModel {
       ),
     );
     return showConfirm ?? false; // Return false if the dialog is dismissed
+  }
+
+  Future<bool> showSuccessDialog(BuildContext context) async {
+    Navigator.of(context).pop();
+
+    // Show the error message dialog
+    bool? showSuccess = await showDialog<bool>(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: Text('You have earned 150 points'),
+        content: Text("Check it out in Activity tab"),
+        actions: [
+          TextButton(
+            onPressed: () {
+              Navigator.of(context).pop(); // Cancel logout
+            },
+            child: Text('Ok'),
+          ),
+        ],
+      ),
+    );
+    return showSuccess ?? false; // Return false if the dialog is dismissed
   }
 
   LatLng get sourceLocation => _sourceLocation;

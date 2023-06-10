@@ -1,7 +1,9 @@
 import 'package:mobile_app_development_cw2/services/firebase_service.dart';
+import 'package:mobile_app_development_cw2/viewmodels/carpool_details_viewmodel.dart';
 import 'package:mobile_app_development_cw2/viewmodels/my_rewards_viewmodel.dart';
 import 'package:mobile_app_development_cw2/viewmodels/redemption_history_viewmodel.dart';
 import 'package:mobile_app_development_cw2/viewmodels/rewards_card_details_viewmodel.dart';
+import 'package:mobile_app_development_cw2/viewmodels/homepage_viewmodel.dart';
 import 'package:mobile_app_development_cw2/viewmodels/trip_passenger_request_view_model.dart';
 import 'package:mobile_app_development_cw2/viewmodels/activity_page_viewmodel.dart';
 import 'package:mobile_app_development_cw2/viewmodels/create_custom_trip_viewmodel.dart';
@@ -40,8 +42,10 @@ Future<void> setUpLocator() async{
   locator.registerFactory<RequestCarpoolViewmodel>(() => RequestCarpoolViewmodel());
   locator.registerFactory<CreateCustomTripViewmodel>(() => CreateCustomTripViewmodel());
   locator.registerFactory<TripPassengerRequestViewModel>(() => TripPassengerRequestViewModel());
+  locator.registerFactory<HomepageViewModel>(() => HomepageViewModel());
   locator.registerFactory<RewardsCardDetailsViewModel>(() => RewardsCardDetailsViewModel());
   locator.registerFactory<MyRewardsViewModel>(() => MyRewardsViewModel());
+  locator.registerFactory<CarpoolDetailsViewModel>(() => CarpoolDetailsViewModel());
   locator.registerFactory<RedemptionHistoryViewModel>(() => RedemptionHistoryViewModel());
 }
 

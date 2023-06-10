@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import 'package:mobile_app_development_cw2/NavigationMenu.dart';
+import 'package:mobile_app_development_cw2/views/navigation_menu_view.dart';
 import 'package:mobile_app_development_cw2/locator.dart';
 import 'package:mobile_app_development_cw2/models/rewards_model.dart';
 import 'package:mobile_app_development_cw2/models/rewards_redemption_model.dart';
@@ -142,7 +142,7 @@ class RewardsCardDetailsViewModel extends BaseViewModel {
         status: 'Unused');
 
     await _firebaseService.createRedeemRewards(rewardsRedeem);
-    await _firebaseService.updateUserPoints(difference);
+    await _firebaseService.updateUserPoints(_firebaseService.userId,difference);
     await _firebaseService.updateStoreStock(id, remaining-1);
   }
 
