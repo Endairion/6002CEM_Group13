@@ -5,6 +5,7 @@ import 'package:mobile_app_development_cw2/models/earn_point_model.dart';
 import 'package:mobile_app_development_cw2/models/carpool_request_model.dart';
 import 'package:mobile_app_development_cw2/models/custom_request_model.dart';
 import 'package:mobile_app_development_cw2/models/rewards_model.dart';
+import 'package:mobile_app_development_cw2/models/rewards_redeem_model.dart';
 import 'package:mobile_app_development_cw2/models/trip_model.dart';
 import 'package:mobile_app_development_cw2/models/user_model.dart';
 import 'package:mobile_app_development_cw2/utils/error_codes.dart';
@@ -53,7 +54,7 @@ class FirebaseService {
             'dob': dob,
             'ic_no': icNo,
             'contact': contactNo,
-            'points': '0',
+            'points': 0,
             'driver': '0',
           })
           .then((value) => debugPrint('User Created : ${_user.user!.email}'))
@@ -88,6 +89,7 @@ class FirebaseService {
     // Get data from docs and convert map to List
     final rewardsList = querySnapshot.docs.map<Rewards>((doc) {
       return Rewards(
+        id: doc['id'],
         desc: doc['desc'],
         discount: doc['discount'],
         points: doc['points'],
@@ -208,7 +210,7 @@ class FirebaseService {
   Future<List<Trip>> getAvailableTripList() async {
     // Get docs from trips collection reference
     QuerySnapshot querySnapshot =
-        await FirebaseFirestore.instance.collection('Trips').where('status', isEqualTo: "Ongoing").get();
+        await FirebaseFirestore.instance.collection('Trips').get();
 
     // Get data from docs and convert map to List
     final tripsList = querySnapshot.docs.map<Trip>((doc) {
@@ -249,7 +251,8 @@ class FirebaseService {
 
   Future<void> createPointsEarn(EarnPoint earnPoint) async {
     // Reference to PointsEarned collection
-    CollectionReference pointsEarned = FirebaseFirestore.instance.collection('PointsEarned');
+    CollectionReference pointsEarned =
+        FirebaseFirestore.instance.collection('PointsEarned');
 
     earnPoint.userId = userId;
 
@@ -287,7 +290,8 @@ class FirebaseService {
   }
 
   createCustomRequest(CustomRequest customRequest) {
-    CollectionReference customRequests = FirebaseFirestore.instance.collection('CustomRequests');
+    CollectionReference customRequests =
+        FirebaseFirestore.instance.collection('CustomRequests');
 
     return customRequests
         .doc(customRequest.id)
@@ -307,21 +311,23 @@ class FirebaseService {
   }
 
   createCarpoolRequest(CarpoolRequest carpoolRequest) {
-    CollectionReference carpoolRequests = FirebaseFirestore.instance.collection('CarpoolRequests');
+    CollectionReference carpoolRequests =
+        FirebaseFirestore.instance.collection('CarpoolRequests');
 
-    return carpoolRequests.doc(carpoolRequest.requestId).set({
-      'requestId' : carpoolRequest.requestId,
-      'requesterId' : carpoolRequest.requesterId,
-      'tripId' : carpoolRequest.tripId,
-      'driverId' : carpoolRequest.driverId,
-      'pickupLocation' : carpoolRequest.pickupLocation,
-      'remarks' : carpoolRequest.remarks,
-      'status' : carpoolRequest.status,
-    })
+    return carpoolRequests
+        .doc(carpoolRequest.requestId)
+        .set({
+          'requestId': carpoolRequest.requestId,
+          'requesterId': carpoolRequest.requesterId,
+          'tripId': carpoolRequest.tripId,
+          'driverId': carpoolRequest.driverId,
+          'pickupLocation': carpoolRequest.pickupLocation,
+          'remarks': carpoolRequest.remarks,
+          'status': carpoolRequest.status,
+        })
         .then((value) => print("Carpool Request Created"))
         .catchError(
-        (error) => print("Failed to create carpool request: $error")
-    );
+            (error) => print("Failed to create carpool request: $error"));
   }
 
   Future<List<CarpoolRequest>> getCarpoolRequestList(String tripId) async {
@@ -359,7 +365,9 @@ class FirebaseService {
 
   Future<void> decrementCarpoolSeats(String tripId) async {
     var collection = FirebaseFirestore.instance.collection('Trips');
-    collection.doc(tripId).update({'seats': FieldValue.increment(-1)}) // <-- Updated data
+    collection
+        .doc(tripId)
+        .update({'seats': FieldValue.increment(-1)}) // <-- Updated data
         .then((_) {
       print('Decrement carpool remaining seats success');
     }).catchError((error) {
@@ -377,33 +385,38 @@ class FirebaseService {
     });
   }
 
-  Future compareAvailableTripsLocation(String startLocation, String destination) async {
-    QuerySnapshot querySnapshot = await FirebaseFirestore.instance.collection("Trips").where('status', isEqualTo: "Ongoing").get();
+  Future compareAvailableTripsLocation(
+      String startLocation, String destination) async {
+    QuerySnapshot querySnapshot =
+        await FirebaseFirestore.instance.collection("Trips").get();
     List<String> tripIdList = [];
 
-    for (final DocumentSnapshot doc in querySnapshot.docs){
+    for (final DocumentSnapshot doc in querySnapshot.docs) {
       final String fireStoreStartLocation = doc["startLocation"];
       final String fireStoreDestination = doc["destination"];
 
-      final double startLocationSimilarity = StringSimilarity.compareTwoStrings(startLocation, fireStoreStartLocation);
-      final double destinationSimilarity = StringSimilarity.compareTwoStrings(destination, fireStoreDestination);
+      final double startLocationSimilarity = StringSimilarity.compareTwoStrings(
+          startLocation, fireStoreStartLocation);
+      final double destinationSimilarity =
+          StringSimilarity.compareTwoStrings(destination, fireStoreDestination);
 
-      print("$startLocation and $fireStoreStartLocation diff $startLocationSimilarity");
-      print("$destination and $fireStoreDestination diff $destinationSimilarity");
+      print(
+          "$startLocation and $fireStoreStartLocation diff $startLocationSimilarity");
+      print(
+          "$destination and $fireStoreDestination diff $destinationSimilarity");
 
-      if (startLocationSimilarity > 0.25 || destinationSimilarity > 0.25){
+      if (startLocationSimilarity > 0.25 || destinationSimilarity > 0.25) {
         print('1');
         print(doc['id']);
         tripIdList.add(doc['id']);
-      }
-      else{
+      } else {
         print('0');
       }
     }
     return tripIdList;
   }
 
-  Future<List<Trip>> retrieveTripListsbyId(List<String> tripIdList) async{
+  Future<List<Trip>> retrieveTripListsbyId(List<String> tripIdList) async {
     // Get docs from trips collection reference where ID is in the tripIds list
     QuerySnapshot querySnapshot = await FirebaseFirestore.instance
         .collection('Trips')
@@ -427,7 +440,8 @@ class FirebaseService {
     return tripsList;
   }
 
-  Future<List<CarpoolRequest>> getAcceptedCarpoolRequestList(String tripId) async {
+  Future<List<CarpoolRequest>> getAcceptedCarpoolRequestList(
+      String tripId) async {
     // Get docs from CarpoolRequests collection reference
     QuerySnapshot querySnapshot = await FirebaseFirestore.instance
         .collection('CarpoolRequests')
@@ -449,5 +463,101 @@ class FirebaseService {
 
     return carpoolRequestList;
   }
+
+  Future<int?> getUserPoints() async {
+    try {
+      DocumentSnapshot snapshot = await FirebaseFirestore.instance
+          .collection('Users')
+          .doc(userId)
+          .get();
+
+      if (snapshot.exists) {
+        int points = snapshot.get('points');
+        return points;
+      } else {
+        // Document with the specified user ID does not exist
+        print("Nothing retrieved(ID) : " + userId);
+        return null;
+      }
+    } catch (e) {
+      print('Error getting field from collection: $e');
+      return null;
+    }
+  }
+
+  Future<Rewards> getReward(String rewardId) async {
+    try {
+      final DocumentReference<Map<String, dynamic>> documentRef =
+          FirebaseFirestore.instance.collection('Rewards').doc(rewardId);
+      final DocumentSnapshot<Map<String, dynamic>> snapshot =
+          await documentRef.get();
+
+      if (snapshot.exists) {
+        // Retrieve document data
+        Map<String, dynamic> data = snapshot.data()!;
+
+        // Create a Trip object from the retrieved data
+        Rewards rewards = Rewards(
+            id: data['id'],
+            desc: data['desc'],
+            discount: data['discount'],
+            points: data['points'],
+            remaining: data['remaining'],
+            store: data['store'],
+            url: data['url']);
+        return rewards;
+      } else {
+        throw Exception('Document does not exist');
+      }
+    } catch (e) {
+      throw Exception('Failed to retrieve trip: $e');
+    }
+  }
+
+  createRedeemRewards(RewardsRedemption rewardsRedeem) {
+    CollectionReference rewardRedemption =
+    FirebaseFirestore.instance.collection('RewardsRedemption');
+
+    return rewardRedemption.doc(rewardsRedeem.redemptionId).set({
+      'redemptionId' : rewardsRedeem.redemptionId,
+      'storeId' : rewardsRedeem.storeId,
+      'userId' : rewardsRedeem.userId,
+      'date' : rewardsRedeem.date,
+      'status' : rewardsRedeem.status,
+    }
+    ).then((value) => print("RewardsRedemption Created"))
+        .catchError((error) => print("Failed to create rewardsRedeem : $error"));
+  }
+
+  Future updateStoreStock(String id, int remaining) async{
+    try {
+      await _firebaseFirestore.collection('Rewards').doc(id).set(
+        {
+          'remaining' : remaining,
+        },
+        SetOptions(merge: true),
+      );
+    } on FirebaseAuthException catch (e) {
+      throw signUpErrorCodes[e.code] ?? 'Firebase ${e.code} Error Occured!';
+    } catch (e) {
+      throw '${e.toString()} Error Occured!';
+    }
+  }
+
+  Future updateUserPointsAfterRedeem(int points) async{
+    try {
+      await _firebaseFirestore.collection('Users').doc(currentUser.uid).set(
+        {
+          'points': points,
+        },
+        SetOptions(merge: true),
+      );
+    } on FirebaseAuthException catch (e) {
+      throw signUpErrorCodes[e.code] ?? 'Firebase ${e.code} Error Occured!';
+    } catch (e) {
+      throw '${e.toString()} Error Occured!';
+    }
+  }
+
 
 }

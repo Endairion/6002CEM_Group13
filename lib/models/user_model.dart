@@ -4,7 +4,7 @@ class Users {
   final String contact;
   final String dob;
   final String ic_no;
-  final String points;
+  final int points;
 
   Users(
       {required this.name,
