@@ -357,6 +357,28 @@ class FirebaseService {
     return carpoolRequestList;
   }
 
+  Future<List<CarpoolRequest>> getUserCarpoolRequestList() async {
+    // Get docs from CarpoolRequests collection reference
+    QuerySnapshot querySnapshot = await FirebaseFirestore.instance
+        .collection('CarpoolRequests')
+        .where('requesterId', isEqualTo: userId)
+        .get();
+
+    // Get data from docs and convert map to List
+    final carpoolRequestList = querySnapshot.docs.map<CarpoolRequest>((doc) {
+      return CarpoolRequest(
+          requestId: doc['requestId'],
+          requesterId: doc['requesterId'],
+          tripId: doc['tripId'],
+          driverId: doc['driverId'],
+          pickupLocation: doc['pickupLocation'],
+          remarks: doc['remarks'],
+          status: doc['status']);
+    }).toList();
+
+    return carpoolRequestList;
+  }
+
   Future<void> acceptCarpoolRequest(String requestId) async {
     var collection = FirebaseFirestore.instance.collection('CarpoolRequests');
     collection.doc(requestId).update({'status': 'Accepted'}) // <-- Updated data
