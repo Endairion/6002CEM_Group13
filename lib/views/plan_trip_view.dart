@@ -1,11 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
-// import 'package:mobile_app_development_cw2/views/trip_details_view.dart';
 import 'package:mobile_app_development_cw2/views/custom_radio_list_tile.dart';
 import 'package:mobile_app_development_cw2/viewmodels/plan_trip_viewmodel.dart';
 import 'package:mobile_app_development_cw2/views/base_view.dart';
-import 'package:intl/intl.dart';
-import '../utils/theme_helper.dart';
 
 void main() {
   runApp(PlanTripView());
@@ -246,7 +242,8 @@ class _PlanTripViewState extends State<PlanTripView> {
                                     Checkbox(
                                         checkColor: Colors.white,
                                         activeColor: Colors.green[900],
-                                        value: _model.pickupNotificationIsChecked,
+                                        value:
+                                            _model.pickupNotificationIsChecked,
                                         onChanged: (bool? value) {
                                           setState(() {
                                             _model.pickupNotificationIsChecked =
@@ -385,7 +382,6 @@ class _PlanTripViewState extends State<PlanTripView> {
                                               ElevatedButton(
                                                 onPressed: () {
                                                   _model.planTrip(context);
-
                                                 },
                                                 child: Text(
                                                   'Go',

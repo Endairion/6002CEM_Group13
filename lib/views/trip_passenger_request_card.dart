@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import 'package:mobile_app_development_cw2/models/carpool_request_model.dart';
 import 'package:mobile_app_development_cw2/models/user_model.dart';
@@ -10,10 +9,13 @@ class TripPassengerRequestCard extends StatefulWidget {
   final CarpoolRequest carpoolRequest;
   final Users passenger;
   // final int index;
-  TripPassengerRequestCard({Key? key, required this.carpoolRequest, required this.passenger}) : super(key: key);
+  TripPassengerRequestCard(
+      {Key? key, required this.carpoolRequest, required this.passenger})
+      : super(key: key);
 
   @override
-  State<TripPassengerRequestCard> createState() => _TripPassengerRequestCardState();
+  State<TripPassengerRequestCard> createState() =>
+      _TripPassengerRequestCardState();
 }
 
 class _TripPassengerRequestCardState extends State<TripPassengerRequestCard> {
@@ -26,7 +28,8 @@ class _TripPassengerRequestCardState extends State<TripPassengerRequestCard> {
       onModelReady: (model) {
         _model = model;
         _context = context;
-        model.onModelReady(widget.carpoolRequest.requestId, widget.carpoolRequest.tripId);
+        model.onModelReady(
+            widget.carpoolRequest.requestId, widget.carpoolRequest.tripId);
       },
       onModelDestroy: (model) => model.onModelDestroy(),
       builder: (context, model, child) => Column(
@@ -49,11 +52,9 @@ class _TripPassengerRequestCardState extends State<TripPassengerRequestCard> {
                         radius: 25,
                         backgroundColor: Colors.white,
                         child: Padding(
-                          padding:
-                          const EdgeInsets.all(4), // Border radius
+                          padding: const EdgeInsets.all(4), // Border radius
                           child: ClipOval(
-                              child:
-                              Image.asset('assets/app_logo.png')),
+                              child: Image.asset('assets/app_logo.png')),
                         ),
                       ),
                       SizedBox(
@@ -73,8 +74,8 @@ class _TripPassengerRequestCardState extends State<TripPassengerRequestCard> {
                       Container(
                         width: 50,
                         decoration: BoxDecoration(
-                          border: Border.all(
-                              color: Colors.lightGreen, width: 2),
+                          border:
+                              Border.all(color: Colors.lightGreen, width: 2),
                           color: Colors.white,
                           shape: BoxShape.circle,
                         ),
@@ -89,14 +90,12 @@ class _TripPassengerRequestCardState extends State<TripPassengerRequestCard> {
                           },
                         ),
                       ),
-                      SizedBox(
-                          width: 12
-                      ),
+                      SizedBox(width: 12),
                       Container(
                         width: 50,
                         decoration: BoxDecoration(
-                          border: Border.all(
-                              color: Colors.red.shade400, width: 2),
+                          border:
+                              Border.all(color: Colors.red.shade400, width: 2),
                           color: Colors.white,
                           shape: BoxShape.circle,
                         ),

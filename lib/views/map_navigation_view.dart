@@ -61,41 +61,43 @@ class _MapNavigationState extends State<MapNavigation> {
         floatingActionButtonLocation: FloatingActionButtonLocation.endTop,
         body: _model.currentLocation == null
             ? const Center(child: Text("Loading"))
-            :GoogleMap(
-          initialCameraPosition: CameraPosition(
-            // target: _model.sourceLocation,
-            target: LatLng(_model.currentLocation!.latitude!, _model.currentLocation!.longitude!),
-            zoom: 13.5,
-          ),
-          markers: {
-            Marker(
-              markerId: const MarkerId("currentLocation"),
-              icon: _model.currentLocationIcon,
-              position: LatLng(_model.currentLocation!.latitude!, _model.currentLocation!.longitude!),
-            ),
-            Marker(
-              markerId: MarkerId("source"),
-              icon: _model.sourceIcon,
-              position: _model.sourceLocation,
-            ),
-            Marker(
-              markerId: MarkerId("destination"),
-              icon: _model.destinationIcon,
-              position: _model.destination,
-            ),
-          },
-          onMapCreated: (GoogleMapController controller) {
-            _model.controller.complete(controller);
-          },
-          polylines: {
-            Polyline(
-              polylineId: const PolylineId("route"),
-              points: _model.polylineCoordinates,
-              color: const Color(0xFF6FB12C),
-              width: 6,
-            ),
-          },
-        ),
+            : GoogleMap(
+                initialCameraPosition: CameraPosition(
+                  // target: _model.sourceLocation,
+                  target: LatLng(_model.currentLocation!.latitude!,
+                      _model.currentLocation!.longitude!),
+                  zoom: 13.5,
+                ),
+                markers: {
+                  Marker(
+                    markerId: const MarkerId("currentLocation"),
+                    icon: _model.currentLocationIcon,
+                    position: LatLng(_model.currentLocation!.latitude!,
+                        _model.currentLocation!.longitude!),
+                  ),
+                  Marker(
+                    markerId: MarkerId("source"),
+                    icon: _model.sourceIcon,
+                    position: _model.sourceLocation,
+                  ),
+                  Marker(
+                    markerId: MarkerId("destination"),
+                    icon: _model.destinationIcon,
+                    position: _model.destination,
+                  ),
+                },
+                onMapCreated: (GoogleMapController controller) {
+                  _model.controller.complete(controller);
+                },
+                polylines: {
+                  Polyline(
+                    polylineId: const PolylineId("route"),
+                    points: _model.polylineCoordinates,
+                    color: const Color(0xFF6FB12C),
+                    width: 6,
+                  ),
+                },
+              ),
       ),
     );
   }

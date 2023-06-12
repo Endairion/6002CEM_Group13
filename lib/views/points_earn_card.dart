@@ -1,10 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:mobile_app_development_cw2/locator.dart';
 import 'package:mobile_app_development_cw2/models/earn_point_model.dart';
 import 'package:mobile_app_development_cw2/models/trip_model.dart';
-import 'package:mobile_app_development_cw2/viewmodels/activity_page_viewmodel.dart';
-import 'package:mobile_app_development_cw2/services/firebase_service.dart';
-
 
 Widget PointsEarnCard(BuildContext context, EarnPoint earnPoint, Trip trip) {
   return Padding(
@@ -30,7 +26,9 @@ Widget PointsEarnCard(BuildContext context, EarnPoint earnPoint, Trip trip) {
                   ),
                 ),
               ),
-              SizedBox(width: 12,),
+              SizedBox(
+                width: 12,
+              ),
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -135,10 +133,9 @@ Widget PointsEarnCard(BuildContext context, EarnPoint earnPoint, Trip trip) {
                   Text(
                     'Role: ' + earnPoint.role,
                     style: TextStyle(
-                      fontSize: 14,
-                      color: Colors.green[900],
-                      fontWeight: FontWeight.bold
-                    ),
+                        fontSize: 14,
+                        color: Colors.green[900],
+                        fontWeight: FontWeight.bold),
                   ),
                   SizedBox(
                     height: 8,

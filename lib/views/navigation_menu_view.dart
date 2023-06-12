@@ -29,7 +29,6 @@ class NavigationBar extends StatefulWidget {
 }
 
 class _NavigationBarState extends State<NavigationBar> {
-
   int _selectedIndex = 0;
 
   static const List<Widget> _menuOptions = <Widget>[

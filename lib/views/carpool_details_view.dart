@@ -1,9 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:mobile_app_development_cw2/viewmodels/carpool_details_viewmodel.dart';
-import 'package:mobile_app_development_cw2/views/ongoing_trip_details_view.dart';
-import 'package:mobile_app_development_cw2/viewmodels/trip_details_viewmodel.dart';
 import 'package:mobile_app_development_cw2/views/base_view.dart';
-import 'package:mobile_app_development_cw2/views/trip_passenger_request_card.dart';
 
 class CarpoolDetails extends StatefulWidget {
   String requestId;
@@ -218,7 +215,7 @@ class _CarpoolDetailsState extends State<CarpoolDetails> {
                   SizedBox(
                     width: 350,
                     child: Text(
-                      (_model.remarks == "")? "None": _model.remarks,
+                      (_model.remarks == "") ? "None" : _model.remarks,
                       overflow: TextOverflow.clip,
                       style: TextStyle(
                         fontSize: 16,
@@ -257,10 +254,10 @@ class _CarpoolDetailsState extends State<CarpoolDetails> {
                                 backgroundColor: Colors.white,
                                 child: Padding(
                                   padding:
-                                  const EdgeInsets.all(4), // Border radius
+                                      const EdgeInsets.all(4), // Border radius
                                   child: ClipOval(
                                       child:
-                                      Image.asset('assets/app_logo.png')),
+                                          Image.asset('assets/app_logo.png')),
                                 ),
                               ),
                               SizedBox(
@@ -280,14 +277,14 @@ class _CarpoolDetailsState extends State<CarpoolDetails> {
                               Container(
                                 width: 123,
                                 child: ElevatedButton(
-                                    onPressed: () {
-                                    },
+                                    onPressed: () {},
                                     style: ElevatedButton.styleFrom(
                                       backgroundColor: Colors.lightGreen,
                                     ),
                                     child: Row(
                                       children: [
-                                        Icon(Icons.call,
+                                        Icon(
+                                          Icons.call,
                                           color: Colors.white,
                                         ),
                                         SizedBox(
@@ -319,10 +316,9 @@ class _CarpoolDetailsState extends State<CarpoolDetails> {
                               "Car Model: Proton Saga (Red)",
                               overflow: TextOverflow.clip,
                               style: TextStyle(
-                                fontSize: 14,
-                                color: Colors.black87,
-                                fontWeight: FontWeight.bold
-                              ),
+                                  fontSize: 14,
+                                  color: Colors.black87,
+                                  fontWeight: FontWeight.bold),
                             ),
                           ),
                           SizedBox(
@@ -336,8 +332,7 @@ class _CarpoolDetailsState extends State<CarpoolDetails> {
                               style: TextStyle(
                                   fontSize: 14,
                                   color: Colors.black87,
-                                  fontWeight: FontWeight.bold
-                              ),
+                                  fontWeight: FontWeight.bold),
                             ),
                           ),
                           SizedBox(

@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:mobile_app_development_cw2/views/ongoing_trip_details_view.dart';
 import 'package:mobile_app_development_cw2/viewmodels/trip_details_viewmodel.dart';
 import 'package:mobile_app_development_cw2/views/base_view.dart';
-import 'package:mobile_app_development_cw2/views/trip_passenger_request_card.dart';
 
 class TripDetails extends StatefulWidget {
   String tripId;
@@ -59,20 +58,24 @@ class _TripDetailsState extends State<TripDetails> {
                     width: double.infinity,
                     child: ElevatedButton(
                       onPressed: () {
-                        if (_model.status != "Ongoing" || _model.acceptedCarpoolRequestList.isEmpty) {
+                        if (_model.status != "Ongoing" ||
+                            _model.acceptedCarpoolRequestList.isEmpty) {
                           return null;
-                        }
-                        else {
+                        } else {
                           Navigator.push(
                             context,
                             MaterialPageRoute(
-                                builder: (context) => OngoingTripDetails(tripId: widget.tripId)),
+                                builder: (context) =>
+                                    OngoingTripDetails(tripId: widget.tripId)),
                           );
                         }
                       },
                       style: ElevatedButton.styleFrom(
                           padding: EdgeInsets.zero,
-                          backgroundColor: (_model.status != "Ongoing" || _model.acceptedCarpoolRequestList.isEmpty)? Colors.grey[400] : Colors.limeAccent[700],
+                          backgroundColor: (_model.status != "Ongoing" ||
+                                  _model.acceptedCarpoolRequestList.isEmpty)
+                              ? Colors.grey[400]
+                              : Colors.limeAccent[700],
                           foregroundColor: Colors.black,
                           shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(10))),

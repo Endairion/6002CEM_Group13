@@ -23,7 +23,7 @@ Widget PickupAddressCardView(CarpoolRequest carpoolRequest, int index) {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Text(
-                    (index+1).toString(),
+                    (index + 1).toString(),
                     style: TextStyle(
                       fontSize: 14,
                       fontWeight: FontWeight.bold,
