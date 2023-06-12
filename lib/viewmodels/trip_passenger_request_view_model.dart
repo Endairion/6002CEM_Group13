@@ -1,16 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:mobile_app_development_cw2/locator.dart';
-import 'package:mobile_app_development_cw2/models/carpool_request_model.dart';
-import 'package:mobile_app_development_cw2/models/trip_model.dart';
-import 'package:mobile_app_development_cw2/models/user_model.dart';
 import 'package:mobile_app_development_cw2/services/firebase_service.dart';
-import 'package:mobile_app_development_cw2/utils/validators.dart';
 import 'package:mobile_app_development_cw2/viewmodels/base_viewmodel.dart';
 import 'package:mobile_app_development_cw2/views/trip_details_view.dart';
-import 'package:mobile_app_development_cw2/views/trip_passenger_request_card.dart';
 
 class TripPassengerRequestViewModel extends BaseViewModel {
-
   String _requestId = "";
   String _tripId = "";
 
@@ -18,41 +12,47 @@ class TripPassengerRequestViewModel extends BaseViewModel {
   final FirebaseService _firebaseService = locator<FirebaseService>();
 
   void onModelReady(String requestId, String tripId) {
+    // set request Id and tripId
     _requestId = requestId;
     _tripId = tripId;
   }
 
-  void onModelDestroy() {
-  }
+  void onModelDestroy() {}
 
   Future<void> acceptRequest() async {
+    // accept passenger carpool request
     await _firebaseService.acceptCarpoolRequest(_requestId);
+    // decrement remaining carpool seats
     await decrementCarpoolSeats();
     notifyListeners();
   }
 
   Future<void> decrementCarpoolSeats() async {
+    // decrement remaining carpool seats based on tripId
     await _firebaseService.decrementCarpoolSeats(_tripId);
     notifyListeners();
   }
 
   Future<void> rejectRequest() async {
+    // reject passenger carpool request
     await _firebaseService.rejectCarpoolRequest(_requestId);
     notifyListeners();
   }
 
   Future<void> acceptRequestClicked(BuildContext context) async {
+    // show confirmation dialog when user click on accept request
     showAcceptConfirmationDialog(context);
     notifyListeners();
   }
 
   Future<void> rejectRequestClicked(BuildContext context) async {
+    // show confirmation dialog when user click on decline request
     showDeclineConfirmationDialog(context);
     notifyListeners();
   }
 
   Future<bool> showAcceptConfirmationDialog(BuildContext context) async {
-    // Show the error message dialog
+    // Show the confirmation message dialog
     bool? showConfirm = await showDialog<bool>(
       context: context,
       useRootNavigator: false,
@@ -68,12 +68,14 @@ class TripPassengerRequestViewModel extends BaseViewModel {
           ),
           TextButton(
             onPressed: () {
+              // accept passenger carpool request
               acceptRequest();
               Navigator.of(context).pop(true); // Confirm accept request
               Navigator.pushReplacement(
                   context,
                   MaterialPageRoute(
-                      builder: (BuildContext context) => TripDetails(tripId: _tripId)));
+                      builder: (BuildContext context) =>
+                          TripDetails(tripId: _tripId)));
             },
             child: Text('Yes'),
           ),
@@ -84,7 +86,7 @@ class TripPassengerRequestViewModel extends BaseViewModel {
   }
 
   Future<bool> showDeclineConfirmationDialog(BuildContext context) async {
-    // Show the error message dialog
+    // Show the confirmation message dialog
     bool? showConfirm = await showDialog<bool>(
       context: context,
       useRootNavigator: false,
@@ -100,12 +102,14 @@ class TripPassengerRequestViewModel extends BaseViewModel {
           ),
           TextButton(
             onPressed: () {
+              // reject passenger carpool request
               rejectRequest();
               Navigator.of(context).pop(true); // Confirm decline request
               Navigator.pushReplacement(
                   context,
                   MaterialPageRoute(
-                      builder: (BuildContext context) => TripDetails(tripId: _tripId)));
+                      builder: (BuildContext context) =>
+                          TripDetails(tripId: _tripId)));
             },
             child: Text('Yes'),
           ),

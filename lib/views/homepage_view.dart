@@ -26,8 +26,6 @@ class _HomepageState extends State<Homepage> {
         onModelReady: (model) {
           _model = model;
           _context = context;
-          print(
-              "testing from modelReady " + _model.customRequestList.toString());
           model.onModelReady();
         },
         onModelDestroy: (model) => model.onModelDestroy(),
@@ -119,26 +117,26 @@ class _HomepageState extends State<Homepage> {
                                     width: 50,
                                     child: _model.customRequestList.isEmpty
                                         ? Icon(
-                                            Icons.notifications_outlined,
-                                            //notifications_active_outlined
-                                            size: 40,
-                                            color: Colors.green[900],
-                                          )
+                                      Icons.notifications_outlined,
+                                      //notifications_active_outlined
+                                      size: 40,
+                                      color: Colors.green[900],
+                                    )
                                         : IconButton(
-                                            onPressed: () {
-                                              Navigator.push(
-                                                context,
-                                                MaterialPageRoute(
-                                                    builder: (context) =>
-                                                        CustomCarpoolView()),
-                                              );
-                                            },
-                                            icon: Icon(
-                                              Icons
-                                                  .notifications_active_outlined,
-                                              size: 40,
-                                            ),
-                                          ),
+                                      onPressed: () {
+                                        Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                              builder: (context) =>
+                                                  CustomCarpoolView()),
+                                        );
+                                      },
+                                      icon: Icon(
+                                        Icons
+                                            .notifications_active_outlined,
+                                        size: 40,
+                                      ),
+                                    ),
                                   ),
                                 ),
                               ],

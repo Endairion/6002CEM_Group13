@@ -12,12 +12,14 @@ import 'package:mobile_app_development_cw2/viewmodels/base_viewmodel.dart';
 class HomepageViewModel extends BaseViewModel {
   String _name = "";
   int _points = 0;
+
   List<CustomRequest> _customRequestList = [];
 
   // Services
   final FirebaseService _firebaseService = locator<FirebaseService>();
 
   void onModelReady() {
+    // get current user
     getUser();
     getCustomCarpoolRequest();
     print(_customRequestList.toList());
@@ -28,9 +30,13 @@ class HomepageViewModel extends BaseViewModel {
   }
 
   Future<void> getUser() async {
+    // get current user
     Users user = await _firebaseService.getUserData(_firebaseService.userId);
+
+    // set user details text
     _name = user.name;
     _points = user.points;
+
     notifyListeners();
   }
 
@@ -40,15 +46,16 @@ class HomepageViewModel extends BaseViewModel {
     notifyListeners();
   }
 
+  // getters
   int get points => _points;
+  String get name => _name;
 
   List<CustomRequest> get customRequestList => _customRequestList;
 
+  // setters
   set points(int value) {
     _points = value;
   }
-
-  String get name => _name;
 
   set name(String value) {
     _name = value;

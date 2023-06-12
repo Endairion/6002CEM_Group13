@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:mobile_app_development_cw2/viewmodels/ongoing_trip_details_viewmodel.dart';
 import 'package:mobile_app_development_cw2/views/base_view.dart';
 import 'package:mobile_app_development_cw2/views/map_navigation_view.dart';
-import 'package:mobile_app_development_cw2/views/pickup_passenger_card_view.dart';
 
 class OngoingTripDetails extends StatefulWidget {
   String tripId;
@@ -66,7 +65,8 @@ class _OngoingTripDetailsState extends State<OngoingTripDetails> {
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                            builder: (context) => MapNavigation(tripId: widget.tripId)),
+                            builder: (context) =>
+                                MapNavigation(tripId: widget.tripId)),
                       );
                     },
                     child: ClipRRect(

@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:mobile_app_development_cw2/views/create_custom_trip_view.dart';
-import 'package:mobile_app_development_cw2/models/trip_model.dart';
-import 'package:mobile_app_development_cw2/views/available_trips_card_view.dart';
 import 'package:mobile_app_development_cw2/viewmodels/search_available_trips_viewmodel.dart';
 import 'package:mobile_app_development_cw2/views/base_view.dart';
 
@@ -79,7 +77,8 @@ class _SearchAvailableTripsState extends State<SearchAvailableTrips> {
                                     width: 240,
                                     child: TextField(
                                       onTap: () {},
-                                      controller: _model.startLocationController,
+                                      controller:
+                                          _model.startLocationController,
                                       keyboardType: TextInputType.text,
                                       cursorColor: Colors.lightGreen,
                                       decoration: InputDecoration(
@@ -151,7 +150,11 @@ class _SearchAvailableTripsState extends State<SearchAvailableTrips> {
                                 ],
                               ),
                               ElevatedButton(
-                                onPressed: () {_model.getSearchResultTripsList(_model.startLocationController, _model.destinationController);},
+                                onPressed: () {
+                                  _model.getSearchResultTripsList(
+                                      _model.startLocationController,
+                                      _model.destinationController);
+                                },
                                 style: ElevatedButton.styleFrom(
                                   padding: EdgeInsets.zero,
                                   shape: RoundedRectangleBorder(
@@ -189,7 +192,8 @@ class _SearchAvailableTripsState extends State<SearchAvailableTrips> {
                           Navigator.push(
                             context,
                             MaterialPageRoute(
-                                builder: (context) => const CreateCustomTripView()),
+                                builder: (context) =>
+                                    const CreateCustomTripView()),
                           );
                         },
                         style: ElevatedButton.styleFrom(

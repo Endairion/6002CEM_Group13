@@ -5,14 +5,16 @@ import 'package:mobile_app_development_cw2/models/user_model.dart';
 class PickupPassengerCardView extends StatefulWidget {
   CarpoolRequest carpoolRequest;
   Users user;
-  PickupPassengerCardView({Key? key, required this.carpoolRequest, required this.user}) : super(key: key);
+  PickupPassengerCardView(
+      {Key? key, required this.carpoolRequest, required this.user})
+      : super(key: key);
 
   @override
-  State<PickupPassengerCardView> createState() => _PickupPassengerCardViewState();
+  State<PickupPassengerCardView> createState() =>
+      _PickupPassengerCardViewState();
 }
 
 class _PickupPassengerCardViewState extends State<PickupPassengerCardView> {
-
   bool _pickupButtonDisable = false;
 
   @override
@@ -39,7 +41,7 @@ class _PickupPassengerCardViewState extends State<PickupPassengerCardView> {
                       child: Padding(
                         padding: const EdgeInsets.all(4), // Border radius
                         child:
-                        ClipOval(child: Image.asset('assets/app_logo.png')),
+                            ClipOval(child: Image.asset('assets/app_logo.png')),
                       ),
                     ),
                     SizedBox(
@@ -63,16 +65,16 @@ class _PickupPassengerCardViewState extends State<PickupPassengerCardView> {
                             _pickupButtonDisable = true;
                           },
                           style: ElevatedButton.styleFrom(
-                              backgroundColor: _pickupButtonDisable
-                                  ? Colors.grey[400]
-                                  : Colors.lightGreen,
+                            backgroundColor: _pickupButtonDisable
+                                ? Colors.grey[400]
+                                : Colors.lightGreen,
                           ),
                           child: Row(
                             children: [
                               Icon(
                                 _pickupButtonDisable
-                                  ? Icons.done
-                                  : Icons.directions_car,
+                                    ? Icons.done
+                                    : Icons.directions_car,
                                 color: Colors.white,
                               ),
                               SizedBox(
@@ -82,9 +84,7 @@ class _PickupPassengerCardViewState extends State<PickupPassengerCardView> {
                                 width: 63,
                                 child: Center(
                                   child: Text(
-                                    _pickupButtonDisable
-                                        ? "Done"
-                                        : "To Pickup",
+                                    _pickupButtonDisable ? "Done" : "To Pickup",
                                     style: TextStyle(
                                       fontSize: 14,
                                       color: Colors.white,

@@ -3,7 +3,6 @@ import 'package:mobile_app_development_cw2/models/trip_model.dart';
 import 'package:mobile_app_development_cw2/views/trip_details_view.dart';
 
 Widget TripHistoryCard(BuildContext context, Trip trip) {
-
   statusColor(String status) {
     switch (status) {
       case 'Ongoing':
@@ -21,8 +20,7 @@ Widget TripHistoryCard(BuildContext context, Trip trip) {
       onTap: () {
         Navigator.push(
           context,
-          MaterialPageRoute(
-              builder: (context) => TripDetails(tripId: trip.id)),
+          MaterialPageRoute(builder: (context) => TripDetails(tripId: trip.id)),
         );
       },
       child: Container(
