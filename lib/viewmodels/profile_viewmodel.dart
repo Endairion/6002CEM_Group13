@@ -21,4 +21,8 @@ class ProfileViewModel extends BaseViewModel {
   }
 
   void onModelDestroy() {}
+
+  Future<void> signOut() async{
+    await _service.signOut();
+  }
 }

@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:mobile_app_development_cw2/Settings.dart';
-// import 'package:mobile_app_development_cw2/views/Login.dart';
+import 'package:mobile_app_development_cw2/views/login_view.dart';
 
-import 'package:mobile_app_development_cw2/EditProfile.dart';
+import 'package:mobile_app_development_cw2/views/edit_profile.dart';
 import 'package:mobile_app_development_cw2/views/my_profile_view.dart';
 import 'package:mobile_app_development_cw2/views/base_view.dart';
 
@@ -119,11 +119,12 @@ class Profile extends StatelessWidget {
                   ),
                   const SizedBox(height: 10.0),
                   ElevatedButton.icon(
-                    onPressed: () {
-                      // Navigator.push(
-                      //   context,
-                      //   MaterialPageRoute(builder: (context) => const Login()),
-                      // );
+                    onPressed: () async {
+                      await model.signOut();
+                      Navigator.pushReplacement(
+                        context,
+                        MaterialPageRoute(builder: (context) => LoginView()),
+                      );
                     },
                     style: ElevatedButton.styleFrom(
                       foregroundColor: Colors.black,

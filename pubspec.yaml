@@ -33,18 +33,13 @@ dependencies:
 
   #DI
   get_it: ^7.2.0
-
   #PROVIDER
   provider: ^6.0.2
-
-
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons: ^1.0.2
-
   flutter_native_splash: ^2.2.16
   firebase_core: ^2.11.0
-
   get: ^4.1.4
   http: any
   google_maps_flutter: ^2.2.6
@@ -64,6 +59,7 @@ dependencies:
   flutter_polyline_points: ^1.0.0
   location: ^4.4.0
   string_similarity: ^2.0.0
+  dart_mailgun: ^1.0.3
 
 flutter_native_splash:
   android: true

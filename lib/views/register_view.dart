@@ -1,6 +1,6 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
-import 'package:mobile_app_development_cw2/common/theme_helper.dart';
+import 'package:mobile_app_development_cw2/utils/theme_helper.dart';
 import 'package:mobile_app_development_cw2/viewmodels/register_viewmodel.dart';
 import 'package:mobile_app_development_cw2/views/login_view.dart';
 import 'package:mobile_app_development_cw2/views/base_view.dart';
@@ -30,7 +30,6 @@ class _RegisterViewState extends State<RegisterView> {
           _context = context;
           model.onModelReady();
         },
-        onModelDestroy: (model) => model.onModelDestroy(),
         builder: (context, model, child) => Scaffold(
               body: SingleChildScrollView(
                 child: Container(

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:mobile_app_development_cw2/common/theme_helper.dart';
 import 'package:mobile_app_development_cw2/viewmodels/request_carpool_viewmodel.dart';
 import 'package:mobile_app_development_cw2/views/base_view.dart';
+import 'package:mobile_app_development_cw2/utils/theme_helper.dart';
 
 class RequestCarpoolView extends StatefulWidget {
   String tripId;

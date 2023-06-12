@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:mobile_app_development_cw2/models/earn_point_model.dart';
@@ -129,7 +130,6 @@ class FirebaseService {
     QuerySnapshot querySnapshot = await FirebaseFirestore.instance
         .collection('Trips')
         .where('userId', isEqualTo: userId)
-        .orderBy('date', descending: true)
         .get();
 
     // Get data from docs and convert map to List
@@ -171,6 +171,7 @@ class FirebaseService {
             status: data['status'],
             seats: data['seats'],
             enablePickupNotification: data['enablePickupNotification']);
+
         return trip;
       } else {
         throw Exception('Document does not exist');
@@ -598,7 +599,7 @@ class FirebaseService {
     } on FirebaseAuthException catch (e) {
       throw signUpErrorCodes[e.code] ?? 'Firebase ${e.code} Error Occured!';
     } catch (e) {
-      throw '${e.toString()} Error Occured!';
+      throw '${e.toString()} Error Occurred!';
     }
   }
 
@@ -672,4 +673,106 @@ class FirebaseService {
 
     return rewardsRedemption;
   }
+
+  Future<void> updateUserProfile(Map<String, dynamic> userProfile) async {
+    try {
+      await _firebaseFirestore
+          .collection('Users')
+          .doc(currentUser.uid)
+          .update(userProfile);
+    } catch (e) {
+      throw '${e.toString()} Error Occurred!';
+    }
+  }
+
+  Future<void> signOut() async{
+    await _firebaseAuth.signOut();
+  }
+
+  Future<String> getResetCode(String email) async {
+    try {
+      // Generate a 6-digit reset code
+      Random random = Random();
+      String resetCode = (random.nextInt(900000) + 100000).toString();
+
+      // Query the Firestore collection for the user with the given email
+      QuerySnapshot querySnapshot = await _firebaseFirestore
+          .collection('Users')
+          .where('email', isEqualTo: email)
+          .get();
+
+      if (querySnapshot.docs.isNotEmpty) {
+        // Update or create the resetCode field for the first matching user
+        DocumentSnapshot userSnapshot = querySnapshot.docs[0];
+        DocumentReference userRef = userSnapshot.reference;
+
+        if (userSnapshot.exists) {
+          // Update the existing resetCode field
+          await userRef.update({'resetCode': resetCode});
+        } else {
+          // Create a new document with the resetCode field
+          await userRef.set({'resetCode': resetCode});
+        }
+      } else {
+        throw 'User not found for the provided email!';
+      }
+
+      return resetCode;
+    } catch (e) {
+      throw '${e.toString()} Try Again!';
+    }
+  }
+
+  Future<String> verifyCode(String code, String email) async{
+    QuerySnapshot querySnapshot = await _firebaseFirestore
+        .collection('Users')
+        .where('email', isEqualTo: email)
+        .get();
+
+    if (querySnapshot.docs.isNotEmpty) {
+      DocumentSnapshot userSnapshot = querySnapshot.docs[0];
+
+      if (userSnapshot.exists) {
+        String resetCode = userSnapshot.get('resetCode');
+
+        if (resetCode != code) {
+          return 'Invalid code!';
+        } else {
+          return 'Valid code!';
+        }
+      } else {
+        return 'User not found for the provided email!';
+      }
+    } else {
+      return 'User not found for the provided email!';
+    }
+  }
+
+  Future<void> updatePassword(String currentPassword, String newPassword) async {
+    try {
+      User? user = _firebaseAuth.currentUser;
+
+      if (user != null) {
+        // Prompt the user to reauthenticate before updating the password
+        AuthCredential credential = EmailAuthProvider.credential(email: user.email!, password: currentPassword);
+        await user.reauthenticateWithCredential(credential);
+
+        // Update the password
+        await user.updatePassword(newPassword);
+      } else {
+        throw Exception('User is not currently authenticated.');
+      }
+    } catch (e) {
+      throw '${e.toString()} Error Occurred!';
+    }
+  }
+
+  Future<void> sendResetEmail(String email) async {
+    try{
+      await _firebaseAuth.sendPasswordResetEmail(email: email);
+    } catch (e){
+      throw '${e.toString()} Error Occurred!';
+    }
+  }
 }
+
