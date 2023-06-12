@@ -118,6 +118,7 @@ flutter:
     - assets/source_pin.png
     - assets/destination_pin.png
     - assets/avatar_pin.png
+    - assets/anonym_avatar.png
 
 
   #   - images/a_dot_burr.jpeg

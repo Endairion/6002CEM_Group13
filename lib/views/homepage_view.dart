@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:mobile_app_development_cw2/viewmodels/homepage_viewmodel.dart';
 import 'package:mobile_app_development_cw2/views/base_view.dart';
+import 'package:mobile_app_development_cw2/views/custom_carpool_view.dart';
 import 'package:mobile_app_development_cw2/views/plan_trip_view.dart';
 import 'package:mobile_app_development_cw2/views/search_available_trips_view.dart';
 
@@ -114,10 +115,27 @@ class _HomepageState extends State<Homepage> {
                                   child: Container(
                                     height: 50,
                                     width: 50,
-                                    child: Icon(
+                                    child: _model.customRequestList.isEmpty
+                                        ? Icon(
                                       Icons.notifications_outlined,
+                                      //notifications_active_outlined
                                       size: 40,
                                       color: Colors.green[900],
+                                    )
+                                        : IconButton(
+                                      onPressed: () {
+                                        Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                              builder: (context) =>
+                                                  CustomCarpoolView()),
+                                        );
+                                      },
+                                      icon: Icon(
+                                        Icons
+                                            .notifications_active_outlined,
+                                        size: 40,
+                                      ),
                                     ),
                                   ),
                                 ),
