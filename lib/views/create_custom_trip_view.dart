@@ -7,7 +7,7 @@ import 'package:uuid/uuid.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'package:intl/intl.dart';
-import 'package:mobile_app_development_cw2/common/theme_helper.dart';
+import 'package:mobile_app_development_cw2/utils/theme_helper.dart';
 
 void main() {
   runApp(const CreateCustomTripView());

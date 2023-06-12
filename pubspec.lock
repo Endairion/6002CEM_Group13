@@ -145,14 +145,22 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.0.5"
+  dart_mailgun:
+    dependency: "direct main"
+    description:
+      name: dart_mailgun
+      sha256: "4bef4965b4eb0f1f7a65c361810bb765f3b087010eae171c91a92902de24f4b2"
+      url: "https://pub.dev"
+    source: hosted
+    version: "1.0.3"
   dio:
     dependency: "direct main"
     description:
       name: dio
-      sha256: b99b1d56dc0d5dece70957023af002dbd49614b4a1bf86d3a254af3fe781bdf2
+      sha256: dfda195cbf351d538054297bbd509d8046d336194ea218655f2c326c65711d1e
       url: "https://pub.dev"
     source: hosted
-    version: "5.2.0+1"
+    version: "5.2.1"
   dotted_border:
     dependency: "direct main"
     description:

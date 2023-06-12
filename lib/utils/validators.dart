@@ -80,4 +80,20 @@ class Validators {
     }
     return null;
   }
+
+  static String? codeValidator(String? code) {
+    if (code == null || code.isEmpty) {
+      return 'Code is required';
+    }
+
+    if (code.length != 6) {
+      return 'Code must have 6 digits';
+    }
+
+    if (!RegExp(r'^\d{6}$').hasMatch(code)) {
+      return 'Invalid code format';
+    }
+
+    return null;
+  }
 }
