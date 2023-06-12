@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:math';
 
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:mobile_app_development_cw2/models/earn_point_model.dart';
 import 'package:mobile_app_development_cw2/models/carpool_request_model.dart';
 import 'package:mobile_app_development_cw2/models/custom_request_model.dart';
@@ -50,14 +51,14 @@ class FirebaseService {
           .collection('Users')
           .doc(_user.user!.uid)
           .set({
-        'name': name,
-        'email': email,
-        'dob': dob,
-        'ic_no': icNo,
-        'contact': contactNo,
-        'points': 0,
-        'driver': '0',
-      })
+            'name': name,
+            'email': email,
+            'dob': dob,
+            'ic_no': icNo,
+            'contact': contactNo,
+            'points': 0,
+            'driver': '0',
+          })
           .then((value) => debugPrint('User Created : ${_user.user!.email}'))
           .catchError((e) => debugPrint('Database Error!'));
       return _user;
@@ -85,7 +86,7 @@ class FirebaseService {
 
   Future<List<Rewards>> getRewardsLists() async {
     QuerySnapshot querySnapshot =
-    await FirebaseFirestore.instance.collection('Rewards').get();
+        await FirebaseFirestore.instance.collection('Rewards').get();
 
     // Get data from docs and convert map to List
     final rewardsList = querySnapshot.docs.map<Rewards>((doc) {
@@ -111,16 +112,16 @@ class FirebaseService {
     return trips
         .doc(trip.id)
         .set({
-      'id': trip.id,
-      'userId': trip.userId,
-      'startLocation': trip.startLocation,
-      'destination': trip.destination,
-      'date': trip.date,
-      'time': trip.time,
-      'status': trip.status,
-      'seats': trip.seats,
-      'enablePickupNotification': trip.enablePickupNotification,
-    })
+          'id': trip.id,
+          'userId': trip.userId,
+          'startLocation': trip.startLocation,
+          'destination': trip.destination,
+          'date': trip.date,
+          'time': trip.time,
+          'status': trip.status,
+          'seats': trip.seats,
+          'enablePickupNotification': trip.enablePickupNotification,
+        })
         .then((value) => print("Trip Created"))
         .catchError((error) => print("Failed to create trip: $error"));
   }
@@ -152,9 +153,9 @@ class FirebaseService {
   Future<Trip> getTrip(String tripId) async {
     try {
       final DocumentReference<Map<String, dynamic>> documentRef =
-      FirebaseFirestore.instance.collection('Trips').doc(tripId);
+          FirebaseFirestore.instance.collection('Trips').doc(tripId);
       final DocumentSnapshot<Map<String, dynamic>> snapshot =
-      await documentRef.get();
+          await documentRef.get();
 
       if (snapshot.exists) {
         // Retrieve document data
@@ -184,9 +185,11 @@ class FirebaseService {
   Future<CarpoolRequest> getCarpoolRequest(String requestId) async {
     try {
       final DocumentReference<Map<String, dynamic>> documentRef =
-      FirebaseFirestore.instance.collection('CarpoolRequests').doc(requestId);
+          FirebaseFirestore.instance
+              .collection('CarpoolRequests')
+              .doc(requestId);
       final DocumentSnapshot<Map<String, dynamic>> snapshot =
-      await documentRef.get();
+          await documentRef.get();
 
       if (snapshot.exists) {
         // Retrieve document data
@@ -213,9 +216,9 @@ class FirebaseService {
   Future<Users> getUserData(String userId) async {
     try {
       final DocumentReference<Map<String, dynamic>> documentRef =
-      FirebaseFirestore.instance.collection('Users').doc(userId);
+          FirebaseFirestore.instance.collection('Users').doc(userId);
       final DocumentSnapshot<Map<String, dynamic>> snapshot =
-      await documentRef.get();
+          await documentRef.get();
 
       if (snapshot.exists) {
         // Retrieve document data
@@ -286,7 +289,7 @@ class FirebaseService {
   Future<void> createPointsEarn(EarnPoint earnPoint) async {
     // Reference to PointsEarned collection
     CollectionReference pointsEarned =
-    FirebaseFirestore.instance.collection('PointsEarned');
+        FirebaseFirestore.instance.collection('PointsEarned');
 
     earnPoint.userId = userId;
 
@@ -294,11 +297,11 @@ class FirebaseService {
     return pointsEarned
         .doc()
         .set({
-      'tripId': earnPoint.tripId,
-      'userId': earnPoint.userId,
-      'points': earnPoint.points,
-      'role': earnPoint.role,
-    })
+          'tripId': earnPoint.tripId,
+          'userId': earnPoint.userId,
+          'points': earnPoint.points,
+          'role': earnPoint.role,
+        })
         .then((value) => print("Points earned history created"))
         .catchError(
             (error) => print("Failed to create points earned history: $error"));
@@ -325,20 +328,20 @@ class FirebaseService {
 
   createCustomRequest(CustomRequest customRequest) {
     CollectionReference customRequests =
-    FirebaseFirestore.instance.collection('CustomRequests');
+        FirebaseFirestore.instance.collection('CustomRequests');
 
     return customRequests
         .doc(customRequest.id)
         .set({
-      'id': customRequest.id,
-      'userId': customRequest.userId,
-      'startLocation': customRequest.startLocation,
-      'destination': customRequest.destination,
-      'date': customRequest.date,
-      'time': customRequest.time,
-      'status': customRequest.status,
-      'remarks': customRequest.remarks,
-    })
+          'id': customRequest.id,
+          'userId': customRequest.userId,
+          'startLocation': customRequest.startLocation,
+          'destination': customRequest.destination,
+          'date': customRequest.date,
+          'time': customRequest.time,
+          'status': customRequest.status,
+          'remarks': customRequest.remarks,
+        })
         .then((value) => print("Custom Request Created"))
         .catchError(
             (error) => print("Failed to create custom request: $error"));
@@ -346,19 +349,19 @@ class FirebaseService {
 
   createCarpoolRequest(CarpoolRequest carpoolRequest) {
     CollectionReference carpoolRequests =
-    FirebaseFirestore.instance.collection('CarpoolRequests');
+        FirebaseFirestore.instance.collection('CarpoolRequests');
 
     return carpoolRequests
         .doc(carpoolRequest.requestId)
         .set({
-      'requestId': carpoolRequest.requestId,
-      'requesterId': carpoolRequest.requesterId,
-      'tripId': carpoolRequest.tripId,
-      'driverId': carpoolRequest.driverId,
-      'pickupLocation': carpoolRequest.pickupLocation,
-      'remarks': carpoolRequest.remarks,
-      'status': carpoolRequest.status,
-    })
+          'requestId': carpoolRequest.requestId,
+          'requesterId': carpoolRequest.requesterId,
+          'tripId': carpoolRequest.tripId,
+          'driverId': carpoolRequest.driverId,
+          'pickupLocation': carpoolRequest.pickupLocation,
+          'remarks': carpoolRequest.remarks,
+          'status': carpoolRequest.status,
+        })
         .then((value) => print("Carpool Request Created"))
         .catchError(
             (error) => print("Failed to create carpool request: $error"));
@@ -444,7 +447,7 @@ class FirebaseService {
   Future compareAvailableTripsLocation(
       String startLocation, String destination) async {
     QuerySnapshot querySnapshot =
-    await FirebaseFirestore.instance.collection("Trips").get();
+        await FirebaseFirestore.instance.collection("Trips").get();
     List<String> tripIdList = [];
 
     for (final DocumentSnapshot doc in querySnapshot.docs) {
@@ -454,7 +457,7 @@ class FirebaseService {
       final double startLocationSimilarity = StringSimilarity.compareTwoStrings(
           startLocation, fireStoreStartLocation);
       final double destinationSimilarity =
-      StringSimilarity.compareTwoStrings(destination, fireStoreDestination);
+          StringSimilarity.compareTwoStrings(destination, fireStoreDestination);
 
       print(
           "$startLocation and $fireStoreStartLocation diff $startLocationSimilarity");
@@ -544,9 +547,9 @@ class FirebaseService {
   Future<Rewards> getReward(String rewardId) async {
     try {
       final DocumentReference<Map<String, dynamic>> documentRef =
-      FirebaseFirestore.instance.collection('Rewards').doc(rewardId);
+          FirebaseFirestore.instance.collection('Rewards').doc(rewardId);
       final DocumentSnapshot<Map<String, dynamic>> snapshot =
-      await documentRef.get();
+          await documentRef.get();
 
       if (snapshot.exists) {
         // Retrieve document data
@@ -572,17 +575,17 @@ class FirebaseService {
 
   createRedeemRewards(RewardsRedemption rewardsRedeem) {
     CollectionReference rewardRedemption =
-    FirebaseFirestore.instance.collection('RewardsRedemption');
+        FirebaseFirestore.instance.collection('RewardsRedemption');
 
     return rewardRedemption
         .doc(rewardsRedeem.redemptionId)
         .set({
-      'redemptionId': rewardsRedeem.redemptionId,
-      'storeId': rewardsRedeem.storeId,
-      'userId': rewardsRedeem.userId,
-      'date': rewardsRedeem.date,
-      'status': rewardsRedeem.status,
-    })
+          'redemptionId': rewardsRedeem.redemptionId,
+          'storeId': rewardsRedeem.storeId,
+          'userId': rewardsRedeem.userId,
+          'date': rewardsRedeem.date,
+          'status': rewardsRedeem.status,
+        })
         .then((value) => print("RewardsRedemption Created"))
         .catchError(
             (error) => print("Failed to create rewardsRedeem : $error"));
@@ -641,7 +644,10 @@ class FirebaseService {
 
   Future updateRewardsRedemptionStatus(String redemptionId) async {
     try {
-      await _firebaseFirestore.collection('RewardsRedemption').doc(redemptionId).set(
+      await _firebaseFirestore
+          .collection('RewardsRedemption')
+          .doc(redemptionId)
+          .set(
         {
           'status': 'Used',
         },
@@ -774,5 +780,75 @@ class FirebaseService {
       throw '${e.toString()} Error Occurred!';
     }
   }
+
+  Future<List<CustomRequest>> getCustomCarpoolRequestList(String userId) async {
+    // Get docs from CarpoolRequests collection reference
+    QuerySnapshot querySnapshot = await FirebaseFirestore.instance
+        .collection('CustomRequests')
+        .where('userId', isNotEqualTo: userId)
+        .where('status', isEqualTo: "Pending")
+        .get();
+
+    // Get current time
+    DateTime currentTime = DateTime.now();
+
+    // Get data from docs and convert map to List
+    final customRequestList = querySnapshot.docs.map<CustomRequest>((doc) {
+      // Get the time from the document
+
+      DateTime requestTime = new DateFormat("dd-MM-yyyy").parse(doc['date']);
+      DateTime customRequestTime = DateFormat.jm().parse(doc['time']);
+      int hour = customRequestTime.hour;
+      int minutes = customRequestTime.minute;
+
+      requestTime = requestTime.add(Duration(hours: hour, minutes: minutes));
+
+      // Calculate the time difference
+      Duration timeDifference = currentTime.difference(requestTime);
+      print("current time is $currentTime");
+
+      print("requestTime is $requestTime");
+      print("timeDifference is $timeDifference");
+
+      // Create a CustomRequest object if the time difference is within 30 minutes
+      return CustomRequest(
+        id: doc['id'],
+        userId: doc['userId'],
+        startLocation: doc['startLocation'],
+        destination: doc['destination'],
+        date: doc['date'],
+        time: doc['time'],
+        status: doc['status'],
+        remarks: doc['remarks'],
+      );
+    }).where((customRequest) {
+      // Filter out the elements with a time difference exceeding 30 minutes
+      DateTime requestTime = new DateFormat("dd-MM-yyyy").parse(customRequest.date);
+      DateTime customRequestTime = DateFormat.jm().parse(customRequest.time);
+      int hour = customRequestTime.hour;
+      int minutes = customRequestTime.minute;
+
+      requestTime = requestTime.add(Duration(hours: hour, minutes: minutes));
+
+      Duration timeDifference = currentTime.difference(requestTime);
+      print("1");
+      return timeDifference.inMinutes <= 60;
+    }).toList();
+
+    print("in firebase services" + customRequestList.toString());
+
+    return customRequestList;
+  }
+
+  Future<void> updateCustomCarpoolRequestStatus(String requestId) async {
+    var collection = FirebaseFirestore.instance.collection('CustomRequests');
+    collection.doc(requestId).update({'status': 'Accepted'}) // <-- Updated data
+        .then((_) {
+      print('Update request status success');
+    }).catchError((error) {
+      print('Failed: $error');
+    });
+  }
+
 }
 

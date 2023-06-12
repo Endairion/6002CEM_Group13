@@ -277,7 +277,7 @@ class _CreateCustomTripViewState extends State<CreateCustomTripView> {
                         Padding(
                           padding: const EdgeInsets.only(left: 8.0),
                           child: Text(
-                            'The request will auto expire in 30 minutes',
+                            'The request will auto expire in 60 minutes',
                             style: TextStyle(
                               fontSize: 14,
                               color: Colors.red,

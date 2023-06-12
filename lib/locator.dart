@@ -1,6 +1,7 @@
 import 'package:mobile_app_development_cw2/services/firebase_service.dart';
 import 'package:mobile_app_development_cw2/viewmodels/change_password_viewmodel.dart';
 import 'package:mobile_app_development_cw2/viewmodels/code_verification_viewmodel.dart';
+import 'package:mobile_app_development_cw2/viewmodels/custom_carpool_viewmodel.dart';
 import 'package:mobile_app_development_cw2/viewmodels/forgot_password_viewmodel.dart';
 import 'package:mobile_app_development_cw2/viewmodels/carpool_details_viewmodel.dart';
 import 'package:mobile_app_development_cw2/viewmodels/my_rewards_viewmodel.dart';
@@ -60,6 +61,7 @@ Future<void> setUpLocator() async{
   locator.registerFactory<ChangePasswordViewModel>(() => ChangePasswordViewModel());
   locator.registerFactory<NewPasswordViewModel>(() => NewPasswordViewModel());
   locator.registerFactory<CodeVerificationViewModel>(() => CodeVerificationViewModel());
+  locator.registerFactory<CustomCarpoolViewmodel>(() => CustomCarpoolViewmodel());
 }
 
 
