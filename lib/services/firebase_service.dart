@@ -1,7 +1,10 @@
 import 'dart:async';
+import 'dart:io';
 import 'dart:math';
 
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
+import 'package:mobile_app_development_cw2/models/driver_model.dart';
 import 'package:intl/intl.dart';
 import 'package:mobile_app_development_cw2/models/earn_point_model.dart';
 import 'package:mobile_app_development_cw2/models/carpool_request_model.dart';
@@ -17,11 +20,14 @@ import 'package:flutter/foundation.dart';
 import 'package:string_similarity/string_similarity.dart';
 import 'package:mobile_app_development_cw2/locator.dart';
 
+import 'package:path/path.dart' as path;
+
 class FirebaseService {
   final FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
   final FirebaseFirestore _firebaseFirestore = FirebaseFirestore.instance;
 
   User get currentUser => _firebaseAuth.currentUser!;
+
   String get userId => _firebaseAuth.currentUser!.uid;
 
   // Sign In with email and password
@@ -691,7 +697,7 @@ class FirebaseService {
     }
   }
 
-  Future<void> signOut() async{
+  Future<void> signOut() async {
     await _firebaseAuth.signOut();
   }
 
@@ -729,7 +735,7 @@ class FirebaseService {
     }
   }
 
-  Future<String> verifyCode(String code, String email) async{
+  Future<String> verifyCode(String code, String email) async {
     QuerySnapshot querySnapshot = await _firebaseFirestore
         .collection('Users')
         .where('email', isEqualTo: email)
@@ -754,13 +760,15 @@ class FirebaseService {
     }
   }
 
-  Future<void> updatePassword(String currentPassword, String newPassword) async {
+  Future<void> updatePassword(
+      String currentPassword, String newPassword) async {
     try {
       User? user = _firebaseAuth.currentUser;
 
       if (user != null) {
         // Prompt the user to reauthenticate before updating the password
-        AuthCredential credential = EmailAuthProvider.credential(email: user.email!, password: currentPassword);
+        AuthCredential credential = EmailAuthProvider.credential(
+            email: user.email!, password: currentPassword);
         await user.reauthenticateWithCredential(credential);
 
         // Update the password
@@ -774,9 +782,9 @@ class FirebaseService {
   }
 
   Future<void> sendResetEmail(String email) async {
-    try{
+    try {
       await _firebaseAuth.sendPasswordResetEmail(email: email);
-    } catch (e){
+    } catch (e) {
       throw '${e.toString()} Error Occurred!';
     }
   }
@@ -850,5 +858,78 @@ class FirebaseService {
     });
   }
 
+  Future<void> submitVerification(
+      String carBrand,
+      String carModel,
+      String licensePlate,
+      String carImageUrl,
+      String licensePlateImgUrl) async {
+    try {
+      String? userId = _firebaseAuth.currentUser?.uid;
+
+      if (userId != null) {
+        await _firebaseFirestore.collection('Driver').add({
+          'carBrand': carBrand,
+          'carModel': carModel,
+          'licensePlate': licensePlate,
+          'carImageUrl': carImageUrl,
+          'licensePlateImgUrl': licensePlateImgUrl,
+          'userid': userId,
+        });
+        print('Driver verification submitted successfully!');
+      } else {
+        print('User is not currently authenticated.');
+      }
+    } catch (e) {
+      print('${e.toString()} Error Occurred!');
+    }
+  }
+
+  Future<List<Driver>> getDriverInformation() async {
+    var userId = _firebaseAuth.currentUser?.uid;
+    QuerySnapshot querySnapshot = await _firebaseFirestore
+        .collection('Driver')
+        .where('userid', isEqualTo: userId)
+        .get();
+
+    List<Driver> driverList = querySnapshot.docs.map<Driver>((doc) {
+      return Driver(
+        carBrand: doc['carBrand'],
+        carModel: doc['carModel'],
+        licensePlate: doc['licensePlate'],
+        carImageUrl: doc['carImageUrl'],
+        licensePlateImgUrl: doc['licensePlateImgUrl'],
+        userId: doc['userid'],
+      );
+    }).toList();
+
+    return driverList;
+  }
+
+  Future<String> uploadImageToFirebaseStorage(
+      File file, String folderName) async {
+    try {
+      String fileName = DateTime.now().millisecondsSinceEpoch.toString();
+      Reference storageReference =
+      FirebaseStorage.instance.ref().child(folderName);
+      UploadTask uploadTask = storageReference.child(fileName).putFile(file);
+      TaskSnapshot taskSnapshot = await uploadTask.whenComplete(() {});
+      String downloadURL = await taskSnapshot.ref.getDownloadURL();
+      return downloadURL;
+    } catch (e) {
+      throw 'Error uploading image to Firebase Storage: $e';
+    }
+  }
+
+  Future<void> updateDriverStatus() async {
+    await _firebaseFirestore.collection('Users').doc(currentUser.uid).update(
+      {
+        'driver': "2",
+      },
+    );
+  }
+
 }
+
+
 

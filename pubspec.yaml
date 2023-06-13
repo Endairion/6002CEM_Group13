@@ -60,6 +60,7 @@ dependencies:
   location: ^4.4.0
   string_similarity: ^2.0.0
   dart_mailgun: ^1.0.3
+  firebase_storage: ^11.2.3
 
 flutter_native_splash:
   android: true
