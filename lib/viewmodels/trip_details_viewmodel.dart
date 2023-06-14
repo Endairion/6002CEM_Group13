@@ -30,15 +30,23 @@ class TripDetailsViewModel extends BaseViewModel {
   void onModelReady(String tripId) {
     // set tripId
     _tripId = tripId;
-    // get trip details
-    getTrip(tripId);
-    // get pickup location address list
-    getPickupLocationList();
-    // get passenger carpool request
-    getCarpoolRequestList();
+
+    //setup trip details page
+    setupTripDetails();
   }
 
   void onModelDestroy() {}
+
+  Future<void> setupTripDetails() async {
+    // get passenger carpool request
+    await getCarpoolRequestList();
+
+    // get trip details
+    await getTrip(_tripId);
+
+    // get pickup location address list
+    await getPickupLocationList();
+  }
 
   Future<void> getTrip(String tripId) async {
     // get trip details based on tripId
