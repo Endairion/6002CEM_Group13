@@ -830,7 +830,7 @@ class FirebaseService {
         remarks: doc['remarks'],
       );
     }).where((customRequest) {
-      // Filter out the elements with a time difference exceeding 30 minutes
+      // Filter out the elements with a time difference exceeding 60 minutes
       DateTime requestTime = new DateFormat("dd-MM-yyyy").parse(customRequest.date);
       DateTime customRequestTime = DateFormat.jm().parse(customRequest.time);
       int hour = customRequestTime.hour;
@@ -927,6 +927,12 @@ class FirebaseService {
         'driver': "2",
       },
     );
+  }
+
+  Future<void> saveToken(String token) async{
+    await FirebaseFirestore.instance.collection("UserTokens").doc(userId).set({
+      'token' : token,
+    });
   }
 
 }
