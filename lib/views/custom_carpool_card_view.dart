@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:mobile_app_development_cw2/models/custom_request_model.dart';
 import 'package:mobile_app_development_cw2/viewmodels/custom_carpool_viewmodel.dart';
 import 'package:mobile_app_development_cw2/views/base_view.dart';
+import 'package:mobile_app_development_cw2/views/navigation_menu_view.dart';
 
 class CustomCarpoolCardView extends StatefulWidget {
   CustomRequest customRequest;
@@ -186,10 +187,12 @@ class _CustomCarpoolCardViewState extends State<CustomCarpoolCardView> {
                       width: 125,
                       child: ElevatedButton(
                           onPressed: () {
-                            _model.acceptCustomRequest(widget.customRequest.id);
+                            _model.acceptCustomRequest(widget.customRequest);
+                            Navigator.of(context).push(MaterialPageRoute(
+                                builder: (context) => NavigationMenu()));
                           },
                           style: ElevatedButton.styleFrom(
-                            backgroundColor:  Colors.lightGreen,
+                            backgroundColor: Colors.lightGreen,
                           ),
                           child: Row(
                             children: [
