@@ -178,7 +178,7 @@ class CreateCustomTripViewmodel extends BaseViewModel {
       context: context,
       builder: (context) => AlertDialog(
         title: Text('Succesfully Created Request'),
-        content: Text("Check it out in Activity tab"),
+        content: Text("Start finding driver for you"),
         actions: [
           TextButton(
             onPressed: () {
