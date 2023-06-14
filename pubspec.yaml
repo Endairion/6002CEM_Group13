@@ -64,6 +64,8 @@ dependencies:
   flutter_local_notifications: ^14.1.1
   firebase_messaging: ^14.6.3
   onesignal_flutter: ^3.5.1
+  google_sign_in: ^5.2.1
+  url_launcher: ^6.1.11
 
 flutter_native_splash:
   android: true

@@ -16,6 +16,7 @@ class _RequestCarpoolViewState extends State<RequestCarpoolView> {
   late final BuildContext _context;
   final _focus = FocusNode();
 
+
   @override
   Widget build(BuildContext context) {
     return BaseView<RequestCarpoolViewmodel>(
@@ -272,7 +273,9 @@ class _RequestCarpoolViewState extends State<RequestCarpoolView> {
                                                               10)),
                                                   backgroundColor:
                                                       Colors.limeAccent[700]),
-                                              onPressed: () {},
+                                              onPressed: () {
+                                                _model.makePhoneCall(_model.contact);
+                                              },
                                               icon: Icon(Icons.call),
                                               label: Text(
                                                 'Contact',
