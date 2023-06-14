@@ -78,13 +78,18 @@ class SearchAvailableTripsViewModel extends BaseViewModel {
     print("Current input is " + startLocationController.text);
     _tripIdList = await _firebaseService.compareAvailableTripsLocation(startLocationController.text, destinationController.text);
     print("List content : " + _tripIdList.toString());
-    _availableTripsList = await _firebaseService.retrieveTripListsbyId(_tripIdList);
-    print(_availableTripsList.toList());
-    if (_availableTripsList.length * _singleListViewHeight > 400) {
-      _listViewHeight = _availableTripsList.length * _singleListViewHeight;
+    if (_tripIdList.isNotEmpty) {
+      _availableTripsList =
+      await _firebaseService.retrieveTripListsbyId(_tripIdList);
+      print(_availableTripsList.toList());
+      if (_availableTripsList.length * _singleListViewHeight > 400) {
+        _listViewHeight = _availableTripsList.length * _singleListViewHeight;
+      }
+      getAvailableTripListSizedBox();
+      notifyListeners();
+    }else{
+      notifyListeners();
     }
-    getAvailableTripListSizedBox();
-    notifyListeners();
   }
 
 
