@@ -929,6 +929,41 @@ class FirebaseService {
     );
   }
 
+  Future<void> updateProfileImageUrl(String url) async {
+    try {
+      final userRef = _firebaseFirestore.collection('Users').doc(currentUser.uid);
+      final userDoc = await userRef.get();
+
+      if (userDoc.exists) {
+        // Update the 'url' field if it exists
+        if (userDoc.data()!.containsKey('url')) {
+          await userRef.update({'url': url});
+        } else {
+          // Create a new 'url' field if it doesn't exist
+          await userRef.set({'url': url}, SetOptions(merge: true));
+        }
+      } else {
+        throw 'User document not found!';
+      }
+    } catch (e) {
+      throw 'Failed to update profile image URL: $e';
+    }
+  }
+
+  Future<void> deleteImageFromFirebaseStorage(String url) async {
+    try {
+      // Create a Firebase Storage reference from the URL
+      Reference storageRef = FirebaseStorage.instance.refFromURL(url);
+
+      // Delete the file from Firebase Storage
+      await storageRef.delete();
+      print('Image deleted successfully');
+    } catch (e) {
+      print('Error deleting image from Firebase Storage: $e');
+      // Handle the error accordingly
+    }
+  }
+
 }
 
 
