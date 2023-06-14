@@ -34,6 +34,7 @@ class LoginViewModel extends BaseViewModel {
   }
 
   void onModelReady() {
+
     _emailController = TextEditingController(text: "");
     _passwordController = TextEditingController(text: "");
   }
@@ -50,5 +51,9 @@ class LoginViewModel extends BaseViewModel {
     );
 
     return res != null;
+  }
+
+  Future<bool> checkLoggedIn(BuildContext context) async {
+    return await _firebaseService.isLoggedIn();
   }
 }

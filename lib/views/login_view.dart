@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:mobile_app_development_cw2/utils/theme_helper.dart';
 import 'package:mobile_app_development_cw2/views/forgot_password_view.dart';
 import 'package:mobile_app_development_cw2/views/navigation_menu_view.dart';
 import 'package:mobile_app_development_cw2/viewmodels/login_viewmodel.dart';
@@ -17,6 +18,23 @@ class _LoginViewState extends State<LoginView> {
 
   late final LoginViewModel _model;
 
+  @override
+  void initState() {
+    super.initState();
+    _model = LoginViewModel();
+    _model.onModelReady();
+    _model.checkLoggedIn(context).then((loggedIn) {
+      if (loggedIn) {
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(
+            builder: (context) => NavigationMenu(),
+          ),
+        );
+      }
+    });
+  }
+
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
@@ -24,7 +42,6 @@ class _LoginViewState extends State<LoginView> {
 
     return BaseView<LoginViewModel>(
       onModelReady: (model) {
-        _model = model;
         model.onModelReady();
       },
       builder: (context, model, child) => Scaffold(
@@ -88,19 +105,7 @@ class _LoginViewState extends State<LoginView> {
                         validator: _model.emailValidator,
                         keyboardType: TextInputType.emailAddress,
                         cursorColor: Colors.lightGreen,
-                        decoration: InputDecoration(
-                          prefixIcon: Icon(Icons.email),
-                          contentPadding: EdgeInsets.symmetric(vertical: 0),
-                          filled: true,
-                          fillColor: Colors.white,
-                          border: OutlineInputBorder(),
-                          labelText: 'Email',
-                          hintText: 'Email',
-                          enabledBorder: OutlineInputBorder(
-                            borderSide: BorderSide(width: 1, color: Colors.grey),
-                            borderRadius: BorderRadius.circular(10),
-                          ),
-                        ),
+                        decoration: ThemeHelper().loginInput("Email","Email",Icons.email),
                       ),
                       SizedBox(
                         height: 10,
@@ -111,19 +116,7 @@ class _LoginViewState extends State<LoginView> {
                         keyboardType: TextInputType.visiblePassword,
                         obscureText: true,
                         cursorColor: Colors.lightGreen,
-                        decoration: InputDecoration(
-                          prefixIcon: Icon(Icons.lock),
-                          contentPadding: EdgeInsets.symmetric(vertical: 0),
-                          filled: true,
-                          fillColor: Colors.white,
-                          border: OutlineInputBorder(),
-                          labelText: 'Password',
-                          hintText: 'Password',
-                          enabledBorder: OutlineInputBorder(
-                            borderSide: BorderSide(width: 1, color: Colors.grey),
-                            borderRadius: BorderRadius.circular(10),
-                          ),
-                        ),
+                        decoration: ThemeHelper().loginInput("Password","Password",Icons.lock),
                       ),
                       Container(
                         alignment: Alignment.centerRight,

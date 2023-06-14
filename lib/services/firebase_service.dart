@@ -17,6 +17,7 @@ import 'package:mobile_app_development_cw2/utils/error_codes.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/foundation.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:string_similarity/string_similarity.dart';
 import 'package:mobile_app_development_cw2/locator.dart';
 
@@ -29,18 +30,25 @@ class FirebaseService {
   User get currentUser => _firebaseAuth.currentUser!;
 
   String get userId => _firebaseAuth.currentUser!.uid;
+  static const String _userLoggedInKey = 'userLoggedIn';
 
   // Sign In with email and password
   Future<UserCredential?> signIn(String email, String password) async {
     try {
-      return await _firebaseAuth.signInWithEmailAndPassword(
+      UserCredential userCredential = await _firebaseAuth.signInWithEmailAndPassword(
         email: email,
         password: password,
       );
+
+      if (userCredential.user != null) {
+        await saveLoggedIn(true);
+      }
+
+      return userCredential;
     } on FirebaseAuthException catch (e) {
-      throw signInErrorCodes[e.code] ?? 'Database Error Occured!';
+      throw signInErrorCodes[e.code] ?? 'Database Error Occurred!';
     } catch (e) {
-      throw '${e.toString()} Error Occured!';
+      throw '${e.toString()} Error Occurred!';
     }
   }
 
@@ -240,6 +248,7 @@ class FirebaseService {
             ic_no: data['ic_no'],
             points: data['points'],
             url: data['url'],
+            driver: data['driver'],
         );
         return user;
       } else {
@@ -722,6 +731,7 @@ class FirebaseService {
 
   Future<void> signOut() async {
     await _firebaseAuth.signOut();
+    await saveLoggedIn(false);
   }
 
   Future<String> getResetCode(String email) async {
@@ -991,6 +1001,17 @@ class FirebaseService {
       print('Error deleting image from Firebase Storage: $e');
       // Handle the error accordingly
     }
+  }
+
+  Future<bool> isLoggedIn() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    bool userLoggedIn = prefs.getBool(_userLoggedInKey) ?? false;
+    return userLoggedIn;
+  }
+
+  Future<void> saveLoggedIn(bool loggedIn) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    await prefs.setBool(_userLoggedInKey, loggedIn);
   }
 
 }
