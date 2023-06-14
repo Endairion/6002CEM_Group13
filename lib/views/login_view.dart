@@ -146,13 +146,16 @@ class _LoginViewState extends State<LoginView> {
                         ),
                         onPressed: () => _formKey.currentState!.validate()
                             ? _model.login().then((value) {
-                          if (!value) return;
-                          Navigator.pushReplacement(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => NavigationMenu(),
-                            ),
-                          );
+                          if (value.contains("Login Successfully")) {
+                            Navigator.pushReplacement(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => NavigationMenu(),
+                              ),
+                            );
+                          }else{
+                            _model.showErrorDialog(context, value);
+                          }
                         })
                             : null,
                         child: Text('Login'),
