@@ -240,6 +240,7 @@ class FirebaseService {
             ic_no: data['ic_no'],
             points: data['points'],
             url: data['url'],
+            driver: data['driver'],
         );
         return user;
       } else {

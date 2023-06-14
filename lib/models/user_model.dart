@@ -5,6 +5,7 @@ class Users {
   final String dob;
   final String ic_no;
   final int points;
+  final String driver;
   final String url;
 
   Users(
@@ -14,5 +15,6 @@ class Users {
       required this.dob,
       required this.ic_no,
       required this.points,
+      required this.driver,
       required this.url});
 }

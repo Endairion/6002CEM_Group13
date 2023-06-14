@@ -12,6 +12,7 @@ import 'package:mobile_app_development_cw2/viewmodels/base_viewmodel.dart';
 
 class HomepageViewModel extends BaseViewModel {
   String _name = "";
+  String _driver ="";
   int _points = 0;
   List<CustomRequest> _customRequestList = [];
 
@@ -34,6 +35,7 @@ class HomepageViewModel extends BaseViewModel {
     Users user = await _firebaseService.getUserData(_firebaseService.userId);
     _name = user.name;
     _points = user.points;
+    _driver = user.driver;
     notifyListeners();
   }
 
@@ -44,6 +46,8 @@ class HomepageViewModel extends BaseViewModel {
   }
 
   int get points => _points;
+
+  String get driver => _driver;
 
   List<CustomRequest> get customRequestList => _customRequestList;
 

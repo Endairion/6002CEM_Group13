@@ -20,6 +20,26 @@ class _HomepageState extends State<Homepage> {
   late final HomepageViewModel _model;
   late final BuildContext _context;
 
+  void showProfileStatusDialog(BuildContext context, String message) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text("Profile Status"),
+          content: Text(message),
+          actions: <Widget>[
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+              child: Text("OK"),
+            ),
+          ],
+        );
+      },
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return BaseView<HomepageViewModel>(
@@ -117,26 +137,26 @@ class _HomepageState extends State<Homepage> {
                                     width: 50,
                                     child: _model.customRequestList.isEmpty
                                         ? Icon(
-                                      Icons.notifications_outlined,
-                                      //notifications_active_outlined
-                                      size: 40,
-                                      color: Colors.green[900],
-                                    )
+                                            Icons.notifications_outlined,
+                                            //notifications_active_outlined
+                                            size: 40,
+                                            color: Colors.green[900],
+                                          )
                                         : IconButton(
-                                      onPressed: () {
-                                        Navigator.push(
-                                          context,
-                                          MaterialPageRoute(
-                                              builder: (context) =>
-                                                  CustomCarpoolView()),
-                                        );
-                                      },
-                                      icon: Icon(
-                                        Icons
-                                            .notifications_active_outlined,
-                                        size: 40,
-                                      ),
-                                    ),
+                                            onPressed: () {
+                                              Navigator.push(
+                                                context,
+                                                MaterialPageRoute(
+                                                    builder: (context) =>
+                                                        CustomCarpoolView()),
+                                              );
+                                            },
+                                            icon: Icon(
+                                              Icons
+                                                  .notifications_active_outlined,
+                                              size: 40,
+                                            ),
+                                          ),
                                   ),
                                 ),
                               ],
@@ -166,11 +186,17 @@ class _HomepageState extends State<Homepage> {
                           ),
                           ElevatedButton(
                             onPressed: () {
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) => PlanTripView()),
-                              );
+                              _model.driver != '1'
+                                  ? _model.driver == '0'
+                                      ? showProfileStatusDialog(context,
+                                          "You have not registered a driver profile yet!")
+                                      : showProfileStatusDialog(context,
+                                          "Your driver profile is still in the approval process.")
+                                  : Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) => PlanTripView()),
+                                    );
                             },
                             style: ElevatedButton.styleFrom(
                                 padding: EdgeInsets.zero,
