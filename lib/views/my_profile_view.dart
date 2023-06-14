@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:mobile_app_development_cw2/DriverVerification.dart';
+import 'package:mobile_app_development_cw2/views/driver_verification_view.dart';
 import 'package:mobile_app_development_cw2/viewmodels/my_profile_viewmodel.dart';
 import 'package:mobile_app_development_cw2/views/base_view.dart';
 
@@ -132,7 +132,7 @@ class MyProfile extends StatelessWidget {
                   ),
                   const SizedBox(height: 16),
                   Visibility(
-                    visible: false,
+                    visible: model.driver == "1" ? true : false,
                     child: Container(
                       padding: const EdgeInsets.all(16.0),
                       decoration: BoxDecoration(
@@ -160,7 +160,7 @@ class MyProfile extends StatelessWidget {
                                   style: TextStyle(fontWeight: FontWeight.bold),
                                 ),
                                 Text(
-                                  'John Doe',
+                                  model.licensePlate,
                                   style: TextStyle(color: Colors.grey[600]),
                                 ),
                               ],
@@ -174,7 +174,7 @@ class MyProfile extends StatelessWidget {
                                   style: TextStyle(fontWeight: FontWeight.bold),
                                 ),
                                 Text(
-                                  'johndoe@example.com',
+                                  model.carModel,
                                   style: TextStyle(color: Colors.grey[600]),
                                 ),
                               ],
@@ -188,7 +188,7 @@ class MyProfile extends StatelessWidget {
                                   style: TextStyle(fontWeight: FontWeight.bold),
                                 ),
                                 Text(
-                                  'January 1, 2000',
+                                  model.carBrand,
                                   style: TextStyle(color: Colors.grey[600]),
                                 ),
                               ],
@@ -199,7 +199,7 @@ class MyProfile extends StatelessWidget {
                     ),
                   ),
                   Visibility(
-                    visible: true,
+                    visible: model.driver == "0" ? true : false,
                     child: SizedBox(
                       width: double.infinity,
                       child: Container(
@@ -249,6 +249,48 @@ class MyProfile extends StatelessWidget {
                                   ),
                                 ),
                                 child: const Text('Register Now'),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                  Visibility(
+                    visible: model.driver == "2" ? true : false,
+                    child: SizedBox(
+                      width: double.infinity,
+                      child: Container(
+                        padding: const EdgeInsets.all(16.0),
+                        decoration: BoxDecoration(
+                          color: Colors.white,
+                          borderRadius: BorderRadius.circular(16.0),
+                          boxShadow: [
+                            BoxShadow(
+                              color: Colors.grey.withOpacity(0.3),
+                              blurRadius: 5,
+                              spreadRadius: 2,
+                              offset: const Offset(0, 3),
+                            ),
+                          ],
+                        ),
+                        child: Padding(
+                          padding: const EdgeInsets.all(16.0),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: const [
+                              Icon(
+                                Icons.gpp_bad,
+                                size: 50,
+                              ),
+                              SizedBox(height: 16.0),
+                              Text(
+                                'Your driver profile approval is still in process....',
+                                style: TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 16.0,
+                                ),
+                                textAlign: TextAlign.center,
                               ),
                             ],
                           ),

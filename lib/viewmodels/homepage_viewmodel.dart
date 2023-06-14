@@ -7,36 +7,35 @@ import 'package:mobile_app_development_cw2/models/trip_model.dart';
 import 'package:mobile_app_development_cw2/models/user_model.dart';
 import 'package:mobile_app_development_cw2/services/firebase_service.dart';
 import 'package:mobile_app_development_cw2/utils/validators.dart';
+import 'package:onesignal_flutter/onesignal_flutter.dart';
 import 'package:mobile_app_development_cw2/viewmodels/base_viewmodel.dart';
 
 class HomepageViewModel extends BaseViewModel {
   String _name = "";
+  String _driver ="";
   int _points = 0;
-
   List<CustomRequest> _customRequestList = [];
 
   // Services
   final FirebaseService _firebaseService = locator<FirebaseService>();
 
   void onModelReady() {
-    // get current user
+    OneSignal.shared.setAppId('a6320cd1-6a71-4fbd-a95b-29002704f34b');
+    OneSignal.shared.promptUserForPushNotificationPermission().then((accepted) {
+      print("Accepted permission: $accepted");
+    });
     getUser();
     getCustomCarpoolRequest();
     print(_customRequestList.toList());
   }
 
-  void onModelDestroy() {
-    _customRequestList.clear();
-  }
+  void onModelDestroy() {}
 
   Future<void> getUser() async {
-    // get current user
     Users user = await _firebaseService.getUserData(_firebaseService.userId);
-
-    // set user details text
     _name = user.name;
     _points = user.points;
-
+    _driver = user.driver;
     notifyListeners();
   }
 
@@ -46,16 +45,17 @@ class HomepageViewModel extends BaseViewModel {
     notifyListeners();
   }
 
-  // getters
   int get points => _points;
-  String get name => _name;
+
+  String get driver => _driver;
 
   List<CustomRequest> get customRequestList => _customRequestList;
 
-  // setters
   set points(int value) {
     _points = value;
   }
+
+  String get name => _name;
 
   set name(String value) {
     _name = value;

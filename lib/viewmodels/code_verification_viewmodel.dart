@@ -18,8 +18,6 @@ class CodeVerificationViewModel extends BaseViewModel{
   }
 
   Future<String> verifyCode(String email) async {
-    var code = _codeController.text.trim();
-
-    return await _firebaseService.verifyCode(code, email);
+    return await _firebaseService.verifyCode(codeController.text.trim(), email);
   }
 }

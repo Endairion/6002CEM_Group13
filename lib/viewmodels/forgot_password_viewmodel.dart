@@ -21,7 +21,6 @@ class ForgotPasswordViewModel extends BaseViewModel {
 
   Future<String> sendResetCodeEmail() async {
     var email = _emailController.text.trim();
-    var code;
     try {
       await _firebaseService.sendResetEmail(email);
 

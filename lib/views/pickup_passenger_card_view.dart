@@ -38,11 +38,9 @@ class _PickupPassengerCardViewState extends State<PickupPassengerCardView> {
                     CircleAvatar(
                       radius: 30,
                       backgroundColor: Colors.white,
-                      child: Padding(
-                        padding: const EdgeInsets.all(4), // Border radius
-                        child:
-                            ClipOval(child: Image.asset('assets/app_logo.png')),
-                      ),
+                      backgroundImage: widget.user.url.isNotEmpty
+                          ? Image.network(widget.user.url).image
+                          : Image.asset('assets/app_logo.png').image,
                     ),
                     SizedBox(
                       width: 8,

@@ -250,16 +250,12 @@ class _CarpoolDetailsState extends State<CarpoolDetails> {
                           Row(
                             children: [
                               CircleAvatar(
-                                radius: 25,
-                                backgroundColor: Colors.white,
-                                child: Padding(
-                                  padding:
-                                      const EdgeInsets.all(4), // Border radius
-                                  child: ClipOval(
-                                      child:
-                                          Image.asset('assets/app_logo.png')),
-                                ),
-                              ),
+                                  radius: 25,
+                                  backgroundColor: Colors.white,
+                                  backgroundImage: _model.imageUrl.isNotEmpty
+                                      ? Image.network(_model.imageUrl).image
+                                      : Image.asset('assets/app_logo.png')
+                                          .image),
                               SizedBox(
                                 width: 8,
                               ),
@@ -277,7 +273,9 @@ class _CarpoolDetailsState extends State<CarpoolDetails> {
                               Container(
                                 width: 123,
                                 child: ElevatedButton(
-                                    onPressed: () {},
+                                    onPressed: () {
+                                      _model.makePhoneCall(_model.contact);
+                                    },
                                     style: ElevatedButton.styleFrom(
                                       backgroundColor: Colors.lightGreen,
                                     ),
@@ -313,7 +311,7 @@ class _CarpoolDetailsState extends State<CarpoolDetails> {
                           SizedBox(
                             width: 350,
                             child: Text(
-                              "Car Model: Proton Saga (Red)",
+                              "Car Model: " + _model.carModel,
                               overflow: TextOverflow.clip,
                               style: TextStyle(
                                   fontSize: 14,
@@ -327,7 +325,7 @@ class _CarpoolDetailsState extends State<CarpoolDetails> {
                           SizedBox(
                             width: 350,
                             child: Text(
-                              "Number Plate: PLM 8423",
+                              "Number Plate: "+ _model.licensePlate,
                               overflow: TextOverflow.clip,
                               style: TextStyle(
                                   fontSize: 14,

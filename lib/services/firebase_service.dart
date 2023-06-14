@@ -1,7 +1,10 @@
 import 'dart:async';
+import 'dart:io';
 import 'dart:math';
 
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
+import 'package:mobile_app_development_cw2/models/driver_model.dart';
 import 'package:intl/intl.dart';
 import 'package:mobile_app_development_cw2/models/earn_point_model.dart';
 import 'package:mobile_app_development_cw2/models/carpool_request_model.dart';
@@ -14,27 +17,38 @@ import 'package:mobile_app_development_cw2/utils/error_codes.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/foundation.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:string_similarity/string_similarity.dart';
 import 'package:mobile_app_development_cw2/locator.dart';
+
+import 'package:path/path.dart' as path;
 
 class FirebaseService {
   final FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
   final FirebaseFirestore _firebaseFirestore = FirebaseFirestore.instance;
 
   User get currentUser => _firebaseAuth.currentUser!;
+
   String get userId => _firebaseAuth.currentUser!.uid;
+  static const String _userLoggedInKey = 'userLoggedIn';
 
   // Sign In with email and password
   Future<UserCredential?> signIn(String email, String password) async {
     try {
-      return await _firebaseAuth.signInWithEmailAndPassword(
+      UserCredential userCredential = await _firebaseAuth.signInWithEmailAndPassword(
         email: email,
         password: password,
       );
+
+      if (userCredential.user != null) {
+        await saveLoggedIn(true);
+      }
+
+      return userCredential;
     } on FirebaseAuthException catch (e) {
-      throw signInErrorCodes[e.code] ?? 'Database Error Occured!';
+      throw signInErrorCodes[e.code] ?? 'Database Error Occurred!';
     } catch (e) {
-      throw '${e.toString()} Error Occured!';
+      throw '${e.toString()} Error Occurred!';
     }
   }
 
@@ -58,6 +72,7 @@ class FirebaseService {
             'contact': contactNo,
             'points': 0,
             'driver': '0',
+            'url': ' ',
           })
           .then((value) => debugPrint('User Created : ${_user.user!.email}'))
           .catchError((e) => debugPrint('Database Error!'));
@@ -231,7 +246,10 @@ class FirebaseService {
             contact: data['contact'],
             dob: data['dob'],
             ic_no: data['ic_no'],
-            points: data['points']);
+            points: data['points'],
+            url: data['url'],
+            driver: data['driver'],
+        );
         return user;
       } else {
         throw Exception('Document does not exist');
@@ -239,6 +257,26 @@ class FirebaseService {
     } catch (e) {
       throw Exception('Failed to retrieve trip: $e');
     }
+  }
+
+  Future<Driver> getDriverData(String userId) async{
+    QuerySnapshot querySnapshot = await _firebaseFirestore
+        .collection('Driver')
+        .where('userid', isEqualTo: userId)
+        .get();
+
+    List<Driver> driverList = querySnapshot.docs.map<Driver>((doc) {
+      return Driver(
+        carBrand: doc['carBrand'],
+        carModel: doc['carModel'],
+        licensePlate: doc['licensePlate'],
+        carImageUrl: doc['carImageUrl'],
+        licensePlateImgUrl: doc['licensePlateImgUrl'],
+        userId: doc['userid'],
+      );
+    }).toList();
+
+    return driverList[0];
   }
 
   Future<List<Trip>> getAvailableTripList() async {
@@ -718,8 +756,9 @@ class FirebaseService {
     }
   }
 
-  Future<void> signOut() async{
+  Future<void> signOut() async {
     await _firebaseAuth.signOut();
+    await saveLoggedIn(false);
   }
 
   Future<String> getResetCode(String email) async {
@@ -756,7 +795,7 @@ class FirebaseService {
     }
   }
 
-  Future<String> verifyCode(String code, String email) async{
+  Future<String> verifyCode(String code, String email) async {
     QuerySnapshot querySnapshot = await _firebaseFirestore
         .collection('Users')
         .where('email', isEqualTo: email)
@@ -781,13 +820,15 @@ class FirebaseService {
     }
   }
 
-  Future<void> updatePassword(String currentPassword, String newPassword) async {
+  Future<void> updatePassword(
+      String currentPassword, String newPassword) async {
     try {
       User? user = _firebaseAuth.currentUser;
 
       if (user != null) {
         // Prompt the user to reauthenticate before updating the password
-        AuthCredential credential = EmailAuthProvider.credential(email: user.email!, password: currentPassword);
+        AuthCredential credential = EmailAuthProvider.credential(
+            email: user.email!, password: currentPassword);
         await user.reauthenticateWithCredential(credential);
 
         // Update the password
@@ -801,9 +842,9 @@ class FirebaseService {
   }
 
   Future<void> sendResetEmail(String email) async {
-    try{
+    try {
       await _firebaseAuth.sendPasswordResetEmail(email: email);
-    } catch (e){
+    } catch (e) {
       throw '${e.toString()} Error Occurred!';
     }
   }
@@ -849,7 +890,7 @@ class FirebaseService {
         remarks: doc['remarks'],
       );
     }).where((customRequest) {
-      // Filter out the elements with a time difference exceeding 30 minutes
+      // Filter out the elements with a time difference exceeding 60 minutes
       DateTime requestTime = new DateFormat("dd-MM-yyyy").parse(customRequest.date);
       DateTime customRequestTime = DateFormat.jm().parse(customRequest.time);
       int hour = customRequestTime.hour;
@@ -877,5 +918,130 @@ class FirebaseService {
     });
   }
 
+  Future<void> submitVerification(
+      String carBrand,
+      String carModel,
+      String licensePlate,
+      String carImageUrl,
+      String licensePlateImgUrl) async {
+    try {
+      String? userId = _firebaseAuth.currentUser?.uid;
+
+      if (userId != null) {
+        await _firebaseFirestore.collection('Driver').add({
+          'carBrand': carBrand,
+          'carModel': carModel,
+          'licensePlate': licensePlate,
+          'carImageUrl': carImageUrl,
+          'licensePlateImgUrl': licensePlateImgUrl,
+          'userid': userId,
+        });
+        print('Driver verification submitted successfully!');
+      } else {
+        print('User is not currently authenticated.');
+      }
+    } catch (e) {
+      print('${e.toString()} Error Occurred!');
+    }
+  }
+
+  Future<Driver> getDriverInformation() async {
+    var userId = _firebaseAuth.currentUser?.uid;
+    QuerySnapshot querySnapshot = await _firebaseFirestore
+        .collection('Driver')
+        .where('userid', isEqualTo: userId)
+        .get();
+
+    List<Driver> driverList = querySnapshot.docs.map<Driver>((doc) {
+      return Driver(
+        carBrand: doc['carBrand'],
+        carModel: doc['carModel'],
+        licensePlate: doc['licensePlate'],
+        carImageUrl: doc['carImageUrl'],
+        licensePlateImgUrl: doc['licensePlateImgUrl'],
+        userId: doc['userid'],
+      );
+    }).toList();
+
+    return driverList[0];
+  }
+
+  Future<String> uploadImageToFirebaseStorage(
+      File file, String folderName) async {
+    try {
+      String fileName = DateTime.now().millisecondsSinceEpoch.toString();
+      Reference storageReference =
+      FirebaseStorage.instance.ref().child(folderName);
+      UploadTask uploadTask = storageReference.child(fileName).putFile(file);
+      TaskSnapshot taskSnapshot = await uploadTask.whenComplete(() {});
+      String downloadURL = await taskSnapshot.ref.getDownloadURL();
+      return downloadURL;
+    } catch (e) {
+      throw 'Error uploading image to Firebase Storage: $e';
+    }
+  }
+
+  Future<void> updateDriverStatus() async {
+    await _firebaseFirestore.collection('Users').doc(currentUser.uid).update(
+      {
+        'driver': "2",
+      },
+    );
+  }
+
+  Future<void> saveToken(String token) async{
+    await FirebaseFirestore.instance.collection("UserTokens").doc(userId).set({
+      'token' : token,
+    });
+  }
+
+  Future<void> updateProfileImageUrl(String url) async {
+    try {
+      final userRef = _firebaseFirestore.collection('Users').doc(currentUser.uid);
+      final userDoc = await userRef.get();
+
+      if (userDoc.exists) {
+        // Update the 'url' field if it exists
+        if (userDoc.data()!.containsKey('url')) {
+          await userRef.update({'url': url});
+        } else {
+          // Create a new 'url' field if it doesn't exist
+          await userRef.set({'url': url}, SetOptions(merge: true));
+        }
+      } else {
+        throw 'User document not found!';
+      }
+    } catch (e) {
+      throw 'Failed to update profile image URL: $e';
+    }
+  }
+
+  Future<void> deleteImageFromFirebaseStorage(String url) async {
+    try {
+      // Create a Firebase Storage reference from the URL
+      Reference storageRef = FirebaseStorage.instance.refFromURL(url);
+
+      // Delete the file from Firebase Storage
+      await storageRef.delete();
+      print('Image deleted successfully');
+    } catch (e) {
+      print('Error deleting image from Firebase Storage: $e');
+      // Handle the error accordingly
+    }
+  }
+
+  Future<bool> isLoggedIn() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    bool userLoggedIn = prefs.getBool(_userLoggedInKey) ?? false;
+    return userLoggedIn;
+  }
+
+  Future<void> saveLoggedIn(bool loggedIn) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    await prefs.setBool(_userLoggedInKey, loggedIn);
+  }
+
 }
+
+
 
