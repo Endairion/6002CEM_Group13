@@ -94,7 +94,7 @@ class ActivityPageViewModel extends BaseViewModel {
 
   Future<void> updateAllTripStatus() async {
     // get all trip list with status Ongoing
-    List<Trip> _tripList = await _firebaseService.getAvailableTripList();
+    List<Trip> _tripList = await _firebaseService.getAllTripList();
 
     for (var i = 0; i < _tripList.length; i++) {
       // get the trip date

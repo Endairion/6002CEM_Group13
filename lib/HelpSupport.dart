@@ -113,6 +113,7 @@ class HelpSupport extends StatelessWidget {
               fontSize: 16,
             ),
           ),
+          const SizedBox(height: 24),
           Image.asset(
             'assets/prof_team2.jpg',
             width: 500,
