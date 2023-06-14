@@ -164,12 +164,18 @@ class _RewardsViewState extends State<RewardsView>
                                 }),
 
                         // My Rewards Tab
-                        ListView.builder(
-                            itemCount: _model.myRewardsList.length,
-                            itemBuilder: (BuildContext context, int index) {
-                              var myRewards = _model.myRewardsList[index];
-                              return MyRewardsCardView(rewardsRedemption: myRewards,);
-                            })
+                        _model.myRewardsList.isEmpty
+                            ? Center(
+                                child: Text("You haven't redeem a reward"),
+                              )
+                            : ListView.builder(
+                                itemCount: _model.myRewardsList.length,
+                                itemBuilder: (BuildContext context, int index) {
+                                  var myRewards = _model.myRewardsList[index];
+                                  return MyRewardsCardView(
+                                    rewardsRedemption: myRewards,
+                                  );
+                                })
                       ],
                     ),
                   ),
