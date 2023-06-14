@@ -18,6 +18,23 @@ class _LoginViewState extends State<LoginView> {
 
   late final LoginViewModel _model;
 
+  @override
+  void initState() {
+    super.initState();
+    _model = LoginViewModel();
+    _model.onModelReady();
+    _model.checkLoggedIn(context).then((loggedIn) {
+      if (loggedIn) {
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(
+            builder: (context) => NavigationMenu(),
+          ),
+        );
+      }
+    });
+  }
+
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
@@ -25,7 +42,6 @@ class _LoginViewState extends State<LoginView> {
 
     return BaseView<LoginViewModel>(
       onModelReady: (model) {
-        _model = model;
         model.onModelReady();
       },
       builder: (context, model, child) => Scaffold(
