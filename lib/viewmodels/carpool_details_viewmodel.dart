@@ -5,6 +5,7 @@ import 'package:mobile_app_development_cw2/models/trip_model.dart';
 import 'package:mobile_app_development_cw2/models/user_model.dart';
 import 'package:mobile_app_development_cw2/services/firebase_service.dart';
 import 'package:mobile_app_development_cw2/viewmodels/base_viewmodel.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class CarpoolDetailsViewModel extends BaseViewModel {
   String _date = "";
@@ -17,6 +18,7 @@ class CarpoolDetailsViewModel extends BaseViewModel {
   String _imageUrl = "";
   String _carModel = "";
   String _licensePlate = "";
+  String _contact = "";
 
   // Services
   final FirebaseService _firebaseService = locator<FirebaseService>();
@@ -52,6 +54,7 @@ class CarpoolDetailsViewModel extends BaseViewModel {
     // set driver details text
     _driverName = user.name;
     _imageUrl = user.url;
+    _contact = user.contact;
     Driver driver = await _firebaseService.getDriverData(request.driverId);
     _carModel = "${driver.carBrand} ${driver.carModel}";
     _licensePlate = driver.licensePlate;
@@ -72,6 +75,7 @@ class CarpoolDetailsViewModel extends BaseViewModel {
   String get imageUrl => _imageUrl;
   String get carModel => _carModel;
   String get licensePlate => _licensePlate;
+  String get contact => _contact;
   // setters
   set destination(String value) {
     _destination = value;
@@ -105,5 +109,16 @@ class CarpoolDetailsViewModel extends BaseViewModel {
     _imageUrl = value;
   }
 
+  void makePhoneCall(String phoneNumber) async {
+    final Uri phoneLaunchUri = Uri(
+      scheme: 'tel',
+      path: phoneNumber,
+    );
 
+    if (await canLaunchUrl(phoneLaunchUri)) {
+      await launchUrl(phoneLaunchUri);
+    } else {
+      throw 'Could not launch phone dialer';
+    }
+  }
 }

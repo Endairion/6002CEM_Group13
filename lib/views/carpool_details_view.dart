@@ -273,7 +273,9 @@ class _CarpoolDetailsState extends State<CarpoolDetails> {
                               Container(
                                 width: 123,
                                 child: ElevatedButton(
-                                    onPressed: () {},
+                                    onPressed: () {
+                                      _model.makePhoneCall(_model.contact);
+                                    },
                                     style: ElevatedButton.styleFrom(
                                       backgroundColor: Colors.lightGreen,
                                     ),
