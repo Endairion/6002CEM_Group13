@@ -83,7 +83,6 @@ class _DriverVerificationState extends State<DriverVerification> {
             ),
           );
         });
-
     // Assume the file is successfully uploaded
   }
 

@@ -1,5 +1,6 @@
 import 'package:mobile_app_development_cw2/locator.dart';
 import 'package:mobile_app_development_cw2/models/carpool_request_model.dart';
+import 'package:mobile_app_development_cw2/models/driver_model.dart';
 import 'package:mobile_app_development_cw2/models/trip_model.dart';
 import 'package:mobile_app_development_cw2/models/user_model.dart';
 import 'package:mobile_app_development_cw2/services/firebase_service.dart';
@@ -13,6 +14,9 @@ class CarpoolDetailsViewModel extends BaseViewModel {
   String _pickupLocation = "";
   String _remarks = "";
   String _driverName = "";
+  String _imageUrl = "";
+  String _carModel = "";
+  String _licensePlate = "";
 
   // Services
   final FirebaseService _firebaseService = locator<FirebaseService>();
@@ -47,6 +51,12 @@ class CarpoolDetailsViewModel extends BaseViewModel {
 
     // set driver details text
     _driverName = user.name;
+    _imageUrl = user.url;
+    Driver driver = await _firebaseService.getDriverData(request.driverId);
+    _carModel = "${driver.carBrand} ${driver.carModel}";
+    _licensePlate = driver.licensePlate;
+
+
 
     notifyListeners();
   }
@@ -59,7 +69,9 @@ class CarpoolDetailsViewModel extends BaseViewModel {
   String get pickupLocation => _pickupLocation;
   String get remarks => _remarks;
   String get driverName => _driverName;
-
+  String get imageUrl => _imageUrl;
+  String get carModel => _carModel;
+  String get licensePlate => _licensePlate;
   // setters
   set destination(String value) {
     _destination = value;
@@ -88,4 +100,10 @@ class CarpoolDetailsViewModel extends BaseViewModel {
   set driverName(String value) {
     _driverName = value;
   }
+
+  set imageUrl(String value){
+    _imageUrl = value;
+  }
+
+
 }
