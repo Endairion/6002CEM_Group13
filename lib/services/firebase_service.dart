@@ -72,16 +72,16 @@ class FirebaseService {
             'contact': contactNo,
             'points': 0,
             'driver': '0',
-            'url': ' ',
+            'url': '',
           })
           .then((value) => debugPrint('User Created : ${_user.user!.email}'))
           .catchError((e) => debugPrint('Database Error!'));
       return _user;
     } on FirebaseAuthException catch (e) {
       debugPrint(
-          signUpErrorCodes[e.code] ?? 'Firebase ${e.code} Error Occured!');
+          signUpErrorCodes[e.code] ?? 'Firebase ${e.code} Error Occurred!');
     } catch (e) {
-      debugPrint('${e.toString()} Error Occured!');
+      debugPrint('${e.toString()} Error Occurred!');
     }
   }
 
