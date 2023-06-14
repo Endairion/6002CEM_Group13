@@ -463,11 +463,7 @@ class _DriverVerificationState extends State<DriverVerification> {
                                 ),
                               );
                               if(value.contains('Driver verification successfully submitted')){
-                                Navigator.pushReplacement(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (context) => const Profile()),
-                                );
+                                Navigator.pop(context);
                               }
                             }),
                             style: ElevatedButton.styleFrom(
