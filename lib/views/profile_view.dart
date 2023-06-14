@@ -21,16 +21,24 @@ class Profile extends StatefulWidget {
 class _ProfileState extends State<Profile> {
   late final ProfileViewModel _model;
   final ImagePicker picker = ImagePicker();
-  late ImageProvider? profileImage;
+  late ImageProvider? profileImage = AssetImage('assets/logo.png');
 
   @override
   Widget build(BuildContext context) {
     final Size size = MediaQuery.of(context).size;
-    _model.url.isNotEmpty ? profileImage = Image.network(_model.url).image : profileImage = AssetImage('assets/logo.png');
+
 
     return BaseView<ProfileViewModel>(onModelReady: (model) {
       _model = model;
       model.onModelReady();
+      _model.fetchUserProfile().then((_) {
+        setState(() {
+          // Update the image URL in the widget state
+          profileImage = _model.url.isNotEmpty
+              ? Image.network(_model.url).image
+              : AssetImage('assets/logo.png');
+        });
+      });
     }, builder: (context, model, child) {
       return Scaffold(
         body: Container(
@@ -65,8 +73,8 @@ class _ProfileState extends State<Profile> {
                       child: GestureDetector(
                         onTap: () {
                           // Handle edit profile picture action
-                          _model.handleImageUpload().then((value) {
-                            ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                          _model.handleImageUpload().then((value) async{
+                            await ScaffoldMessenger.of(context).showSnackBar(SnackBar(
                               content: Text(value),
                               duration: Duration(seconds:1),
                               behavior: SnackBarBehavior.floating,
@@ -80,16 +88,20 @@ class _ProfileState extends State<Profile> {
                               padding: const EdgeInsets.symmetric(
                                   vertical: 10, horizontal: 12),
                             ));
+
+                            if(value.contains('Profile picture successfully uploaded')){
+                              _model.fetchUserProfile().then((_) {
+                                setState(() {
+                                  // Update the image URL in the widget state
+                                  profileImage = _model.url.isNotEmpty
+                                      ? Image.network(_model.url).image
+                                      : AssetImage('assets/logo.png');
+                                });
+                              });
+                            }
                           });
 
-                          _model.fetchUserProfile().then((_) {
-                            setState(() {
-                              // Update the image URL in the widget state
-                              profileImage = _model.url.isNotEmpty
-                                  ? Image.network(_model.url).image
-                                  : AssetImage('assets/logo.png');
-                            });
-                          });
+
                         },
                         child: Container(
                           padding: const EdgeInsets.all(6.0),

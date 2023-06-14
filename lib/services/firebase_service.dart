@@ -64,6 +64,7 @@ class FirebaseService {
             'contact': contactNo,
             'points': 0,
             'driver': '0',
+            'url': ' ',
           })
           .then((value) => debugPrint('User Created : ${_user.user!.email}'))
           .catchError((e) => debugPrint('Database Error!'));
@@ -237,7 +238,9 @@ class FirebaseService {
             contact: data['contact'],
             dob: data['dob'],
             ic_no: data['ic_no'],
-            points: data['points']);
+            points: data['points'],
+            url: data['url'],
+        );
         return user;
       } else {
         throw Exception('Document does not exist');
@@ -245,6 +248,26 @@ class FirebaseService {
     } catch (e) {
       throw Exception('Failed to retrieve trip: $e');
     }
+  }
+
+  Future<Driver> getDriverData(String userId) async{
+    QuerySnapshot querySnapshot = await _firebaseFirestore
+        .collection('Driver')
+        .where('userid', isEqualTo: userId)
+        .get();
+
+    List<Driver> driverList = querySnapshot.docs.map<Driver>((doc) {
+      return Driver(
+        carBrand: doc['carBrand'],
+        carModel: doc['carModel'],
+        licensePlate: doc['licensePlate'],
+        carImageUrl: doc['carImageUrl'],
+        licensePlateImgUrl: doc['licensePlateImgUrl'],
+        userId: doc['userid'],
+      );
+    }).toList();
+
+    return driverList[0];
   }
 
   Future<List<Trip>> getAvailableTripList() async {
@@ -885,7 +908,7 @@ class FirebaseService {
     }
   }
 
-  Future<List<Driver>> getDriverInformation() async {
+  Future<Driver> getDriverInformation() async {
     var userId = _firebaseAuth.currentUser?.uid;
     QuerySnapshot querySnapshot = await _firebaseFirestore
         .collection('Driver')
@@ -903,7 +926,7 @@ class FirebaseService {
       );
     }).toList();
 
-    return driverList;
+    return driverList[0];
   }
 
   Future<String> uploadImageToFirebaseStorage(

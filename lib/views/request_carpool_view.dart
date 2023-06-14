@@ -244,6 +244,7 @@ class _RequestCarpoolViewState extends State<RequestCarpoolView> {
                                           child: CircleAvatar(
                                             radius: 15,
                                             //  NetworkImage
+                                            backgroundImage: _model.imageUrl.isNotEmpty ? Image.network(_model.imageUrl).image : Image.asset('assets/app_logo.png').image,
                                           ),
                                         ),
                                         SizedBox(
@@ -287,11 +288,11 @@ class _RequestCarpoolViewState extends State<RequestCarpoolView> {
                                     SizedBox(
                                       height: 32,
                                     ),
-                                    Text('Car Model: '),
+                                    Text('Car Model: ' + _model.carModel),
                                     SizedBox(
                                       height: 32,
                                     ),
-                                    Text('Number Plate: '),
+                                    Text('Number Plate: '+ _model.licensePlate),
                                   ],
                                 ),
                               ),

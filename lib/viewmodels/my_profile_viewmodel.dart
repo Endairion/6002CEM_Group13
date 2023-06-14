@@ -38,8 +38,7 @@ class MyProfileViewModel extends BaseViewModel {
 
   void fetchDriverProfile() async{
     try{
-      List<Driver> driverList = await _service.getDriverInformation();
-      Driver driver = driverList[0];
+      Driver driver = await _service.getDriverInformation();
 
       licensePlate = driver.licensePlate;
       carModel = driver.carModel;

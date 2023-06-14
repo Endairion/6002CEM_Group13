@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:mobile_app_development_cw2/models/carpool_request_model.dart';
+import 'package:mobile_app_development_cw2/models/driver_model.dart';
 import 'package:mobile_app_development_cw2/models/user_model.dart';
 import 'package:mobile_app_development_cw2/viewmodels/base_viewmodel.dart';
 import 'package:uuid/uuid.dart';
@@ -26,6 +27,9 @@ class RequestCarpoolViewmodel extends BaseViewModel {
   late final TextEditingController _pickUpLocationController;
   late final TextEditingController _remarksController;
   String _errorMessage = "";
+  String _imageUrl = "";
+  String _carModel ="";
+  String _licensePlate ="";
 
   // Services
   final FirebaseService _firebaseService = locator<FirebaseService>();
@@ -36,6 +40,8 @@ class RequestCarpoolViewmodel extends BaseViewModel {
   TextEditingController get remarksController => _remarksController;
 
   List<dynamic> get placeList => _placeList;
+
+  get imageUrl => _imageUrl;
 
   set pickUpLocationController(TextEditingController value) {
     _pickUpLocationController = value;
@@ -100,6 +106,11 @@ class RequestCarpoolViewmodel extends BaseViewModel {
     _seats = trip.seats;
     _driver = user.name;
     _tripId = tripId;
+    _imageUrl = user.url;
+
+    Driver driver = await _firebaseService.getDriverData(trip.userId);
+    _carModel = "${driver.carBrand} ${driver.carModel}";
+    _licensePlate = driver.licensePlate;
 
     notifyListeners();
   }
@@ -119,6 +130,9 @@ class RequestCarpoolViewmodel extends BaseViewModel {
 
   String get tripId => _tripId;
 
+  String get carModel => _carModel;
+
+  String get licensePlate => _licensePlate;
   // Setters
   set seats(int value) {
     _seats = value;

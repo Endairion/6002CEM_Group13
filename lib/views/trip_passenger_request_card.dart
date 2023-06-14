@@ -51,11 +51,7 @@ class _TripPassengerRequestCardState extends State<TripPassengerRequestCard> {
                       CircleAvatar(
                         radius: 25,
                         backgroundColor: Colors.white,
-                        child: Padding(
-                          padding: const EdgeInsets.all(4), // Border radius
-                          child: ClipOval(
-                              child: Image.asset('assets/app_logo.png')),
-                        ),
+                        backgroundImage: widget.passenger.url.isNotEmpty ? Image.network(widget.passenger.url).image : Image.asset('assets/app_logo.png').image,
                       ),
                       SizedBox(
                         width: 8,
