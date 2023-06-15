@@ -3,13 +3,22 @@ import 'package:mobile_app_development_cw2/views/driver_verification_view.dart';
 import 'package:mobile_app_development_cw2/viewmodels/my_profile_viewmodel.dart';
 import 'package:mobile_app_development_cw2/views/base_view.dart';
 
-class MyProfile extends StatelessWidget {
+class MyProfile extends StatefulWidget {
   const MyProfile({Key? key}) : super(key: key);
 
   @override
+  State<MyProfile> createState() => _MyProfileState();
+}
+
+class _MyProfileState extends State<MyProfile> {
+  late final MyProfileViewModel _model;
+  @override
   Widget build(BuildContext context) {
     return BaseView<MyProfileViewModel>(
-        onModelReady: (model) => model.onModelReady(),
+        onModelReady: (model) async{
+          _model = model;
+          _model.onModelReady();
+        },
         builder: (context, model, child) {
           return Scaffold(
             appBar: AppBar(
@@ -18,8 +27,7 @@ class MyProfile extends StatelessWidget {
               leading: IconButton(
                 icon: const Icon(Icons.arrow_back_ios),
                 onPressed: () {
-                  Navigator.pop(
-                      context); // Navigate back to the previous screen
+                  Navigator.pop(context); // Navigate back to the previous screen
                 },
               ),
               backgroundColor: const Color.fromRGBO(155, 214, 17, 1),
@@ -61,7 +69,7 @@ class MyProfile extends StatelessWidget {
                                 style: TextStyle(fontWeight: FontWeight.bold),
                               ),
                               Text(
-                                model.name,
+                                _model.name,
                                 style: TextStyle(color: Colors.grey[600]),
                               ),
                             ],
@@ -75,7 +83,7 @@ class MyProfile extends StatelessWidget {
                                 style: TextStyle(fontWeight: FontWeight.bold),
                               ),
                               Text(
-                                model.email,
+                                _model.email,
                                 style: TextStyle(color: Colors.grey[600]),
                               ),
                             ],
@@ -89,7 +97,7 @@ class MyProfile extends StatelessWidget {
                                 style: TextStyle(fontWeight: FontWeight.bold),
                               ),
                               Text(
-                                model.dob,
+                                _model.dob,
                                 style: TextStyle(color: Colors.grey[600]),
                               ),
                             ],
@@ -103,7 +111,7 @@ class MyProfile extends StatelessWidget {
                                 style: TextStyle(fontWeight: FontWeight.bold),
                               ),
                               Text(
-                                model.contact,
+                                _model.contact,
                                 style: TextStyle(color: Colors.grey[600]),
                               ),
                             ],
@@ -117,7 +125,7 @@ class MyProfile extends StatelessWidget {
                                 style: TextStyle(fontWeight: FontWeight.bold),
                               ),
                               Text(
-                                model.icNo,
+                                _model.icNo,
                                 style: TextStyle(color: Colors.grey[600]),
                               ),
                             ],
@@ -133,7 +141,7 @@ class MyProfile extends StatelessWidget {
                   ),
                   const SizedBox(height: 16),
                   Visibility(
-                    visible: model.driver == "1" ? true : false,
+                    visible: _model.driver == "1" ? true : false,
                     child: Container(
                       padding: const EdgeInsets.all(16.0),
                       decoration: BoxDecoration(
@@ -161,7 +169,7 @@ class MyProfile extends StatelessWidget {
                                   style: TextStyle(fontWeight: FontWeight.bold),
                                 ),
                                 Text(
-                                  model.licensePlate,
+                                  _model.licensePlate,
                                   style: TextStyle(color: Colors.grey[600]),
                                 ),
                               ],
@@ -175,7 +183,7 @@ class MyProfile extends StatelessWidget {
                                   style: TextStyle(fontWeight: FontWeight.bold),
                                 ),
                                 Text(
-                                  model.carModel,
+                                  _model.carModel,
                                   style: TextStyle(color: Colors.grey[600]),
                                 ),
                               ],
@@ -189,7 +197,7 @@ class MyProfile extends StatelessWidget {
                                   style: TextStyle(fontWeight: FontWeight.bold),
                                 ),
                                 Text(
-                                  model.carBrand,
+                                  _model.carBrand,
                                   style: TextStyle(color: Colors.grey[600]),
                                 ),
                               ],
@@ -200,7 +208,7 @@ class MyProfile extends StatelessWidget {
                     ),
                   ),
                   Visibility(
-                    visible: model.driver == "0" ? true : false,
+                    visible: _model.driver == "0" ? true : false,
                     child: SizedBox(
                       width: double.infinity,
                       child: Container(
@@ -238,7 +246,7 @@ class MyProfile extends StatelessWidget {
                               const SizedBox(height: 16.0),
                               ElevatedButton(
                                 onPressed: () {
-                                  Navigator.push(
+                                  Navigator.pushReplacement(
                                     context,
                                     MaterialPageRoute(
                                         builder: (context) =>
@@ -260,7 +268,7 @@ class MyProfile extends StatelessWidget {
                     ),
                   ),
                   Visibility(
-                    visible: model.driver == "2" ? true : false,
+                    visible: _model.driver == "2" ? true : false,
                     child: SizedBox(
                       width: double.infinity,
                       child: Container(
