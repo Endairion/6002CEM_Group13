@@ -53,6 +53,11 @@ class DriverVerificationViewModel extends BaseViewModel {
   }
 
   Future<String> submitVerification() async {
+    if (_carBrandController.text.trim().isEmpty ||
+        _carModelController.text.trim().isEmpty ||
+        _licensePlateController.text.trim().isEmpty) {
+      return 'Please fill in all fields before submitting!';
+    }
     try {
       carImageUrl = await handleImageUpload(_carImage) ?? '';
       licensePlateImageUrl = await handleImageUpload(_licensePlateImage) ?? '';
