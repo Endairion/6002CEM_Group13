@@ -18,6 +18,7 @@ class TripDetailsViewModel extends BaseViewModel {
   String _startLocation = "";
   String _destination = "";
   String _status = "";
+  String _seats = "";
 
   List<CarpoolRequest> _carpoolRequestList = [];
   List<Users> _passengerList = [];
@@ -29,15 +30,23 @@ class TripDetailsViewModel extends BaseViewModel {
   void onModelReady(String tripId) {
     // set tripId
     _tripId = tripId;
-    // get trip details
-    getTrip(tripId);
-    // get pickup location address list
-    getPickupLocationList();
-    // get passenger carpool request
-    getCarpoolRequestList();
+
+    //setup trip details page
+    setupTripDetails();
   }
 
   void onModelDestroy() {}
+
+  Future<void> setupTripDetails() async {
+    // get passenger carpool request
+    await getCarpoolRequestList();
+
+    // get trip details
+    await getTrip(_tripId);
+
+    // get pickup location address list
+    await getPickupLocationList();
+  }
 
   Future<void> getTrip(String tripId) async {
     // get trip details based on tripId
@@ -49,6 +58,7 @@ class TripDetailsViewModel extends BaseViewModel {
     _startLocation = trip.startLocation;
     _destination = trip.destination;
     _status = trip.status;
+    _seats = trip.seats.toString();
 
     notifyListeners();
   }
@@ -145,6 +155,7 @@ class TripDetailsViewModel extends BaseViewModel {
       _acceptedCarpoolRequestList;
   List<Users> get passengerList => _passengerList;
   String get tripId => _tripId;
+  String get seats => _seats;
 
   // setters
   set date(String value) {
@@ -189,5 +200,9 @@ class TripDetailsViewModel extends BaseViewModel {
 
   set tripId(String value) {
     _tripId = value;
+  }
+
+  set seats(String value) {
+    _seats = value;
   }
 }

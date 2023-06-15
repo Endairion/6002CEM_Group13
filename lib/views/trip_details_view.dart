@@ -101,6 +101,15 @@ class _TripDetailsState extends State<TripDetails> {
                     ),
                   ),
                   SizedBox(
+                    height: 12,
+                  ),
+                  Text(
+                    'Remaining Seats: ' + _model.seats,
+                    style: TextStyle(
+                      fontSize: 16,
+                    ),
+                  ),
+                  SizedBox(
                     height: 16,
                   ),
                   Text(

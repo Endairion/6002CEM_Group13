@@ -301,6 +301,35 @@ class FirebaseService {
           enablePickupNotification: doc['enablePickupNotification']);
     }).toList();
 
+    for (var i=0; i< tripsList.length; i++) {
+      if (tripsList[i].userId == userId) {
+        tripsList.remove(tripsList[i]);
+      }
+    }
+    return tripsList;
+  }
+
+  Future<List<Trip>> getAllTripList() async {
+    // Get docs from trips collection reference
+    QuerySnapshot querySnapshot = await FirebaseFirestore.instance
+        .collection('Trips')
+        .where('status', isEqualTo: 'Ongoing')
+        .get();
+
+    // Get data from docs and convert map to List
+    final tripsList = querySnapshot.docs.map<Trip>((doc) {
+      return Trip(
+          id: doc['id'],
+          userId: doc['userId'],
+          startLocation: doc['startLocation'],
+          destination: doc['destination'],
+          date: doc['date'],
+          time: doc['time'],
+          status: doc['status'],
+          seats: doc['seats'],
+          enablePickupNotification: doc['enablePickupNotification']);
+    }).toList();
+
     return tripsList;
   }
 
@@ -328,8 +357,6 @@ class FirebaseService {
     // Reference to PointsEarned collection
     CollectionReference pointsEarned =
         FirebaseFirestore.instance.collection('PointsEarned');
-
-    earnPoint.userId = userId;
 
     // Call the PointsEarned CollectionReference to add a new record
     return pointsEarned

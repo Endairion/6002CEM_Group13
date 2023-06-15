@@ -44,16 +44,40 @@ class LoginViewModel extends BaseViewModel {
     _passwordController.dispose();
   }
 
-  Future<bool> login() async {
-    var res = await _firebaseService.signIn(
-      _emailController.text.trim(),
-      _passwordController.text,
-    );
-
-    return res != null;
+  Future<String> login() async {
+    try{
+      await _firebaseService.signIn(
+        _emailController.text.trim(),
+        _passwordController.text,
+      );
+      return "Login Successfully";
+    }catch(e){
+      return "Either email or password is wrong";
+    }
   }
 
   Future<bool> checkLoggedIn(BuildContext context) async {
     return await _firebaseService.isLoggedIn();
   }
+
+  Future<bool> showErrorDialog(BuildContext context, String value) async{
+    // Show the error message dialog
+    bool? showError = await showDialog<bool>(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: Text('Error Message'),
+        content: Text(value),
+        actions: [
+          TextButton(
+            onPressed: () {
+              Navigator.of(context).pop(); // Cancel logout
+            },
+            child: Text('Ok'),
+          ),
+        ],
+      ),
+    );
+    return showError ?? false; // Return false if the dialog is dismissed
+  }
+
 }
