@@ -32,4 +32,8 @@ class NewPasswordViewModel extends BaseViewModel{
       return false;
     }
   }
+
+  Future<void> signOut() async{
+    await _firebaseService.signOut();
+  }
 }

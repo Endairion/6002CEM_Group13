@@ -6,6 +6,7 @@ import 'package:image_picker/image_picker.dart';
 import 'package:dotted_border/dotted_border.dart';
 import 'package:mobile_app_development_cw2/viewmodels/driver_verification_viewmodel.dart';
 import 'package:mobile_app_development_cw2/views/base_view.dart';
+import 'package:mobile_app_development_cw2/views/navigation_menu_view.dart';
 import 'package:mobile_app_development_cw2/views/profile_view.dart';
 
 class DriverVerification extends StatefulWidget {
@@ -25,152 +26,6 @@ class _DriverVerificationState extends State<DriverVerification> {
   bool showCarImageButton = true;
   final ImagePicker picker = ImagePicker();
 
-  Future getLicensePlateImage(ImageSource media) async {
-    var img = await picker.pickImage(source: media);
-
-    setState(() {
-      licensePlateImage = img;
-    });
-
-    uploadLicensePlateImage();
-  }
-
-  Future getCarImage(ImageSource media) async {
-    var img = await picker.pickImage(source: media);
-
-    setState(() {
-      carImage = img;
-    });
-    uploadCarImage();
-
-  }
-
-  void handleLicensePlateUpload() {
-    // Simulating the upload process
-    showDialog(
-        context: context,
-        builder: (BuildContext context) {
-          return AlertDialog(
-            shape:
-            RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
-            title: Text('Please choose media to select'),
-            content: Container(
-              height: MediaQuery.of(context).size.height / 6,
-              child: Column(
-                children: [
-                  ElevatedButton(
-                    //if user click this button. user can upload image from camera
-                    onPressed: () {
-                      Navigator.pop(context);
-                      getLicensePlateImage(ImageSource.camera);
-                    },
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: Colors.green[900],
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(10.0),
-                      ),
-                      minimumSize: const Size(200, 40),
-                    ),
-                    child: Row(
-                      children: [
-                        Icon(Icons.camera),
-                        Text('From Camera'),
-                      ],
-                    ),
-                  ),
-                ],
-              ),
-            ),
-          );
-        });
-    // Assume the file is successfully uploaded
-  }
-
-  void handleCarImageUpload() {
-    // Simulating the upload process
-    showDialog(
-        context: context,
-        builder: (BuildContext context) {
-          return AlertDialog(
-            shape:
-            RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
-            title: Text('Please choose media to select'),
-            content: Container(
-              height: MediaQuery.of(context).size.height / 6,
-              child: Column(
-                children: [
-                  ElevatedButton(
-                    //if user click this button. user can upload image from camera
-                    onPressed: () {
-                      Navigator.pop(context);
-                      getCarImage(ImageSource.camera);
-                    },
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: Colors.green[900],
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(10.0),
-                      ),
-                      minimumSize: const Size(200, 40),
-                    ),
-                    child: Row(
-                      children: [
-                        Icon(Icons.camera),
-                        Text('From Camera'),
-                      ],
-                    ),
-                  ),
-                ],
-              ),
-            ),
-          );
-        });
-    // Assume the file is successfully uploaded
-  }
-
-  void uploadLicensePlateImage() {
-    final licensePlateImage = this.licensePlateImage;
-    if (licensePlateImage != null) {
-      // Simulate the upload process for each image
-      // Replace this with your actual upload code
-      _model.licensePlateImage = File(licensePlateImage.path);
-      Future.delayed(Duration(seconds: 2), () {
-        setState(() {
-          uploadedLicensePlateImageName = licensePlateImage.name;
-          showLicensePlateButton = false;
-        });
-      });
-    }
-  }
-
-  void uploadCarImage() {
-    final carImage = this.carImage;
-    if (carImage != null) {
-      // Simulate the upload process for each image
-      // Replace this with your actual upload code
-      _model.carImage = File(carImage.path);
-      Future.delayed(Duration(seconds: 2), () {
-        setState(() {
-          uploadedCarImageName = carImage.name;
-          showCarImageButton = false;
-        });
-      });
-    }
-  }
-
-  void handleCancel(String imgType) {
-    setState(() {
-      switch(imgType){
-        case 'License Plate':
-          uploadedLicensePlateImageName = null;
-          showLicensePlateButton = true;
-          break;
-        case 'Car':
-          uploadedCarImageName = null;
-          showCarImageButton = true;
-          break;
-      }
-    });
-  }
   @override
   Widget build(BuildContext context) {
     return BaseView<DriverVerificationViewModel>(
@@ -463,7 +318,10 @@ class _DriverVerificationState extends State<DriverVerification> {
                                 ),
                               );
                               if(value.contains('Driver verification successfully submitted')){
-                                Navigator.pop(context);
+                                Navigator.pop(
+                                  context,
+                                  MaterialPageRoute(builder: (context) => NavigationMenu()),
+                                );
                               }
                             }),
                             style: ElevatedButton.styleFrom(
@@ -485,5 +343,152 @@ class _DriverVerificationState extends State<DriverVerification> {
         ),
       ),
     );
+  }
+
+  Future getLicensePlateImage(ImageSource media) async {
+    var img = await picker.pickImage(source: media);
+
+    setState(() {
+      licensePlateImage = img;
+    });
+
+    uploadLicensePlateImage();
+  }
+
+  Future getCarImage(ImageSource media) async {
+    var img = await picker.pickImage(source: media);
+
+    setState(() {
+      carImage = img;
+    });
+    uploadCarImage();
+
+  }
+
+  void handleLicensePlateUpload() {
+    // Simulating the upload process
+    showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            shape:
+            RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
+            title: Text('Please choose media to select'),
+            content: Container(
+              height: MediaQuery.of(context).size.height / 6,
+              child: Column(
+                children: [
+                  ElevatedButton(
+                    //if user click this button. user can upload image from camera
+                    onPressed: () {
+                      Navigator.pop(context);
+                      getLicensePlateImage(ImageSource.camera);
+                    },
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: Colors.green[900],
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(10.0),
+                      ),
+                      minimumSize: const Size(200, 40),
+                    ),
+                    child: Row(
+                      children: [
+                        Icon(Icons.camera),
+                        Text('From Camera'),
+                      ],
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          );
+        });
+    // Assume the file is successfully uploaded
+  }
+
+  void handleCarImageUpload() {
+    // Simulating the upload process
+    showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            shape:
+            RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
+            title: Text('Please choose media to select'),
+            content: Container(
+              height: MediaQuery.of(context).size.height / 6,
+              child: Column(
+                children: [
+                  ElevatedButton(
+                    //if user click this button. user can upload image from camera
+                    onPressed: () {
+                      Navigator.pop(context);
+                      getCarImage(ImageSource.camera);
+                    },
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: Colors.green[900],
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(10.0),
+                      ),
+                      minimumSize: const Size(200, 40),
+                    ),
+                    child: Row(
+                      children: [
+                        Icon(Icons.camera),
+                        Text('From Camera'),
+                      ],
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          );
+        });
+    // Assume the file is successfully uploaded
+  }
+
+  void uploadLicensePlateImage() {
+    final licensePlateImage = this.licensePlateImage;
+    if (licensePlateImage != null) {
+      // Simulate the upload process for each image
+      // Replace this with your actual upload code
+      _model.licensePlateImage = File(licensePlateImage.path);
+      Future.delayed(Duration(seconds: 2), () {
+        setState(() {
+          uploadedLicensePlateImageName = licensePlateImage.name;
+          showLicensePlateButton = false;
+        });
+      });
+    }
+  }
+
+  void uploadCarImage() {
+    final carImage = this.carImage;
+    if (carImage != null) {
+      // Simulate the upload process for each image
+      // Replace this with your actual upload code
+      _model.carImage = File(carImage.path);
+      Future.delayed(Duration(seconds: 2), () {
+        setState(() {
+          uploadedCarImageName = carImage.name;
+          showCarImageButton = false;
+        });
+      });
+    }
+  }
+
+  void handleCancel(String imgType) {
+    setState(() {
+      switch(imgType){
+        case 'License Plate':
+          uploadedLicensePlateImageName = null;
+          showLicensePlateButton = true;
+          break;
+        case 'Car':
+          uploadedCarImageName = null;
+          showCarImageButton = true;
+          break;
+      }
+    });
   }
 }

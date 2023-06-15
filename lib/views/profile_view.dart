@@ -2,7 +2,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:mobile_app_development_cw2/Settings.dart';
+import 'package:mobile_app_development_cw2/views/settings_view.dart';
 import 'package:mobile_app_development_cw2/views/login_view.dart';
 
 import 'package:mobile_app_development_cw2/views/edit_profile.dart';
