@@ -10,7 +10,7 @@ class MyProfile extends StatelessWidget {
   Widget build(BuildContext context) {
     return BaseView<MyProfileViewModel>(
         onModelReady: (model) => model.onModelReady(),
-        builder: (context, model, child){
+        builder: (context, model, child) {
           return Scaffold(
             appBar: AppBar(
               title: const Text("My Profile"),
@@ -18,7 +18,8 @@ class MyProfile extends StatelessWidget {
               leading: IconButton(
                 icon: const Icon(Icons.arrow_back_ios),
                 onPressed: () {
-                  Navigator.pop(context); // Navigate back to the previous screen
+                  Navigator.pop(
+                      context); // Navigate back to the previous screen
                 },
               ),
               backgroundColor: const Color.fromRGBO(155, 214, 17, 1),
@@ -239,7 +240,9 @@ class MyProfile extends StatelessWidget {
                                 onPressed: () {
                                   Navigator.push(
                                     context,
-                                    MaterialPageRoute(builder: (context) => const DriverVerification()),
+                                    MaterialPageRoute(
+                                        builder: (context) =>
+                                            const DriverVerification()),
                                   );
                                 },
                                 style: ElevatedButton.styleFrom(
@@ -302,9 +305,6 @@ class MyProfile extends StatelessWidget {
               ),
             ),
           );
-        }
-    );
-
-
+        });
   }
 }

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:mobile_app_development_cw2/utils/theme_helper.dart';
 import 'package:mobile_app_development_cw2/viewmodels/edit_profile_viewmodel.dart';
 import 'package:mobile_app_development_cw2/views/base_view.dart';
+import 'package:mobile_app_development_cw2/views/navigation_menu_view.dart';
 import 'package:mobile_app_development_cw2/views/profile_view.dart';
 
 
@@ -234,9 +235,9 @@ class EditProfile extends StatelessWidget {
                                     padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 12),
                                   ),
                                 );
-                                Navigator.push(
+                                Navigator.pop(
                                   context,
-                                  MaterialPageRoute(builder: (context) => const Profile()),
+                                  MaterialPageRoute(builder: (context) => NavigationMenu()),
                                 );
                               },
                               style: ElevatedButton.styleFrom(

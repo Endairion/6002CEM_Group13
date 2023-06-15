@@ -53,9 +53,13 @@ class DriverVerificationViewModel extends BaseViewModel {
   }
 
   Future<String> submitVerification() async {
-    carImageUrl = await handleImageUpload(_carImage) ?? '';
-    licensePlateImageUrl =
-        await handleImageUpload(_licensePlateImage) ?? '';
+    try {
+      carImageUrl = await handleImageUpload(_carImage) ?? '';
+      licensePlateImageUrl = await handleImageUpload(_licensePlateImage) ?? '';
+    }catch(e){
+      return 'Please upload both image before you submit!';
+    }
+
     try {
       await _firebaseService.submitVerification(
         _carBrandController.text.trim(),

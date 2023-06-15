@@ -57,7 +57,7 @@ class HelpSupport extends StatelessWidget {
                   children: [
                     const Spacer(),
                     Text(
-                      'vtumpangmalaysia@gmail.com',
+                      'vtumpangapp@gmail.com',
                       style: TextStyle(
                         fontWeight: FontWeight.bold,
                         color: Colors.green[900],
@@ -106,6 +106,7 @@ class HelpSupport extends StatelessWidget {
             width: 550,
             height: 140,
           ),
+          SizedBox(height: 16),
           const Text(
             'We’re here to help!',
             style: TextStyle(
@@ -113,7 +114,7 @@ class HelpSupport extends StatelessWidget {
               fontSize: 16,
             ),
           ),
-          const SizedBox(height: 24),
+          SizedBox(height: 16),
           Image.asset(
             'assets/prof_team2.jpg',
             width: 500,
