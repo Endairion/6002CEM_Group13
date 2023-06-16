@@ -125,7 +125,7 @@ class _NewPasswordState extends State<NewPassword> {
                             backgroundColor: Colors.green[900],
                             minimumSize: Size(320, 40)),
                         onPressed: () => _formKey.currentState!.validate()
-                            ? _model.updatePassword().then((value) {
+                            ? _model.updatePassword().then((value) async{
 
 
                           if (value) {
@@ -142,6 +142,7 @@ class _NewPasswordState extends State<NewPassword> {
                                     vertical: 10, horizontal: 12),
                               ),
                             );
+                            await _model.signOut();
                             Navigator.pushReplacement(
                               context,
                               MaterialPageRoute(
