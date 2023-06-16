@@ -529,7 +529,7 @@ class FirebaseService {
       print(
           "$destination and $fireStoreDestination diff $destinationSimilarity");
 
-      if (startLocationSimilarity > 0.25 || destinationSimilarity > 0.25) {
+      if (startLocationSimilarity > 0.15 || destinationSimilarity > 0.15) {
         print('1');
         print(doc['id']);
         tripIdList.add(doc['id']);
