@@ -1,6 +1,6 @@
 import 'dart:io';
-
 import 'package:flutter/material.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:mobile_app_development_cw2/locator.dart';
 import 'package:mobile_app_development_cw2/services/firebase_service.dart';
 import 'package:mobile_app_development_cw2/utils/validators.dart';
@@ -10,26 +10,25 @@ class DriverVerificationViewModel extends BaseViewModel {
   late final TextEditingController _licensePlateController;
   late final TextEditingController _carModelController;
   late final TextEditingController _carBrandController;
-  late File _licensePlateImage;
+  late File _lPImage;
   late File _carImage;
-  late String licensePlateImageUrl;
-  late String carImageUrl;
-
+  String licensePlateImageUrl = '';
+  String carImageUrl = '';
+  String _uploadedCarImageName = '';
+  String _uploadedlPImageName = '';
+  bool _showlPButton = true;
+  bool _showCarButton = true;
   final FirebaseService _firebaseService = locator<FirebaseService>();
+  final ImagePicker _imagePicker = ImagePicker();
 
   TextEditingController get licensePlateController => _licensePlateController;
   TextEditingController get carModelController => _carModelController;
   TextEditingController get carBrandController => _carBrandController;
-  File get licensePlateImage => _licensePlateImage;
-  File get carImage => _carImage;
+  String get uploadedCarImageName => _uploadedCarImageName;
+  String get uploadedlPImageName => _uploadedlPImageName;
+  bool get showlPButton => _showlPButton;
+  bool get showCarButton => _showCarButton;
 
-  set licensePlateImage(File image) {
-    _licensePlateImage = image;
-  }
-
-  set carImage(File image) {
-    _carImage = image;
-  }
 
   String? Function(String? val) get licensePlateValidator =>
       Validators.validateTextField;
@@ -58,11 +57,11 @@ class DriverVerificationViewModel extends BaseViewModel {
         _licensePlateController.text.trim().isEmpty) {
       return 'Please fill in all fields before submitting!';
     }
-    try {
+    try{
+      licensePlateImageUrl = await handleImageUpload(_lPImage) ?? '';
       carImageUrl = await handleImageUpload(_carImage) ?? '';
-      licensePlateImageUrl = await handleImageUpload(_licensePlateImage) ?? '';
-    }catch(e){
-      return 'Please upload both image before you submit!';
+    } catch (e){
+      return 'Please upload both image before submitting!';
     }
 
     try {
@@ -88,8 +87,85 @@ class DriverVerificationViewModel extends BaseViewModel {
         'Driver',
       ); // Specify the folder name for Driver images
     } catch (e) {
-      debugPrint('Error handling license plate image upload: $e');
+      debugPrint('Error handling image upload: $e');
     }
     return null;
   }
+
+  Future<XFile?> getImage(ImageSource media) async {
+    final image = await _imagePicker.pickImage(source: media);
+
+    return image;
+  }
+
+  void handleCancel(String imgType) {
+    switch (imgType) {
+      case 'License Plate':
+        _uploadedlPImageName = "";
+        _showlPButton = true;
+        break;
+      case 'Car':
+        _uploadedCarImageName = "";
+        _showCarButton = true;
+        break;
+    }
+    notifyListeners();
+  }
+
+  void uploadMenu(BuildContext context, String imgType) async {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(8),
+          ),
+          title: Text('Please choose media to select'),
+          content: Container(
+            height: MediaQuery.of(context).size.height / 6,
+            child: Column(
+              children: [
+                ElevatedButton(
+                  onPressed: () async {
+                    Navigator.pop(context);
+                    var image = await getImage(ImageSource.camera);
+                    switch (imgType) {
+                      case 'License Plate':
+                        _lPImage = File(image!.path);
+                        _uploadedlPImageName = image.name;
+                        _showlPButton = false;
+                        notifyListeners();
+                        break;
+                      case 'Car':
+                        _carImage = File(image!.path);
+                        _uploadedCarImageName = image.name;
+                        _showCarButton = false;
+                        notifyListeners();
+                        break;
+                    }
+                  },
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: Colors.green[900],
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(10.0),
+                    ),
+                    minimumSize: const Size(200, 40),
+                  ),
+                  child: Row(
+                    children: [
+                      Icon(Icons.camera),
+                      Text('From Camera'),
+                    ],
+                  ),
+                ),
+              ],
+            ),
+          ),
+        );
+      },
+    );
+  }
+
+
+
 }
