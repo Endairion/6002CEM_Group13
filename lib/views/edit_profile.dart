@@ -21,15 +21,15 @@ class EditProfile extends StatelessWidget {
         TextEditingController ICNoController = model.icNoController;
         return Scaffold(
           appBar: AppBar(
-            title: Text("Edit Profile"),
+            title: const Text("Edit Profile"),
             centerTitle: true,
             leading: IconButton(
-              icon: Icon(Icons.arrow_back_ios),
+              icon: const Icon(Icons.arrow_back_ios),
               onPressed: () {
                 Navigator.pop(context); // Navigate back to the previous screen
               },
             ),
-            backgroundColor: Color.fromRGBO(155, 214, 17, 1),
+            backgroundColor: const Color.fromRGBO(155, 214, 17, 1),
           ),
           body: SingleChildScrollView(
             child: Padding(
@@ -56,7 +56,7 @@ class EditProfile extends StatelessWidget {
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Text(
+                          const Text(
                             'Name',
                             style: TextStyle(
                               fontWeight: FontWeight.bold,
@@ -81,8 +81,8 @@ class EditProfile extends StatelessWidget {
                               decoration: ThemeHelper().editProfileInput(),
                             ),
                           ),
-                          SizedBox(height: 16.0),
-                          Text(
+                          const SizedBox(height: 16.0),
+                          const Text(
                             'Email',
                             style: TextStyle(
                               fontWeight: FontWeight.bold,
@@ -107,8 +107,8 @@ class EditProfile extends StatelessWidget {
                               decoration: ThemeHelper().editProfileInput(),
                             ),
                           ),
-                          SizedBox(height: 16.0),
-                          Text(
+                          const SizedBox(height: 16.0),
+                          const Text(
                             'Date of birth',
                             style: TextStyle(
                               fontWeight: FontWeight.bold,
@@ -136,7 +136,7 @@ class EditProfile extends StatelessWidget {
                                   decoration: ThemeHelper().editProfileInput(),
                                 ),
                                 IconButton(
-                                  icon: Icon(Icons.calendar_month),
+                                  icon: const Icon(Icons.calendar_month),
                                   color: Colors.grey,
                                   onPressed: () async {
                                     DateTime initialDate = DateTime.now();
@@ -166,8 +166,8 @@ class EditProfile extends StatelessWidget {
                               ],
                             ),
                           ),
-                          SizedBox(height: 16.0),
-                          Text(
+                          const SizedBox(height: 16.0),
+                          const Text(
                             'Contact No',
                             style: TextStyle(
                               fontWeight: FontWeight.bold,
@@ -192,8 +192,8 @@ class EditProfile extends StatelessWidget {
                               decoration: ThemeHelper().editProfileInput(),
                             ),
                           ),
-                          SizedBox(height: 16.0),
-                          Text(
+                          const SizedBox(height: 16.0),
+                          const Text(
                             'IC No',
                             style: TextStyle(
                               fontWeight: FontWeight.bold,
@@ -237,7 +237,7 @@ class EditProfile extends StatelessWidget {
                                 );
                                 Navigator.pop(
                                   context,
-                                  MaterialPageRoute(builder: (context) => NavigationMenu()),
+                                  MaterialPageRoute(builder: (context) => const NavigationMenu()),
                                 );
                               },
                               style: ElevatedButton.styleFrom(
