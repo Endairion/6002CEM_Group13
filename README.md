@@ -4,7 +4,7 @@ VTumpang is a mobile application designed to promote carpooling by connecting dr
 
 ## Features
 
-1. **Easy Registration**: Users can quickly register using their email address or social media accounts.
+1. **Easy Registration**: Users can quickly register using their email address.
 2. **Plan Trip**: Users can plan their carpooling trip by selecting their destination and desired departure time.
 3. **Available Trips**: Users can view a list of available carpooling trips based on their desired destination and departure time.
 4. **Carpool Request**: Passengers can request a ride by selecting a trip from the available list.
