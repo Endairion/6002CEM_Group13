@@ -18,7 +18,7 @@ class Homepage extends StatefulWidget {
 
 class _HomepageState extends State<Homepage> {
   late final HomepageViewModel _model;
-
+  late BuildContext _context;
 
 
   @override
