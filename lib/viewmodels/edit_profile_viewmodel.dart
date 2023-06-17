@@ -54,7 +54,7 @@ class EditProfileViewModel extends BaseViewModel{
     super.dispose();
   }
 
-  void updateUserProfile() async {
+  Future<String> updateUserProfile() async {
     try {
       var userProfile = {
         'name': nameController.text,
@@ -67,8 +67,9 @@ class EditProfileViewModel extends BaseViewModel{
       // Optionally, you can fetch the updated user profile again if needed
       // fetchUserProfile();
       // notifyListeners(); // Notify listeners if necessary
+      return 'Profile information changed successfully';
     } catch (e) {
-      throw 'Error updating user profile: $e';
+      return 'Error updating user profile: $e';
     }
   }
 
