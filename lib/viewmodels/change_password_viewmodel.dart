@@ -10,7 +10,7 @@ class ChangePasswordViewModel extends BaseViewModel {
 
   final FirebaseService _firebaseService = locator<FirebaseService>();
 
-  TextEditingController get emailController => _emailController;
+    TextEditingController get emailController => _emailController;
 
   String? Function(String? email) get emailValidator => Validators.emailValidator;
 

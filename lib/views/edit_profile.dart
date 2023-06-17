@@ -5,39 +5,44 @@ import 'package:mobile_app_development_cw2/views/base_view.dart';
 import 'package:mobile_app_development_cw2/views/navigation_menu_view.dart';
 import 'package:mobile_app_development_cw2/views/profile_view.dart';
 
-
-class EditProfile extends StatelessWidget {
+class EditProfile extends StatefulWidget {
   const EditProfile({Key? key}) : super(key: key);
 
   @override
+  State<EditProfile> createState() => _EditProfileState();
+}
+
+class _EditProfileState extends State<EditProfile> {
+  final _formKey = GlobalKey<FormState>();
+  late final EditProfileViewModel _model;
+
+  @override
   Widget build(BuildContext context) {
-    return BaseView<EditProfileViewModel>(
-      onModelReady: (model) => model.onModelReady(),
-      builder: (context, model, child){
-        TextEditingController nameController = model.nameController;
-        TextEditingController emailController = model.emailController;
-        TextEditingController dobController = model.dobController;
-        TextEditingController contactController = model.contactController;
-        TextEditingController ICNoController = model.icNoController;
-        return Scaffold(
-          appBar: AppBar(
-            title: Text("Edit Profile"),
-            centerTitle: true,
-            leading: IconButton(
-              icon: Icon(Icons.arrow_back_ios),
-              onPressed: () {
-                Navigator.pop(context); // Navigate back to the previous screen
-              },
-            ),
-            backgroundColor: Color.fromRGBO(155, 214, 17, 1),
+    return BaseView<EditProfileViewModel>(onModelReady: (model) {
+      _model = model;
+      model.onModelReady();
+    }, builder: (context, model, child) {
+      return Scaffold(
+        appBar: AppBar(
+          title: const Text("Edit Profile"),
+          centerTitle: true,
+          leading: IconButton(
+            icon: const Icon(Icons.arrow_back_ios),
+            onPressed: () {
+              Navigator.pop(context); // Navigate back to the previous screen
+            },
           ),
-          body: SingleChildScrollView(
-            child: Padding(
-              padding: const EdgeInsets.all(16.0),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Container(
+          backgroundColor: const Color.fromRGBO(155, 214, 17, 1),
+        ),
+        body: SingleChildScrollView(
+          child: Padding(
+            padding: const EdgeInsets.all(16.0),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Form(
+                  key: _formKey,
+                  child: Container(
                     padding: const EdgeInsets.all(16.0),
                     decoration: BoxDecoration(
                       color: Colors.white,
@@ -56,7 +61,7 @@ class EditProfile extends StatelessWidget {
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Text(
+                          const Text(
                             'Name',
                             style: TextStyle(
                               fontWeight: FontWeight.bold,
@@ -76,13 +81,14 @@ class EditProfile extends StatelessWidget {
                                 ),
                               ],
                             ),
-                            child: TextField(
-                              controller: nameController,
+                            child: TextFormField(
+                              controller: _model.nameController,
+                              validator: _model.nameValidator,
                               decoration: ThemeHelper().editProfileInput(),
                             ),
                           ),
-                          SizedBox(height: 16.0),
-                          Text(
+                          const SizedBox(height: 16.0),
+                          const Text(
                             'Email',
                             style: TextStyle(
                               fontWeight: FontWeight.bold,
@@ -102,13 +108,14 @@ class EditProfile extends StatelessWidget {
                                 ),
                               ],
                             ),
-                            child: TextField(
-                              controller: emailController,
+                            child: TextFormField(
+                              controller: _model.emailController,
+                              validator: _model.emailValidator,
                               decoration: ThemeHelper().editProfileInput(),
                             ),
                           ),
-                          SizedBox(height: 16.0),
-                          Text(
+                          const SizedBox(height: 16.0),
+                          const Text(
                             'Date of birth',
                             style: TextStyle(
                               fontWeight: FontWeight.bold,
@@ -131,25 +138,33 @@ class EditProfile extends StatelessWidget {
                             child: Stack(
                               alignment: Alignment.topRight,
                               children: [
-                                TextField(
-                                  controller: dobController,
+                                TextFormField(
+                                  controller: _model.dobController,
+                                  validator: _model.dobValidator,
                                   decoration: ThemeHelper().editProfileInput(),
                                 ),
                                 IconButton(
-                                  icon: Icon(Icons.calendar_month),
+                                  icon: const Icon(Icons.calendar_month),
                                   color: Colors.grey,
                                   onPressed: () async {
                                     DateTime initialDate = DateTime.now();
-                                    if (dobController.text.isNotEmpty) {
-                                      List<String> dateParts = dobController.text.split('/');
+                                    if (_model.dobController.text.isNotEmpty) {
+                                      List<String> dateParts =
+                                          _model.dobController.text.split('/');
                                       if (dateParts.length == 3) {
-                                        int day = int.tryParse(dateParts[0]) ?? initialDate.day;
-                                        int month = int.tryParse(dateParts[1]) ?? initialDate.month;
-                                        int year = int.tryParse(dateParts[2]) ?? initialDate.year;
-                                        initialDate = DateTime(year, month, day);
+                                        int day = int.tryParse(dateParts[0]) ??
+                                            initialDate.day;
+                                        int month =
+                                            int.tryParse(dateParts[1]) ??
+                                                initialDate.month;
+                                        int year = int.tryParse(dateParts[2]) ??
+                                            initialDate.year;
+                                        initialDate =
+                                            DateTime(year, month, day);
                                       }
                                     }
-                                    DateTime? selectedDate = await showDatePicker(
+                                    DateTime? selectedDate =
+                                        await showDatePicker(
                                       context: context,
                                       initialDate: initialDate,
                                       firstDate: DateTime(1950),
@@ -158,7 +173,7 @@ class EditProfile extends StatelessWidget {
                                     if (selectedDate != null) {
                                       String formattedDate =
                                           '${selectedDate.day.toString().padLeft(2, '0')}/${selectedDate.month.toString().padLeft(2, '0')}/${selectedDate.year}';
-                                      dobController.text = formattedDate;
+                                      _model.dobController.text = formattedDate;
                                       print(formattedDate);
                                     }
                                   },
@@ -166,8 +181,8 @@ class EditProfile extends StatelessWidget {
                               ],
                             ),
                           ),
-                          SizedBox(height: 16.0),
-                          Text(
+                          const SizedBox(height: 16.0),
+                          const Text(
                             'Contact No',
                             style: TextStyle(
                               fontWeight: FontWeight.bold,
@@ -187,13 +202,14 @@ class EditProfile extends StatelessWidget {
                                 ),
                               ],
                             ),
-                            child: TextField(
-                              controller: contactController,
+                            child: TextFormField(
+                              controller: _model.contactController,
+                              validator: _model.contactValidator,
                               decoration: ThemeHelper().editProfileInput(),
                             ),
                           ),
-                          SizedBox(height: 16.0),
-                          Text(
+                          const SizedBox(height: 16.0),
+                          const Text(
                             'IC No',
                             style: TextStyle(
                               fontWeight: FontWeight.bold,
@@ -213,40 +229,51 @@ class EditProfile extends StatelessWidget {
                                 ),
                               ],
                             ),
-                            child: TextField(
-                              controller: ICNoController,
+                            child: TextFormField(
+                              controller: _model.icNoController,
+                              validator: _model.icNoValidator,
                               decoration: ThemeHelper().editProfileInput(),
                             ),
                           ),
                           const SizedBox(height: 12),
                           Center(
                             child: ElevatedButton(
-                              onPressed: () async {
-                                model.updateUserProfile();
-                                await ScaffoldMessenger.of(context).showSnackBar(
-                                  SnackBar(
-                                    content: const Text('Profile information changed successfully'),
-                                    duration: const Duration(seconds: 2),
-                                    behavior: SnackBarBehavior.floating,
-                                    shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(16),
-                                    ),
-                                    backgroundColor: Colors.green[900],
-                                    padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 12),
-                                  ),
-                                );
-                                Navigator.pop(
-                                  context,
-                                  MaterialPageRoute(builder: (context) => NavigationMenu()),
-                                );
-                              },
+                              onPressed: () => _formKey.currentState!.validate()
+                                  ? _model
+                                      .updateUserProfile()
+                                      .then((value) async {
+                                      await ScaffoldMessenger.of(context)
+                                          .showSnackBar(
+                                        SnackBar(
+                                          content: Text(value),
+                                          duration: const Duration(seconds: 2),
+                                          behavior: SnackBarBehavior.floating,
+                                          shape: RoundedRectangleBorder(
+                                            borderRadius:
+                                                BorderRadius.circular(16),
+                                          ),
+                                          backgroundColor: value.contains(
+                                                  'Profile information changed successfully')
+                                              ? Colors.green[900]
+                                              : Colors.red[900],
+                                          padding: const EdgeInsets.symmetric(
+                                              vertical: 10, horizontal: 12),
+                                        ),
+                                      );
+                                      Navigator.pop(
+                                        context,
+                                        MaterialPageRoute(
+                                            builder: (context) =>
+                                                const NavigationMenu()),
+                                      );
+                                    })
+                                  : null,
                               style: ElevatedButton.styleFrom(
                                   backgroundColor: Colors.green[900],
                                   shape: RoundedRectangleBorder(
                                     borderRadius: BorderRadius.circular(10.0),
                                   ),
-                                  minimumSize: const Size(150, 40)
-                              ),
+                                  minimumSize: const Size(150, 40)),
                               child: const Text('Edit Profile'),
                             ),
                           ),
@@ -254,12 +281,12 @@ class EditProfile extends StatelessWidget {
                       ),
                     ),
                   ),
-                ],
-              ),
+                ),
+              ],
             ),
           ),
-        );
-      }
-    );
+        ),
+      );
+    });
   }
 }

@@ -31,7 +31,7 @@ class _CodeVerificationState extends State<CodeVerification> {
           child: Container(
             height: size.height,
             width: size.width,
-            decoration: BoxDecoration(
+            decoration: const BoxDecoration(
               image: DecorationImage(
                 image: AssetImage('assets/login_background.png'),
                 fit: BoxFit.cover,
@@ -53,7 +53,7 @@ class _CodeVerificationState extends State<CodeVerification> {
                         color: Colors.black.withOpacity(0.1),
                         spreadRadius: 5,
                         blurRadius: 7,
-                        offset: Offset(0, 3),
+                        offset: const Offset(0, 3),
                       ),
                     ],
                   ),
@@ -61,8 +61,8 @@ class _CodeVerificationState extends State<CodeVerification> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Container(
-                        margin: EdgeInsets.fromLTRB(10, 10, 0, 10),
-                        child: Text(
+                        margin: const EdgeInsets.fromLTRB(10, 10, 0, 10),
+                        child: const Text(
                             'Code Verification',
                             style: TextStyle(
                                 fontWeight: FontWeight.bold,
@@ -71,14 +71,14 @@ class _CodeVerificationState extends State<CodeVerification> {
                             textAlign: TextAlign.left),
                       ),
                       Container(
-                          margin: EdgeInsets.fromLTRB(10, 0, 0, 10),
-                          child: Text(
+                          margin: const EdgeInsets.fromLTRB(10, 0, 0, 10),
+                          child: const Text(
                             'Enter your reset code here to reset your password',
                             style: TextStyle(fontSize: 12),
                             textAlign: TextAlign.left,)
                       ),
 
-                      SizedBox(
+                      const SizedBox(
                         height: 10,
                       ),
 
@@ -88,29 +88,29 @@ class _CodeVerificationState extends State<CodeVerification> {
                         keyboardType: TextInputType.emailAddress,
                         cursorColor: Colors.lightGreen,
                         decoration: InputDecoration(
-                            prefixIcon: Icon(Icons.numbers),
-                            contentPadding: EdgeInsets.symmetric(vertical: 0),
+                            prefixIcon: const Icon(Icons.numbers),
+                            contentPadding: const EdgeInsets.symmetric(vertical: 0),
                             filled: true,
                             fillColor: Colors.white,
-                            border: OutlineInputBorder(),
+                            border: const OutlineInputBorder(),
                             labelText: 'Verification Code',
                             hintText: 'Verification Code',
                             enabledBorder: OutlineInputBorder(
                               borderSide:
-                              BorderSide(width: 1, color: Colors.grey),
+                              const BorderSide(width: 1, color: Colors.grey),
                               borderRadius: BorderRadius.circular(10),
                             )
                         ),
                       ),
 
-                      SizedBox(
+                      const SizedBox(
                         height: 40,
                       ),
 
                       ElevatedButton(
                         style: ElevatedButton.styleFrom(
                             backgroundColor: Colors.green[900],
-                            minimumSize: Size(320, 40)
+                            minimumSize: const Size(320, 40)
                         ),
                         onPressed: () => _formKey.currentState!.validate()
                             ? _model.verifyCode(widget.email).then((message) {
@@ -141,7 +141,7 @@ class _CodeVerificationState extends State<CodeVerification> {
                           }
                         })
                             : null,
-                        child: Text('Submit'),
+                        child: const Text('Submit'),
                       ),
                     ],
                   ),

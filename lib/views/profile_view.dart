@@ -21,7 +21,7 @@ class Profile extends StatefulWidget {
 class _ProfileState extends State<Profile> {
   late final ProfileViewModel _model;
   final ImagePicker picker = ImagePicker();
-  late ImageProvider? profileImage = AssetImage('assets/logo.png');
+  late ImageProvider? profileImage = const AssetImage('assets/logo.png');
 
   @override
   Widget build(BuildContext context) {
@@ -36,7 +36,7 @@ class _ProfileState extends State<Profile> {
           // Update the image URL in the widget state
           profileImage = _model.url.isNotEmpty
               ? Image.network(_model.url).image
-              : AssetImage('assets/logo.png');
+              : const AssetImage('assets/logo.png');
         });
       });
     }, builder: (context, model, child) {
@@ -76,7 +76,7 @@ class _ProfileState extends State<Profile> {
                           _model.handleImageUpload().then((value) async{
                             await ScaffoldMessenger.of(context).showSnackBar(SnackBar(
                               content: Text(value),
-                              duration: Duration(seconds:1),
+                              duration: const Duration(seconds:1),
                               behavior: SnackBarBehavior.floating,
                               shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(16),
@@ -95,7 +95,7 @@ class _ProfileState extends State<Profile> {
                                   // Update the image URL in the widget state
                                   profileImage = _model.url.isNotEmpty
                                       ? Image.network(_model.url).image
-                                      : AssetImage('assets/logo.png');
+                                      : const AssetImage('assets/logo.png');
                                 });
                               });
                             }
@@ -105,7 +105,7 @@ class _ProfileState extends State<Profile> {
                         },
                         child: Container(
                           padding: const EdgeInsets.all(6.0),
-                          decoration: BoxDecoration(
+                          decoration: const BoxDecoration(
                             shape: BoxShape.circle,
                             color: Colors.white,
                           ),
@@ -123,7 +123,7 @@ class _ProfileState extends State<Profile> {
               const SizedBox(height: 10.0),
               Text(
                 model.name,
-                style: TextStyle(
+                style: const TextStyle(
                   fontSize: 20.0,
                   fontWeight: FontWeight.bold,
                 ),
@@ -205,6 +205,7 @@ class _ProfileState extends State<Profile> {
               ElevatedButton.icon(
                 onPressed: () async {
                   await model.signOut();
+
                   Navigator.pushReplacement(
                     context,
                     MaterialPageRoute(builder: (context) => LoginView()),
