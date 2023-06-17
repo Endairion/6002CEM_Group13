@@ -252,8 +252,7 @@ class _EditProfileState extends State<EditProfile> {
                                             borderRadius:
                                                 BorderRadius.circular(16),
                                           ),
-                                          backgroundColor: value.contains(
-                                                  'Profile information changed successfully')
+                                          backgroundColor: value.contains('Profile information changed successfully')
                                               ? Colors.green[900]
                                               : Colors.red[900],
                                           padding: const EdgeInsets.symmetric(
