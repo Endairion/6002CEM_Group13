@@ -1,3 +1,4 @@
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:mobile_app_development_cw2/locator.dart';
 import 'package:mobile_app_development_cw2/models/trip_model.dart';
 import 'package:mobile_app_development_cw2/services/firebase_service.dart';
@@ -104,7 +105,7 @@ class PlanTripViewModel extends BaseViewModel {
 
   String getApiRequestUrl(String input) {
     // set Map API key
-    String API_KEY = "AIzaSyA36o5GXvW4Kauogfmfgqnas7oBMzUqmkU";
+    String API_KEY = dotenv.env['GOOGLE_API_KEY']??'';
 
     // use Places API to generate autocomplete for address location
     String baseURL =

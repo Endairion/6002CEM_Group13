@@ -1,3 +1,4 @@
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:mobile_app_development_cw2/locator.dart';
 import 'package:mobile_app_development_cw2/models/carpool_request_model.dart';
 import 'package:mobile_app_development_cw2/models/trip_model.dart';
@@ -57,7 +58,7 @@ class OngoingTripDetailsViewModel extends BaseViewModel {
 
   Future<void> getDistanceMatrix() async {
     // set Map API key
-    String API_KEY = "AIzaSyA36o5GXvW4Kauogfmfgqnas7oBMzUqmkU";
+    String API_KEY = dotenv.env['GOOGLE_API_KEY']??'';
     try {
       // use Distance Matrix API to calculate the distance matrix from start location to destination
       var response = await Dio().get(

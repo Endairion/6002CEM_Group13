@@ -1,3 +1,4 @@
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:mobile_app_development_cw2/locator.dart';
 import 'package:mobile_app_development_cw2/models/carpool_request_model.dart';
 import 'package:mobile_app_development_cw2/models/earn_point_model.dart';
@@ -14,8 +15,6 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:location/location.dart';
 
 import 'package:geocoding/geocoding.dart' as geo;
-import 'package:mobile_app_development_cw2/viewmodels/map_navigation_viewmodel.dart';
-import 'package:mobile_app_development_cw2/views/base_view.dart';
 
 class MapNavigationViewModel extends BaseViewModel {
   String _tripId = "";
@@ -93,7 +92,7 @@ class MapNavigationViewModel extends BaseViewModel {
 
   Future<void> getPolyPoints() async {
     // set Google Map API key
-    String API_KEY = "AIzaSyA36o5GXvW4Kauogfmfgqnas7oBMzUqmkU";
+    String API_KEY = dotenv.env['GOOGLE_API_KEY']??'';
 
     // initialize polypoints
     PolylinePoints polylinePoints = PolylinePoints();
