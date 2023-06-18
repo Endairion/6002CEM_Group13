@@ -1,5 +1,6 @@
 import 'package:dart_mailgun/client.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:mobile_app_development_cw2/locator.dart';
 import 'package:mobile_app_development_cw2/services/firebase_service.dart';
 import 'package:mobile_app_development_cw2/utils/validators.dart';
@@ -27,7 +28,7 @@ class ChangePasswordViewModel extends BaseViewModel {
       // Continue with sending the reset code email
       // ...
       final client = MailgunClient(
-        'sandbox8f422da4225a4785a06c1dd810fbe6d0.mailgun.org', '564ad2175c65735b9dc61f5f74c67cff-6d1c649a-05c4f10f',
+        dotenv.env['MAILGUN_DOMAIN']??'', dotenv.env['MAILGUN_API_KEY']??'',
       );
 
       final messageClient = client.message;
