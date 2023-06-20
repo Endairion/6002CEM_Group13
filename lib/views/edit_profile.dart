@@ -261,9 +261,7 @@ class _EditProfileState extends State<EditProfile> {
                                       );
                                       Navigator.pop(
                                         context,
-                                        MaterialPageRoute(
-                                            builder: (context) =>
-                                                const NavigationMenu()),
+                                        true
                                       );
                                     })
                                   : null,
