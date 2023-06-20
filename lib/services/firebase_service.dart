@@ -512,7 +512,7 @@ class FirebaseService {
   Future compareAvailableTripsLocation(
       String startLocation, String destination) async {
     QuerySnapshot querySnapshot =
-        await FirebaseFirestore.instance.collection("Trips").get();
+        await FirebaseFirestore.instance.collection("Trips").where('status', isEqualTo: 'Ongoing').get();
     List<String> tripIdList = [];
 
     for (final DocumentSnapshot doc in querySnapshot.docs) {
@@ -524,17 +524,9 @@ class FirebaseService {
       final double destinationSimilarity =
           StringSimilarity.compareTwoStrings(destination, fireStoreDestination);
 
-      print(
-          "$startLocation and $fireStoreStartLocation diff $startLocationSimilarity");
-      print(
-          "$destination and $fireStoreDestination diff $destinationSimilarity");
-
       if (startLocationSimilarity > 0.15 || destinationSimilarity > 0.15) {
-        print('1');
-        print(doc['id']);
         tripIdList.add(doc['id']);
       } else {
-        print('0');
       }
     }
     return tripIdList;
@@ -873,10 +865,6 @@ class FirebaseService {
 
       // Calculate the time difference
       Duration timeDifference = currentTime.difference(requestTime);
-      print("current time is $currentTime");
-
-      print("requestTime is $requestTime");
-      print("timeDifference is $timeDifference");
 
       // Create a CustomRequest object if the time difference is within 30 minutes
       return CustomRequest(
