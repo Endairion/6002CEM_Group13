@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:mobile_app_development_cw2/locator.dart';
 import 'package:mobile_app_development_cw2/models/custom_request_model.dart';
 import 'package:mobile_app_development_cw2/services/firebase_service.dart';
@@ -100,7 +101,7 @@ class CreateCustomTripViewmodel extends BaseViewModel {
   }
 
   String getApiRequestUrl(String input) {
-    String kPLACES_API_KEY = "AIzaSyA36o5GXvW4Kauogfmfgqnas7oBMzUqmkU";
+    String kPLACES_API_KEY = dotenv.env['GOOGLE_API_KEY']??'';
     String baseURL =
         'https://maps.googleapis.com/maps/api/place/autocomplete/json';
     String request =

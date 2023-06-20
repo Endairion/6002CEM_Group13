@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:mobile_app_development_cw2/models/carpool_request_model.dart';
 import 'package:mobile_app_development_cw2/models/driver_model.dart';
 import 'package:mobile_app_development_cw2/models/user_model.dart';
@@ -11,7 +12,6 @@ import '../locator.dart';
 import '../models/trip_model.dart';
 import '../services/firebase_service.dart';
 import 'package:http/http.dart' as http;
-import 'package:intl/intl.dart';
 import 'dart:convert';
 
 class RequestCarpoolViewmodel extends BaseViewModel {
@@ -92,7 +92,7 @@ class RequestCarpoolViewmodel extends BaseViewModel {
   }
 
   String getApiRequestUrl(input) {
-    String kPLACES_API_KEY = "AIzaSyA36o5GXvW4Kauogfmfgqnas7oBMzUqmkU";
+    String kPLACES_API_KEY = dotenv.env['GOOGLE_API_KEY']??'';
     String baseURL =
         'https://maps.googleapis.com/maps/api/place/autocomplete/json';
     String request =

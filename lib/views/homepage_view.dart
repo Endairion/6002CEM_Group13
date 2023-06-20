@@ -18,27 +18,8 @@ class Homepage extends StatefulWidget {
 
 class _HomepageState extends State<Homepage> {
   late final HomepageViewModel _model;
-  late final BuildContext _context;
+  late BuildContext _context;
 
-  void showProfileStatusDialog(BuildContext context, String message) {
-    showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        return AlertDialog(
-          title: Text("Profile Status"),
-          content: Text(message),
-          actions: <Widget>[
-            TextButton(
-              onPressed: () {
-                Navigator.of(context).pop();
-              },
-              child: Text("OK"),
-            ),
-          ],
-        );
-      },
-    );
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -188,9 +169,9 @@ class _HomepageState extends State<Homepage> {
                             onPressed: () {
                               _model.driver != '1'
                                   ? _model.driver == '0'
-                                      ? showProfileStatusDialog(context,
+                                      ? _model.showProfileStatusDialog(context,
                                           "You have not registered a driver profile yet!")
-                                      : showProfileStatusDialog(context,
+                                      : _model.showProfileStatusDialog(context,
                                           "Your driver profile is still in the approval process.")
                                   : Navigator.push(
                                       context,

@@ -1,10 +1,9 @@
 import 'package:firebase_core/firebase_core.dart';
-import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:get/get.dart';
 import 'package:mobile_app_development_cw2/locator.dart';
-import 'package:mobile_app_development_cw2/services/firebase_service.dart';
 import 'package:mobile_app_development_cw2/views/login_view.dart';
 
 Future main() async {
@@ -15,6 +14,7 @@ Future main() async {
 
   await Firebase.initializeApp();
   await setUpLocator();
+  await dotenv.load();
 
   runApp(GetMaterialApp(
     title: 'Navigation Basics',
