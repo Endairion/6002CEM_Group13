@@ -301,11 +301,8 @@ class FirebaseService {
           enablePickupNotification: doc['enablePickupNotification']);
     }).toList();
 
-    for (var i=0; i< tripsList.length; i++) {
-      if (tripsList[i].userId == userId) {
-        tripsList.remove(tripsList[i]);
-      }
-    }
+    tripsList.removeWhere((trip) => trip.userId == userId);
+
     return tripsList;
   }
 
@@ -512,7 +509,12 @@ class FirebaseService {
   Future compareAvailableTripsLocation(
       String startLocation, String destination) async {
     QuerySnapshot querySnapshot =
-        await FirebaseFirestore.instance.collection("Trips").where('status', isEqualTo: 'Ongoing').get();
+        await FirebaseFirestore.instance
+            .collection('Trips')
+            .where('status', isEqualTo: 'Ongoing')
+            .where('seats', isNotEqualTo: 0)
+            .get();
+
     List<String> tripIdList = [];
 
     for (final DocumentSnapshot doc in querySnapshot.docs) {
@@ -529,6 +531,8 @@ class FirebaseService {
       } else {
       }
     }
+
+
     return tripIdList;
   }
 
@@ -552,6 +556,8 @@ class FirebaseService {
           seats: doc['seats'],
           enablePickupNotification: doc['enablePickupNotification']);
     }).toList();
+
+    tripsList.removeWhere((trip) => trip.userId == userId);
 
     return tripsList;
   }
