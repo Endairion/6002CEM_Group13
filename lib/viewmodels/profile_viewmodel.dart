@@ -20,7 +20,9 @@ class ProfileViewModel extends BaseViewModel {
   }
 
   void onModelReady() {
-    fetchUserProfile(); // Call the method to fetch the user profile
+    fetchUserProfile();
+    notifyListeners();
+    // Call the method to fetch the user profile
   }
 
   Future<void> fetchUserProfile() async {
